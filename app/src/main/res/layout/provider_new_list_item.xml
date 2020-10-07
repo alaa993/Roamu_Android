@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlMain"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layoutDirection="ltr"
+    android:layout_height="wrap_content">
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:layout_marginEnd="8sp"
+        android:layout_marginBottom="8sp"
+        app:cardCornerRadius="4sp"
+        app:cardElevation="1sp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/tvTravellerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/QIBus_softui_spacing_medium"
+            android:layout_marginTop="@dimen/QIBus_softui_spacing_medium"
+            android:background="@drawable/qibus_softui_bg_square_text"
+            android:paddingStart="@dimen/QIBus_softui_spacing_medium"
+            android:paddingTop="@dimen/QIBus_softui_spacing_small"
+            android:paddingEnd="@dimen/QIBus_softui_spacing_medium"
+            android:paddingBottom="@dimen/QIBus_softui_spacing_small"
+            android:text="@string/QIBus_softui_smith_travels"
+            android:textColor="@color/QIBus_softui_white"
+            android:textSize="@dimen/QIBus_softui_font_medium"
+            android:layout_marginLeft="@dimen/QIBus_softui_spacing_medium" />
+
+
+        <TextView
+            android:id="@+id/tvTypeCoach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/QIBus_softui_spacing_medium"
+            android:layout_marginEnd="@dimen/QIBus_softui_spacing_medium"
+            android:layout_toEndOf="@id/tvTravellerName"
+            android:gravity="end"
+            android:text="@string/QIBus_softui_volvo_bus"
+            android:textColor="@color/QIBus_softui_textChild"
+            android:textSize="@dimen/QIBus_softui_font_medium"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tvTravellerName"
+            android:layout_marginRight="@dimen/QIBus_softui_spacing_medium" />
+
+        <RelativeLayout
+            android:id="@+id/llTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTypeCoach"
+            android:layout_marginStart="@dimen/QIBus_softui_spacing_large"
+            android:layout_marginTop="@dimen/QIBus_softui_spacing_medium"
+            android:layout_marginEnd="@dimen/QIBus_softui_spacing_large">
+
+            <LinearLayout
+                android:id="@+id/llStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvStartTime"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_width="120dp"
+                    android:layout_marginTop="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_medium"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:text="@string/QIBus_softui_lbl_booking_endtime1"
+                    android:textColor="@color/QIBus_softui_textHeader"
+                    android:textSize="@dimen/QIBus_softui_font_medium" />
+
+                <TextView
+                    android:id="@+id/tvStartTimeAA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_medium"
+                    android:visibility="gone"
+                    android:textColor="@color/QIBus_softui_textChild"
+                    android:textSize="@dimen/QIBus_softui_font_medium"
+                    tools:text="@string/QIBus_softui_text_am" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="@dimen/QIBus_softui_map_width"
+                android:layout_height="@dimen/QIBus_softui_map_height"
+                android:layout_marginTop="@dimen/QIBus_softui_spacing_xsmall"
+                android:layout_toEndOf="@+id/llStart"
+                android:alpha="0.2"
+                android:contentDescription="@string/QIBus_softui_txt_todo"
+                android:src="@drawable/qibus_softui_ic_map"
+                android:layout_toRightOf="@+id/llLeft"
+                tools:ignore="UnknownId" />
+
+            <ImageView
+                android:id="@+id/ivbus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/llStart"
+                android:contentDescription="@string/QIBus_softui_txt_todo"
+                android:src="@drawable/qibus_softui_ic_bus"
+                android:tint="@color/colorPrimary"
+                android:layout_toRightOf="@+id/llLeft"
+                tools:ignore="UnknownId" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/llMIddle"
+                android:layout_toEndOf="@+id/ivbus"
+                android:background="@color/QIBus_softui_colorPrimary"
+                android:layout_toRightOf="@+id/ivbus"
+                tools:ignore="RtlCompat"
+                android:layout_toLeftOf="@+id/llMIddle" />
+
+            <LinearLayout
+                android:id="@+id/llMIddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="@dimen/QIBus_softui_spacing_xsmall"
+                    android:text="@string/QIBus_softui_text_duration"
+                    android:textColor="@color/QIBus_softui_textChild"
+                    android:textSize="@dimen/QIBus_softui_font_small" />
+
+                <TextView
+                    android:id="@+id/tvTotalDuration"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/qibus_softui_bg_square_text"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_large"
+                    android:paddingTop="@dimen/QIBus_softui_spacing_xsmall"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_large"
+                    android:paddingBottom="@dimen/QIBus_softui_spacing_small"
+                    android:textColor="@color/QIBus_softui_white"
+                    android:textSize="@dimen/QIBus_softui_font_large"
+                    tools:text="@string/QIBus_softui_lbl_booking_endtime1" />
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/qibus_softui_bg_square_text"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_large"
+                    android:paddingTop="@dimen/QIBus_softui_spacing_xsmall"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_large"
+                    android:paddingBottom="@dimen/QIBus_softui_spacing_small"
+                    android:visibility="gone"
+                    android:textColor="@color/QIBus_softui_white"
+                    android:textSize="@dimen/QIBus_softui_font_large"
+                    tools:text="@string/QIBus_softui_lbl_booking_endtime1" />
+
+                <TextView
+                    android:id="@+id/tvHold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/QIBus_softui_spacing_xsmall"
+                    android:paddingBottom="@dimen/QIBus_softui_spacing_xsmall"
+                    android:textAlignment="center"
+                    android:textColor="@color/QIBus_softui_textChild"
+                    android:textSize="@dimen/QIBus_softui_font_small" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/QIBus_softui_map_width"
+                android:layout_height="@dimen/QIBus_softui_map_height"
+                android:layout_toStartOf="@+id/llEnd"
+                android:layout_toEndOf="@+id/llMIddle"
+                android:alpha="0.2"
+                android:contentDescription="@string/QIBus_softui_txt_todo"
+                android:src="@drawable/qibus_softui_ic_map"
+                android:layout_toLeftOf="@+id/llRight"
+                android:layout_toRightOf="@+id/llMIddle"
+                tools:ignore="UnknownId" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/ivbus1"
+                android:layout_toEndOf="@+id/llMIddle"
+                android:background="@color/QIBus_softui_colorPrimary"
+                android:layout_toLeftOf="@+id/ivbus1"
+                android:layout_toRightOf="@+id/llMIddle" />
+
+            <ImageView
+                android:id="@+id/ivbus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/llEnd"
+                android:contentDescription="@string/QIBus_softui_txt_todo"
+                android:src="@drawable/qibus_softui_ic_bus"
+                android:tint="@color/colorPrimary"
+                android:layout_toLeftOf="@+id/llRight"
+                tools:ignore="UnknownId" />
+
+            <RelativeLayout
+                android:id="@+id/llEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:id="@+id/tvEndTime"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_medium"
+                    android:gravity="right"
+                    android:textColor="@color/QIBus_softui_textHeader"
+                    android:textSize="@dimen/QIBus_softui_font_medium"
+                    android:ellipsize="start"
+                    tools:text="Kazm Resturant  Kabab چێشتخانە و کەبابی کازم"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/tvEndTimeAA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="@dimen/QIBus_softui_spacing_medium"
+                    android:paddingEnd="@dimen/QIBus_softui_spacing_medium"
+                    android:visibility="gone"
+                    android:textColor="@color/QIBus_softui_textChild"
+                    android:textSize="@dimen/QIBus_softui_font_medium"
+                    tools:text="@string/QIBus_softui_text_am" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llTime"
+            android:layout_marginStart="@dimen/QIBus_softui_spacing_medium"
+            android:layout_marginEnd="@dimen/QIBus_softui_spacing_medium"
+            android:layout_marginBottom="@dimen/QIBus_softui_spacing_medium"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvRatingbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/QIBus_softui_spacing_small"
+                android:layout_toStartOf="@id/tvPrice"
+                android:drawableStart="@drawable/qibus_softui_ic_star_black_24dp"
+                android:drawablePadding="@dimen/QIBus_softui_spacing_small"
+                android:textColor="@color/QIBus_softui_textChild"
+                android:textSize="@dimen/QIBus_softui_font_medium"
+                tools:text="@string/QIBus_softui_text__2"
+                android:layout_toLeftOf="@id/tvPrice"
+                android:drawableLeft="@drawable/qibus_softui_ic_star_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:text="@string/QIBus_softui_lbl_35"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/QIBus_softui_font_mlarge"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+    </android.support.design.card.MaterialCardView>
+</RelativeLayout>
+
+

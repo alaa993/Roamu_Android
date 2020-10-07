@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="1dp"
+        android:id="@+id/separator"
+        android:layout_above="@+id/rateHeader"
+
+        android:layout_marginTop="5dp" />
+    <TextView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20sp"
+        android:textColor="@color/dim_foreground_material_light"
+        android:text="Rate Your Ride"
+        android:id="@+id/rateHeader"
+        android:theme="@style/RatingBar"
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <RatingBar
+        android:id="@+id/ratingsBar"
+        style="@style/QIBusSoftui"
+        android:theme="@style/RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rateHeader"
+        android:layout_alignEnd="@+id/rateHeader"
+        android:layout_alignRight="@+id/rateHeader"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="86dp"
+        android:layout_marginRight="86dp"
+        android:clickable="true"
+        android:rating="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate Fear"
+        android:id="@+id/rateTV"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/ratingsBar"
+        android:layout_centerHorizontal="true" />
+    <RatingBar
+        android:id="@+id/feare_rating"
+        style="@style/QIBusSoftui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rateTV"
+        android:theme="@style/RatingBar"
+        android:layout_alignEnd="@+id/rateHeader"
+        android:layout_alignRight="@+id/rateHeader"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="86dp"
+        android:layout_marginRight="86dp"
+        android:clickable="true"
+        android:rating="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorTV"
+        android:text="Something Went Wrong. Please Try Again"
+        android:layout_below="@+id/rateTV"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:background="@color/red"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feare_rating"
+        android:layout_gravity="center"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Cancel"
+            android:background="@drawable/rounded_button"
+            android:id="@+id/cancelRateBtn"
+            android:textColor="@color/colorPrimary"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Submit"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/rounded_button"
+            android:layout_weight="1"
+            android:id="@+id/submitRateBtn"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+

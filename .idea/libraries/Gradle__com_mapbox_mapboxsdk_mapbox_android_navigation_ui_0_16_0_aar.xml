@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.16.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6c8278c52aca76c808667b556a03e72/mapbox-android-navigation-ui-0.16.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6c8278c52aca76c808667b556a03e72/mapbox-android-navigation-ui-0.16.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6c8278c52aca76c808667b556a03e72/mapbox-android-navigation-ui-0.16.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mapbox.mapboxsdk/mapbox-android-navigation-ui/0.16.0/da32f5cc167211ed4827bfb0de4dd77467b801a1/mapbox-android-navigation-ui-0.16.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mapbox.mapboxsdk/mapbox-android-navigation-ui/0.16.0/f000b21f248f9e3b85cec2c070969466a51ca25a/mapbox-android-navigation-ui-0.16.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
