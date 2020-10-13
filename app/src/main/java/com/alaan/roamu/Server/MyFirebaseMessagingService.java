@@ -1,5 +1,6 @@
 package com.alaan.roamu.Server;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -68,9 +69,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle(msg.getString("title"))
                 .setContentText(msg.getString("msg"))
+                .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

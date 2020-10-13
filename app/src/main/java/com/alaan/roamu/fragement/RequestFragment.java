@@ -266,6 +266,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 Map<String,Object> userObject = new HashMap<>();
                 userObject.put("author", author);
                 userObject.put("text", text);
+                userObject.put("type", "0");
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
                 //inputEditPost.getText().clear();

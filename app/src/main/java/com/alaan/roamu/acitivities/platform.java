@@ -1,6 +1,7 @@
 package com.alaan.roamu.acitivities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class platform extends Fragment {
         databasePosts = FirebaseDatabase.getInstance().getReference("posts");
         view = inflater.inflate(R.layout.fragment_platform, container, false);
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.platform));
+        view.setBackgroundColor(Color.WHITE);
         BindView();
 
         listViewPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {

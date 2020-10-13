@@ -293,7 +293,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             mSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!mPassengers.getText().toString().isEmpty() && !mPrice.getText().toString().isEmpty()) {
+                                    if (!mPassengers.getText().toString().isEmpty() ) {
 //                                        Toast.makeText(HomeFragment.this.getContext(),
 //                                                "Success",
 //                                                Toast.LENGTH_SHORT).show();
@@ -317,7 +317,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                         pass.setDriverName(drivername);
                                         pass.setStatus("REQUESTED");
                                         pass.NoPassengers = Integer.parseInt(mPassengers.getText().toString());
-                                        pass.TripPrice = Integer.parseInt(mPrice.getText().toString());
+ //                                       pass.TripPrice = Integer.parseInt(mPrice.getText().toString());
 
                                             if(Checkbox.isChecked())
                                                 pass.setCheck("1");
@@ -988,6 +988,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 //                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         date_time = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         //*************Call Time Picker Here ********************
+                       // date_time_search.setText(date_time);
                         tiemPicker();
                     }
                 }, mYear, mMonth, mDay);
@@ -1004,6 +1005,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
 
+
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -1013,7 +1015,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         date_time_value = date_time + " " + hourOfDay + ":" + minute + ":00";
                         date_time_search.setText(date_time_value);
                     }
-                }, mHour, mMinute, true);
+                }, mHour, 0, true);
         timePickerDialog.show();
     }
 

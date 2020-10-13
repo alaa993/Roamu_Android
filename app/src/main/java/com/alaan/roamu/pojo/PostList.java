@@ -2,6 +2,7 @@ package com.alaan.roamu.pojo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,8 +48,10 @@ public class PostList extends ArrayAdapter<Post> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
      //   LayoutInflater inflater = context.getLayoutInflater();
+//        View view = super.getView(position,convertView,parent);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
         View listViewItem = inflater.inflate(R.layout.layout_artist_list, null, true);
+        //listViewItem.setBackgroundResource(R.drawable.listview_item_border);
 
 
         Log.i("ttttttttttt", "getView: ");
@@ -56,6 +60,17 @@ public class PostList extends ArrayAdapter<Post> {
         TextView textViewDate = (TextView) listViewItem.findViewById(R.id.textViewDate);
         ImageView PostAvatar  = (ImageView) listViewItem.findViewById(R.id.image);
         Post post = posts.get(position);
+        String type = post.type;
+
+         //   Log.i("mmmmmmmmtttttt", type);
+        // Log.println(1,"tttttttt", type);
+
+        if(type.equals("0")){
+            listViewItem.setBackgroundColor(Color.parseColor("#f5fafe"));
+        }else if(type.equals("1")){
+            listViewItem.setBackgroundColor(Color.WHITE);
+            //listViewItem.setBackgroundResource(R.drawable.listview_item_border);
+        }
 if(post.author.username!=null && post.text!=null) {
     Log.i("ttttttttttt", "getView111: ");
     textViewName.setText(post.author.username);
@@ -75,6 +90,7 @@ if(post.author.username!=null && post.text!=null) {
         databaseRefID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Log.i("ttttttttttt", "getView3333: ");
                 if (photoURL != null) {

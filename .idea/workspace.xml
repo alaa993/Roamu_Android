@@ -19,7 +19,227 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0849051a-1acf-46bb-bd40-3e8860f91495" name="Default Changelist" comment="" />
+    <list default="true" id="0849051a-1acf-46bb-bd40-3e8860f91495" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/imageb1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/MyFirebaseMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/MyFirebaseMessagingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/AddPostActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/AddPostActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/platform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/PostList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/PostList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/qibus_softui_anim_rotate.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/qibus_softui_anim_slide_bottom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/qibus_softui_anim_slide_up.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/qibus_softui_anim_up_to_down.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/qibus_softui_anim_uptodown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/main_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/tv_bg_code.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/iqbus_softui_ic_home.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_soft_ic_draw_rec_profile.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softu_ic_card_new.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_border.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_bottom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_bottom_shadow.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_btn_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_card.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_circle_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_common_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_dotted.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_hold.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_leftswitch.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_leftswitch_select.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_rightswitch.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_rightswitch_select.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_rounded_border_edittext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_select_stepper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_selected_rounded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_shape_notification.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_square.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_square_text.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_tint_icon.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_bg_toolbar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_circle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_add_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_add_circle_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_amritsar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_andamans.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_arrow_back.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_arrow_drop_down_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_arrow_drop_up_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_arrow_forward_black.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_arrow_right_s_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_assignment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_assignment_lite.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_bank_card_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_briefcase.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_bus.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_bus_2_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_bus_card.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_bus_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_buslogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_calendar_event_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_canceled.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_card.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_card3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_card_bottom.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_card_new.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_card_right.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_checkbox_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_checkbox_circle_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_completed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_delete_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_delhi.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_draw_rec_bottom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_draw_rec_right.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_earth_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_eye_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_eye_off_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_facebook_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_file.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_filter_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_goa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_google_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_gr_mobile_otp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_gr_wallet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_home_4_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_home_lite.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_home_wifi_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_hotel_bed_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_hotel_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_arrow_down_black.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_arrow_grey.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_arrow_left_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_arrow_right.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_arrow_up_black.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_keyboard_backspace_black.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_left_arrow_white.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_local_mall.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_local_mall_lite.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_logout_circle_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_map.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_map_pin_2_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_money_dollar_circle_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_more.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_more_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_more_lite.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_newseater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_nonac.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_notification_4_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_pencil_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_person.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_pin_distance_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_question_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_refer_and_earn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_restaurant_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_round_cancel_24px.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_sale_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_sale_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_search.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_search_2_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_search_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_seater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_sleeper.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_snowflake_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_star_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_temp.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_ticket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_travel.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_twitter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_udaipur.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_user_settings_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_wallet_3_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_wallet_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_weel.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_ic_whatsapp_fill.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_inner.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_login_bus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qibus_softui_titlebar.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qisoft_ic_undraw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/qius_softui_ic_payment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/chat_message_arrow.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/chat_message_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/edittext_roundedcorner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/header_bg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_accessibility_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_airline_seat_legroom_normal_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_drop_down_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_drop_up_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_brightness_1_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_calendar_event_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_card_travel_black_24dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_search_2_line.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_seater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/add_custom_ride.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/addpostbutton.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/coupon_list_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_artist_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_artist_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/provider_new_list_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/search_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_dehaze_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_my_location_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_send_white_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_clear_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_dehaze_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_my_location_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_send_white_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_clear_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_dehaze_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_my_location_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_send_white_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_clear_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_dehaze_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_my_location_black_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_send_white_24dp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-hi-rIN/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-hi-rIN/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-in/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-in/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-pt/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-pt/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-w820dp/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-w820dp/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +249,7 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="9EHNW20102044600" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_S_API_29" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -89,10 +309,13 @@
   </component>
   <component name="GenerateSignedApkSettings">
     <option name="EXPORT_PRIVATE_KEY" value="false" />
-    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../Alaan.jks" />
+    <option name="KEY_STORE_PATH" value="$USER_HOME$/Downloads/Alaan.jks" />
     <option name="KEY_ALIAS" value="key0" />
     <option name="REMEMBER_PASSWORDS" value="true" />
     <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ZBITfyPxif5uzg2LTefRuROAit" />
   <component name="ProjectViewState">
@@ -102,13 +325,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="c6vg6tqcssy9njf6" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-17T14:28:37.393Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="9EHNW20102044600" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-10-11T06:15:43.358Z" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
@@ -121,12 +345,11 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-      <recent name="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi" />
       <recent name="$PROJECT_DIR$/app/src/main/assets/font" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.alaan.roamu.acitivities" />
@@ -141,10 +364,12 @@
       <recent name="com.icanstudioz.taxicustomer.adapter" />
       <recent name="com.icanstudioz.taxicustomer.acitivities" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
+      <recent name="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/app/src/main/assets/font" />
-      <recent name="$PROJECT_DIR$/app" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -280,38 +505,47 @@
       <screen x="0" y="23" width="1440" height="819" />
     </state>
     <state x="408" y="167" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.819@0.23.1440.819" timestamp="1597667068438" />
-    <state x="308" y="194" key="AndroidCreateResourceFileDialog" timestamp="1600090407214">
-      <screen x="0" y="23" width="1440" height="819" />
+    <state x="308" y="192" key="AndroidCreateResourceFileDialog" timestamp="1602399823150">
+      <screen x="0" y="23" width="1440" height="811" />
     </state>
+    <state x="308" y="192" key="AndroidCreateResourceFileDialog/0.23.1440.811@0.23.1440.811" timestamp="1602399823150" />
     <state x="308" y="194" key="AndroidCreateResourceFileDialog/0.23.1440.819@0.23.1440.819" timestamp="1600090407214" />
     <state x="534" y="223" key="AndroidCreateXmlResourceDialog" timestamp="1599924234998">
       <screen x="0" y="23" width="1440" height="819" />
     </state>
     <state x="534" y="223" key="AndroidCreateXmlResourceDialog/0.23.1440.819@0.23.1440.819" timestamp="1599924234998" />
-    <state width="1363" height="209" key="GridCell.Tab.0.bottom" timestamp="1601974332809">
-      <screen x="0" y="23" width="1440" height="816" />
+    <state width="691" height="207" key="GridCell.Tab.0.bottom" timestamp="1602497683090">
+      <screen x="0" y="23" width="1440" height="821" />
     </state>
+    <state width="1363" height="207" key="GridCell.Tab.0.bottom/0.23.1440.811@0.23.1440.811" timestamp="1602403221659" />
+    <state width="1383" height="207" key="GridCell.Tab.0.bottom/0.23.1440.812@0.23.1440.812" timestamp="1602485145800" />
     <state width="1363" height="209" key="GridCell.Tab.0.bottom/0.23.1440.816@0.23.1440.816" timestamp="1601974332809" />
     <state width="1398" height="250" key="GridCell.Tab.0.bottom/0.23.1440.819@0.23.1440.819" timestamp="1601552143533" />
-    <state width="1363" height="209" key="GridCell.Tab.0.bottom/0.23.1440.821@0.23.1440.821" timestamp="1601964010255" />
-    <state width="1363" height="209" key="GridCell.Tab.0.center" timestamp="1601974332808">
-      <screen x="0" y="23" width="1440" height="816" />
+    <state width="691" height="207" key="GridCell.Tab.0.bottom/0.23.1440.821@0.23.1440.821" timestamp="1602497683090" />
+    <state width="691" height="207" key="GridCell.Tab.0.center" timestamp="1602497683088">
+      <screen x="0" y="23" width="1440" height="821" />
     </state>
+    <state width="1363" height="207" key="GridCell.Tab.0.center/0.23.1440.811@0.23.1440.811" timestamp="1602403221658" />
+    <state width="1383" height="207" key="GridCell.Tab.0.center/0.23.1440.812@0.23.1440.812" timestamp="1602485145798" />
     <state width="1363" height="209" key="GridCell.Tab.0.center/0.23.1440.816@0.23.1440.816" timestamp="1601974332808" />
     <state width="1398" height="250" key="GridCell.Tab.0.center/0.23.1440.819@0.23.1440.819" timestamp="1601552143531" />
-    <state width="1363" height="209" key="GridCell.Tab.0.center/0.23.1440.821@0.23.1440.821" timestamp="1601964010253" />
-    <state width="1363" height="209" key="GridCell.Tab.0.left" timestamp="1601974332807">
-      <screen x="0" y="23" width="1440" height="816" />
+    <state width="691" height="207" key="GridCell.Tab.0.center/0.23.1440.821@0.23.1440.821" timestamp="1602497683088" />
+    <state width="691" height="207" key="GridCell.Tab.0.left" timestamp="1602497683088">
+      <screen x="0" y="23" width="1440" height="821" />
     </state>
+    <state width="1363" height="207" key="GridCell.Tab.0.left/0.23.1440.811@0.23.1440.811" timestamp="1602403221657" />
+    <state width="1383" height="207" key="GridCell.Tab.0.left/0.23.1440.812@0.23.1440.812" timestamp="1602485145796" />
     <state width="1363" height="209" key="GridCell.Tab.0.left/0.23.1440.816@0.23.1440.816" timestamp="1601974332807" />
     <state width="1398" height="250" key="GridCell.Tab.0.left/0.23.1440.819@0.23.1440.819" timestamp="1601552143530" />
-    <state width="1363" height="209" key="GridCell.Tab.0.left/0.23.1440.821@0.23.1440.821" timestamp="1601964010252" />
-    <state width="1363" height="209" key="GridCell.Tab.0.right" timestamp="1601974332808">
-      <screen x="0" y="23" width="1440" height="816" />
+    <state width="691" height="207" key="GridCell.Tab.0.left/0.23.1440.821@0.23.1440.821" timestamp="1602497683088" />
+    <state width="691" height="207" key="GridCell.Tab.0.right" timestamp="1602497683089">
+      <screen x="0" y="23" width="1440" height="821" />
     </state>
+    <state width="1363" height="207" key="GridCell.Tab.0.right/0.23.1440.811@0.23.1440.811" timestamp="1602403221658" />
+    <state width="1383" height="207" key="GridCell.Tab.0.right/0.23.1440.812@0.23.1440.812" timestamp="1602485145799" />
     <state width="1363" height="209" key="GridCell.Tab.0.right/0.23.1440.816@0.23.1440.816" timestamp="1601974332808" />
     <state width="1398" height="250" key="GridCell.Tab.0.right/0.23.1440.819@0.23.1440.819" timestamp="1601552143532" />
-    <state width="1363" height="209" key="GridCell.Tab.0.right/0.23.1440.821@0.23.1440.821" timestamp="1601964010254" />
+    <state width="691" height="207" key="GridCell.Tab.0.right/0.23.1440.821@0.23.1440.821" timestamp="1602497683089" />
     <state x="428" y="315" key="ScreenshotRecorder.Options.Dimensions" timestamp="1599846746531">
       <screen x="0" y="23" width="1440" height="819" />
     </state>
@@ -324,9 +558,12 @@
       <screen x="0" y="23" width="1440" height="819" />
     </state>
     <state x="100" y="123" width="1240" height="619" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1440.819@0.23.1440.819" timestamp="1598107691144" />
-    <state x="369" y="265" key="com.intellij.ide.util.TipDialog" timestamp="1595077482833">
-      <screen x="0" y="23" width="1440" height="819" />
+    <state x="369" y="264" key="com.intellij.ide.util.TipDialog" timestamp="1602480185697">
+      <screen x="0" y="23" width="1440" height="816" />
     </state>
+    <state x="369" y="263" key="com.intellij.ide.util.TipDialog/0.23.1440.811@0.23.1440.811" timestamp="1602308801248" />
+    <state x="369" y="263" key="com.intellij.ide.util.TipDialog/0.23.1440.812@0.23.1440.812" timestamp="1602172847436" />
+    <state x="369" y="264" key="com.intellij.ide.util.TipDialog/0.23.1440.816@0.23.1440.816" timestamp="1602480185697" />
     <state x="369" y="265" key="com.intellij.ide.util.TipDialog/0.23.1440.819@0.23.1440.819" timestamp="1595077482833" />
     <state x="269" y="70" width="944" height="609" key="find.popup" timestamp="1601301504830">
       <screen x="0" y="23" width="1440" height="819" />

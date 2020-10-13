@@ -17,27 +17,6 @@
 
     </style>
 
-    <style name="FirebaseLoginTheme" parent="FirebaseUI">
-        <item name="windowNoTitle">true</item>
-        <item name="android:textColorHint">@android:color/white</item>
-
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/black</item>
-        <item name="android:colorBackground">@color/black</item>
-        <item name="android:colorForeground">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorPrimaryInverse">@color/black</item>
-        <item name="android:textColorSecondary">@color/black</item>
-        <item name="android:textColorSecondaryInverse">@color/black</item>
-        <item name="android:windowBackground">@drawable/bg</item>
-        <item name="windowActionBar">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-
-    </style>
-
     <style name="MyDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/black</item>
 
@@ -63,19 +42,6 @@
         <item name="colorControlActivated">@color/QIBus_softui_colorPrimary</item>
     </style>
 
-    <style name="QIBusSoftui.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="QIBusSoftui.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/QIBus_softui_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/QIBus_softui_colorPrimaryDark</item>
-        <item name="colorAccent">@color/QIBus_softui_colorAccent</item>
-        <item name="android:fontFamily">@assest/font/googlesansregular</item>
-
-        <item name="colorControlActivated">@color/QIBus_softui_colorPrimary</item>
-    </style>
-
     /* Rating bar theme */
 
     <style name="RatingBar" parent="Theme.MaterialComponents">
@@ -85,43 +51,9 @@
 
     /* Toolbar theme */
 
-    <style name="Toolbar">
-        <item name="android:fontFamily">@assest/font/googlesansextrabold</item>
-    </style>
-
     /* Dialog animation */
-
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/qibus_softui_anim_slide_up</item>
-        <item name="android:windowExitAnimation">@anim/qibus_softui_anim_slide_bottom</item>
-    </style>
 
     /* bottom navigation theme */
 
-    <style name="bottomnavigation" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/QIBus_softui_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/QIBus_softui_colorPrimaryDark</item>
-        <item name="colorControlActivated">@color/QIBus_softui_colorPrimary</item>
-        <item name="colorControlHighlight">@color/QIBus_softui_colorPrimaryRipple</item>
-    </style>
-
-
-    <style name="IQBUSSoftUIScreenBackground">
-        <item name="android:background">#f2f4ff</item>
-    </style>
-
-    <style name="IQBUSSoftUIDrawableBackground"></style>
-
-    <style name="IQBUSSoftUIDrawableBackgroundBotton">
-        <!--<item name="android:background">@drawable/button_effect</item>-->
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 </resources>
