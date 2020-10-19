@@ -13,6 +13,7 @@ public class NearbyData implements Serializable {
 
     String pickup_address;
     String drop_address;
+    String pickup_point;
     String driver_name;
     //by ibrahim
     public String driver_mobile;
@@ -168,6 +169,9 @@ public class NearbyData implements Serializable {
     }
     public String getPickup_address() {
         return pickup_address;
+    }
+    public String getPickup_point() {
+        return pickup_point;
     }
 
     public void setPickup_address(String pickup_address) {

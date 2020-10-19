@@ -137,7 +137,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         GoogleApiClient.OnConnectionFailedListener, BackFragment,
         LocationListener {
     private static final String TAG = "HomeFragment";
-    private String driver_id, passanger_value, bag_value, smoke_value, date_time_value;
+    private String driver_id, passanger_value, bag_value, smoke_value, date_time_value, time_value;
     private String cost;
     private String unit;
     private int PLACE_PICKER_REQUEST = 7896;
@@ -286,14 +286,14 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
-                            CheckBox Checkbox = (CheckBox)mView.findViewById(R.id.checkBox);
+                            CheckBox Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
                             mBuilder.setView(mView);
                             final AlertDialog dialog = mBuilder.create();
                             dialog.show();
                             mSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!mPassengers.getText().toString().isEmpty() ) {
+                                    if (!mPassengers.getText().toString().isEmpty()) {
 //                                        Toast.makeText(HomeFragment.this.getContext(),
 //                                                "Success",
 //                                                Toast.LENGTH_SHORT).show();
@@ -311,17 +311,19 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                         pass.setFromAddress(from_add);
                                         log.i("tag", "DateTime by ibrahim");
                                         log.i("tag", date_time_value);
+                                        log.i("tag", time_value);
+                                        pass.setTime(time_value);
                                         pass.setDate(date_time_value);
                                         pass.setDriverId("-1");
                                         pass.setFare(cost);
                                         pass.setDriverName(drivername);
                                         pass.setStatus("REQUESTED");
                                         pass.NoPassengers = Integer.parseInt(mPassengers.getText().toString());
- //                                       pass.TripPrice = Integer.parseInt(mPrice.getText().toString());
+                                        //                                       pass.TripPrice = Integer.parseInt(mPrice.getText().toString());
 
-                                            if(Checkbox.isChecked())
-                                                pass.setCheck("1");
-                                            else pass.setCheck("0");
+                                        if (Checkbox.isChecked())
+                                            pass.setCheck("1");
+                                        else pass.setCheck("0");
 
                                         bundle.putSerializable("data", pass);
                                         RequestFragment fragobj = new RequestFragment();
@@ -484,7 +486,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
         return rootView;
     }
-
 
 
     @Override
@@ -988,7 +989,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 //                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         date_time = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         //*************Call Time Picker Here ********************
-                       // date_time_search.setText(date_time);
+                        // date_time_search.setText(date_time);
                         tiemPicker();
                     }
                 }, mYear, mMonth, mDay);
@@ -1012,8 +1013,9 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         mHour = hourOfDay;
                         mMinute = minute;
 
-                        date_time_value = date_time + " " + hourOfDay + ":" + minute + ":00";
-                        date_time_search.setText(date_time_value);
+                        date_time_value = date_time;// + " " + hourOfDay + ":" + minute;
+                        time_value = hourOfDay + ":" + minute;
+                        date_time_search.setText(date_time_value + " " + String.format("%02d:%02d", hourOfDay, minute));
                     }
                 }, mHour, 0, true);
         timePickerDialog.show();

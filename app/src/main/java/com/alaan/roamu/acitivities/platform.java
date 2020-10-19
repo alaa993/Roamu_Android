@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,7 @@ public class platform extends Fragment {
 
                 //putting artist name and id to intent
                 intent.putExtra("Post_id", post.id);
+                intent.putExtra("request_type", "public");
                 //intent.putExtra(ARTIST_NAME, artist.getArtistName());
 
                 //starting the activity with intent
@@ -128,7 +130,10 @@ public class platform extends Fragment {
                     Post Post = postSnapshot.getValue(Post.class);
                     Post.id = postSnapshot.getKey();
                     //adding artist to the list
-                    posts.add(Post);
+                    Log.i("ibrahim",Post.privacy);
+                    if (Post.privacy.contains("1")) {
+                        posts.add(Post);
+                    }
                 }
                 Collections.reverse(posts);
                 if(!posts.isEmpty()) {

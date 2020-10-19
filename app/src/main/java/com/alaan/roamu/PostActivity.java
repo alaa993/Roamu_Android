@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,13 +56,21 @@ public class PostActivity extends AppCompatActivity {
     List<Comment> comments;
     DatabaseReference databasePost;
     DatabaseReference databaseComments;
-
+    RelativeLayout PostRL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        PostRL = (RelativeLayout) findViewById(R.id.activity_post_post);
+
         Intent intent = getIntent();
+        if (intent.getStringExtra("request_type").contains("private")) {
+            PostRL.setVisibility(View.GONE);
+        }else if (intent.getStringExtra("request_type").contains("public")) {
+            PostRL.setVisibility(View.VISIBLE);
+        }
+
         comments = new ArrayList<>();
         databasePost = FirebaseDatabase.getInstance().getReference("posts").child(intent.getStringExtra("Post_id"));
         databaseComments = FirebaseDatabase.getInstance().getReference("posts").child(intent.getStringExtra("Post_id")).child("Comments");

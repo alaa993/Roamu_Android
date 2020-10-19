@@ -31,10 +31,19 @@ public class Pass implements Serializable, Parcelable {
         this.toAddress = toAddress;
     }
 
+    public String getPickupPoint() {
+        return pickupPoint;
+    }
+
+    public void setPickupPoint(String pickupPoint) {
+        this.pickupPoint = pickupPoint;
+    }
+
     private String fromPlace;
     private String toPlace;
     private String fromAddress;
     private String toAddress;
+    private String pickupPoint;
     private String Check;
 
     private String driverId;
@@ -56,6 +65,7 @@ public class Pass implements Serializable, Parcelable {
     //
     private String driverName;
     private String date;
+    private String time;
     private String smoke;
     private String status;
     private String avalibleset;
@@ -69,6 +79,14 @@ public class Pass implements Serializable, Parcelable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getcheck() {

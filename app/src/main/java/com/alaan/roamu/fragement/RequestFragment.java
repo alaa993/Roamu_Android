@@ -36,8 +36,11 @@ import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.model.Direction;
 import com.akexorcist.googledirection.util.DirectionConverter;
+import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.acitivities.List_provider;
+import com.alaan.roamu.acitivities.image_view;
 import com.alaan.roamu.pojo.PendingRequestPojo;
+import com.alaan.roamu.pojo.Post;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -111,11 +114,11 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     private String networkAvailable;
     private String tryAgain;
     private String directionRequest;
-    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, txt_name, txt_number, title, txt_vehiclename, dateandtime, txt_bag, txt_smoke, car_name;
-    TextView txt_Driver_name, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint;
+    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime,TimeVal, txt_bag, txt_smoke, car_name;
+    TextView txt_Driver_name, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
     private ImageView DriverAvatar;
     private ImageView DriverCar;
-    EditText cobun_num, txt_fare, fianl_fare;
+    EditText cobun_num;
     ElegantNumberButton num_set;
     String driver_id;
     String travel_id;
@@ -156,6 +159,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             car.setVisibility(View.GONE);
             rating.setVisibility(View.GONE);
             fare_rating.setVisibility(View.GONE);
+            fianl_fare.setVisibility(View.GONE);
+            txt_fare_view.setVisibility(View.GONE);
+
 
         } else {
             txt_fare.setText(pass.getFare());
@@ -297,11 +303,12 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         textView4 = (TextView) view.findViewById(R.id.textView4);
 
         num_set = (ElegantNumberButton) view.findViewById(R.id.num_set);
-        txt_fare = (EditText) view.findViewById(R.id.txt_fare);
+        txt_fare = (TextView) view.findViewById(R.id.txt_fare);
         btn_cobo = (Button) view.findViewById(R.id.btn_cobo);
         cobun_num = (EditText) view.findViewById(R.id.cobun_num);
-        fianl_fare = (EditText) view.findViewById(R.id.fianl_fare);
+        fianl_fare = (TextView) view.findViewById(R.id.fianl_fare);
         dateandtime = (TextView) view.findViewById(R.id.dateTimeVal);
+        TimeVal = (TextView) view.findViewById(R.id.TimeVal);
         txt_bag = (TextView) view.findViewById(R.id.bag_val);
         txt_smoke = (TextView) view.findViewById(R.id.smoke_val);
         textView5 = (TextView) view.findViewById(R.id.textView5);
@@ -309,6 +316,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         textView7 = (TextView) view.findViewById(R.id.textView7);
         textView8 = (TextView) view.findViewById(R.id.textView8);
         textView9 = (TextView) view.findViewById(R.id.textView9);
+        textView10 = (TextView) view.findViewById(R.id.textView10);
+        txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
         txt_name = (TextView) view.findViewById(R.id.txt_name);
         txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
         txt_Empty_Seats = (TextView) view.findViewById(R.id.txt_Empty_Seats);
@@ -605,10 +614,10 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
 
                 car_name.setText(pass.getVehicleName());
 
-                if (pass.vehicle_info != null) {
+                if (!String.valueOf(pass.vehicle_info).isEmpty()) {
                     Glide.with(RequestFragment.this.getActivity()).load(Server.BASE_URL + pass.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
                 }
-                if (pass.avatar != null) {
+                if (!String.valueOf(pass.avatar).isEmpty()) {
                     Glide.with(RequestFragment.this.getActivity()).load(Server.BASE_URL + pass.avatar).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
                 }
 
@@ -625,7 +634,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 txt_Empty_Seats.setText(pass.empty_set);
                 txt_DriverRate.setText(pass.DriverRate);
                 txt_TravelsCount.setText(pass.Travels_Count);
-                txt_PickupPoint.setText(pass.pickup_location);
+                txt_PickupPoint.setText(pass.getPickupPoint());
                 num_set.setNumber(String.valueOf(pass.NoPassengers));
 
                 pickup_location.setText(pickup_address);
@@ -634,6 +643,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
 
                 txt_smoke.setText(pass.getSmoke());
                 dateandtime.setText(pass.getDate());
+                TimeVal.setText(pass.getTime());
                 log.e("from", pickup.getAddress() + "to" + (drop.getAddress()));
 
                 //
@@ -702,6 +712,47 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                             }
                         } else {
                             MessageUtils.showAlert(getContext(), "Please enter promo code first.");
+                        }
+                    }
+                });
+
+                DriverAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!String.valueOf(pass.avatar).isEmpty()) {
+                            Intent intent = new Intent(getActivity(), image_view.class);
+                            intent.putExtra("imageurl", String.valueOf(pass.avatar));
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                DriverCar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!String.valueOf(pass.vehicle_info).isEmpty()) {
+                            Intent intent = new Intent(getActivity(), image_view.class);
+                            intent.putExtra("imageurl", String.valueOf(pass.vehicle_info));
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                textView10.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!String.valueOf(pass.getTravelId()).isEmpty()) {
+                            //getting the selected artist
+                            //creating an intent
+                            Intent intent = new Intent(getActivity(), PostActivity.class);
+
+                            //putting artist name and id to intent
+                            intent.putExtra("Post_id", pass.getTravelId());
+                            intent.putExtra("request_type", "private");
+                            //intent.putExtra(ARTIST_NAME, artist.getArtistName());
+
+                            //starting the activity with intent
+                            startActivity(intent);
                         }
                     }
                 });
@@ -873,7 +924,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         params.put("user_id", user_id);
         params.put("pickup_adress", pickup_adress);
         params.put("drop_address", drop_address);
-        params.put("time",pass.getDate());
+        params.put("date",pass.getDate());
+        params.put("time",pass.getTime());
         log.i("tag", "success by ibrahim");
         log.i("tag", pass.getDate());
         //commited by ibrahim

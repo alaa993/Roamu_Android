@@ -174,7 +174,7 @@
     <string name="find_travel">Find Car</string>
     <string name="add_travel">Save</string>
     <string name="privacy_menu">Privacy And Policy</string>
-    <string name="carConditon">Car Condition</string>
+    <string name="carConditon">Fare Rate</string>
     <string name="Black_Sany">Black_sany_car_ui</string>
     <string name="reseve">RESERVE</string>
 
@@ -186,7 +186,7 @@
     <string name="trip_price">Trip Price</string>
     <string name="submit">Submit</string>
     <string name="enter_coubbon_number">Enter Coubbon number</string>
-    <string name="date_and_time">Date And Time</string>
+    <string name="date_and_time">Date</string>
     <string name="empty_seats">Empty Seats</string>
     <string name="driver_rate">Driver Rate</string>
     <string name="travels_count">Travels Count</string>
@@ -199,6 +199,18 @@
     <string name="Travel_to">To: </string>
     <string name="Travel_on">On: </string>
     <string name="CheckBox">Add To Platform </string>
+    <string name="travel_time">Time</string>
+    <string name="Comments"><u>Comments</u></string>
     <!--    <string name="cancel">Cancel</string>-->
+
+    <string name="notification_0">Choose you to travel with you</string>
+    <string name="notification_1">You have a new ride</string>
+    <string name="notification_2">Glad to accept your request to travel with him</string>
+    <string name="notification_3">Apologizes for accepting your request</string>
+    <string name="notification_4">Thank you for your trust in us. Successful Arrivals</string>
+    <string name="notification_5">requested offline payment</string>
+    <string name="notification_6">User just paid for your ride</string>
+    <string name="notification_7">Choose you to travel with you</string>
+    <string name="notification_8">The request has been sent and you will receive confirmation as soon as possible</string>
 
 </resources>

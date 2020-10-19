@@ -46,6 +46,7 @@
             android:name=".acitivities.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".acitivities.HomeActivity" />
+        <activity android:name=".acitivities.image_view" />
         <activity android:name=".fragement.listProviderFragment" />
         <activity android:name=".acitivities.phoneVerfication" />
 

@@ -245,7 +245,6 @@
     <string name="find_travel">بحث عن سيارة</string>
     <string name="add_travel"> حفظ</string>
     <string name="privacy_menu">الأحكام العامة</string>
-    <string name="carConditon">Car Condition</string>
 
 <!--    // by ibrahim-->
     <string name="enter_number_of_passengers_trip_price">أدخل عدد الركاب وسعر الرحلة</string>
@@ -254,10 +253,11 @@
     <string name="submit">إرسال</string>
     <string name="cancel">إلغاء</string>
     <string name="enter_coubbon_number">أدخل رقم الكوبون</string>
-    <string name="date_and_time">التاريخ و الوقت</string>
+    <string name="date_and_time">التاريخ</string>
     <string name="reseve">حجز</string>
     <string name="empty_seats">عدد المقاعد المتبقية</string>
     <string name="driver_rate">تقييم السائق</string>
+    <string name="carConditon">تقييم الأجرة</string>
     <string name="travels_count">الرحلات المنجزة</string>
     <string name="pickup_point">نقطة التقاط</string>
     <string name="platform" translatable="false">منصة التواصل الاجتماعي</string>
@@ -270,5 +270,17 @@
     <string name="Travel_to">إلى: </string>
     <string name="Travel_on">بتاريخ: </string>
     <string name="CheckBox">إضافة إلى المنصة </string>
+    <string name="travel_time">الوقت</string>
+    <string name="Comments"><u>التعليقات</u></string>
+
+    <string name="notification_0">اختاركم للسفر معكم</string>
+    <string name="notification_1">اسم اليوزر اختاركم للسفر معكم</string>
+    <string name="notification_2">سعيد بقبول طلبكم للسفر معه</string>
+    <string name="notification_3">يعتذر عن قبول طلبكم</string>
+    <string name="notification_4">نشكر ثقتكم بنا تم الوصول بنجاح</string>
+    <string name="notification_5">طلب الدفع دون اتصال</string>
+    <string name="notification_6">المستخدم دفع ثمن رحلتك للتو</string>
+    <string name="notification_7">اختاركم للسفر معكم</string>
+    <string name="notification_8">تم ارسال الطلب وسيصلكم التأكيد في أقرب وقت</string>
 
 </resources>

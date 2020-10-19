@@ -11,6 +11,7 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/login_width">
 
     </com.google.android.gms.maps.MapView>
@@ -108,6 +109,54 @@
                         </TableRow>
 
                         <TableRow
+                            android:id="@+id/Driver_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/Driver_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ibrahim Driver"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <ImageView
+                                android:id="@+id/DriverImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:maxLines="5"
+                                android:src="@drawable/user_default" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/car_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/car_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Black_Sany"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <ImageView
+                                android:id="@+id/carImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:maxLines="5"
+                                android:src="@drawable/car" />
+
+                        </TableRow>
+
+                        <TableRow
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -168,6 +217,32 @@
                         </TableRow>
 
                         <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pickup_point"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_PickupPoint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="Mazzeh" />
+
+                        </TableRow>
+
+                        <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
@@ -192,6 +267,57 @@
 
                         </TableRow>
 
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/timefled"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/travel_time"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/TimeVal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/empty_seats"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_Empty_Seats"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="5" />
+
+
+                        </TableRow>
 
                         <TableRow
                             android:layout_width="wrap_content"
@@ -210,7 +336,7 @@
                             <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                                 android:id="@+id/num_set"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="10dp"
                                 android:maxLines="1"
@@ -231,7 +357,7 @@
                                 android:text="@string/fare"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/txt_fare"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -258,9 +384,9 @@
                                 android:text="@string/QIBus_softui_lbl_total_fare"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/fianl_fare"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:enabled="false"
@@ -305,96 +431,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
-                            android:padding="10dp"
-                            android:visibility="gone">
+                            android:padding="10dp">
 
                             <TextView
                                 android:id="@+id/carConditon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/carConditon"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:visibility="gone" />
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                            <RatingBar
+                            <TextView
                                 android:id="@+id/carConditonrating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:maxLines="2"
-                                android:rating="3"
-                                android:scaleX="0.5"
-                                android:scaleY="0.5"
-                                android:text=""
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:theme="@style/RatingBar"
-
-                                android:visibility="gone" />
-
-                        </TableRow>
-
-                        <TableRow
-                            android:id="@+id/car_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp"
-                            android:gravity="center_vertical"
-                            android:padding="10dp">
-
-                            <TextView
-                                android:id="@+id/car_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Black_Sany"
-                                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                            <ImageView
-                                android:id="@+id/carImage"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:maxLines="5"
-                                android:src="@drawable/car" />
-
-                        </TableRow>
-
-                        <TableRow
-                            android:id="@+id/Driver_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp"
-                            android:gravity="center_vertical"
-                            android:padding="10dp">
-
-                            <TextView
-                                android:id="@+id/Driver_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ibrahim Driver"
-                                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                            <ImageView
-                                android:id="@+id/DriverImage"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:maxLines="5"
-                                android:src="@drawable/user_default" />
-
-                        </TableRow>
-
-                        <TableRow
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp"
-                            android:padding="10dp">
-
-                            <TextView
-                                android:id="@+id/textView6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/empty_seats"
-                                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                            <TextView
-                                android:id="@+id/txt_Empty_Seats"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -402,8 +449,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:maxLines="1"
                                 android:padding="1dp"
-                                android:text="5" />
-
+                                android:text="8.5" />
 
                         </TableRow>
 
@@ -462,29 +508,18 @@
                         </TableRow>
 
                         <TableRow
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
                             android:padding="10dp">
 
                             <TextView
-                                android:id="@+id/textView9"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/pickup_point"
-                                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                            <TextView
-                                android:id="@+id/txt_PickupPoint"
+                                android:id="@+id/textView10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginLeft="5dp"
-                                android:maxLines="1"
-                                android:padding="1dp"
-                                android:text="Mazzeh" />
-
+                                android:text="@string/Comments"
+                                android:textColor="@color/mapbox_blue"
+                                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
                         </TableRow>
 

@@ -95,6 +95,7 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
                 pass.setToPlace(nearbyData.getDrop_address());
                 pass.setFromAddress(nearbyData.getPickup_location());
                 pass.setToAddress(nearbyData.getDrop_location());
+                pass.setPickupPoint(nearbyData.getPickup_point());
                 pass.setDriverId(nearbyData.getUser_id());
                 //by ibrahim
                 pass.setTravelId(nearbyData.getTravel_id());
