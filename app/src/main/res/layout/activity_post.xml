@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
+    tools:context=".PostActivity"
     >
 
     <RelativeLayout
@@ -60,11 +62,31 @@
 
         <View
             android:layout_width="match_parent"
+            android:id="@+id/lineSeparator_activity_post"
             android:layout_height="2dp"
             android:layout_marginTop="5dp"
             android:background="@color/common_google_signin_btn_text_light_disabled"
             android:layout_below="@id/Post_textViewText"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TripDetail"
+            android:text="@string/trip_detail"
+            android:layout_below="@id/lineSeparator_activity_post"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/customborder"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/common_google_signin_btn_text_light_disabled"
+            android:layout_below="@id/TripDetail"
+            />
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -15,6 +15,7 @@ public class NearbyData implements Serializable {
     String drop_address;
     String pickup_point;
     String driver_name;
+    String driverCity;
     //by ibrahim
     public String driver_mobile;
     public String driverVehicle;
@@ -37,7 +38,7 @@ public class NearbyData implements Serializable {
     String drop_location;
     String latitude;
     String longitude;
-//    String vehicle_info;
+    //    String vehicle_info;
     String distance;
 
 
@@ -95,8 +96,11 @@ public class NearbyData implements Serializable {
     public String getUser_id() {
         return driver_id;
     }
+
     //by ibrahim
-    public String getTravel_id() {return travel_id;}
+    public String getTravel_id() {
+        return travel_id;
+    }
 
     public String getDrop_address() {
         return drop_address;
@@ -110,8 +114,11 @@ public class NearbyData implements Serializable {
     public void setUser_id(String user_id) {
         this.driver_id = user_id;
     }
+
     //by ibrahim
-    public void setTravel_id(String travel_id) {this.travel_id = travel_id;}
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
 
     public String getName() {
         return driver_name;
@@ -119,6 +126,14 @@ public class NearbyData implements Serializable {
 
     public void setName(String name) {
         this.driver_name = name;
+    }
+
+    public String getDriverCity() {
+        return driverCity;
+    }
+
+    public void setDriverCity(String driverCity) {
+        this.driverCity = driverCity;
     }
 
     public String getEmail() {
@@ -136,6 +151,7 @@ public class NearbyData implements Serializable {
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
+
     public String getPickup_location() {
         return pickup_location;
     }
@@ -167,9 +183,11 @@ public class NearbyData implements Serializable {
     public void setDistance(String distance) {
         this.distance = distance;
     }
+
     public String getPickup_address() {
         return pickup_address;
     }
+
     public String getPickup_point() {
         return pickup_point;
     }
@@ -177,6 +195,7 @@ public class NearbyData implements Serializable {
     public void setPickup_address(String pickup_address) {
         this.pickup_address = pickup_address;
     }
+
     public String getDrop_location() {
         return drop_location;
     }

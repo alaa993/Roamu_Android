@@ -64,6 +64,7 @@ public class Pass implements Serializable, Parcelable {
     public fragment_type f;
     //
     private String driverName;
+    private String driverCity;
     private String date;
     private String time;
     private String smoke;
@@ -139,6 +140,7 @@ public class Pass implements Serializable, Parcelable {
         driverId = in.readString();
         travelId = in.readString();
         driverName = in.readString();
+        driverCity = in.readString();
         fare = in.readString();
     }
 
@@ -195,6 +197,14 @@ public class Pass implements Serializable, Parcelable {
         this.driverName = driverName;
     }
 
+    public String getDriverCity() {
+        return driverCity;
+    }
+
+    public void setDriverCity(String driverCity) {
+        this.driverCity = driverCity;
+    }
+
     public String getFare() {
         return fare;
     }
@@ -213,6 +223,7 @@ public class Pass implements Serializable, Parcelable {
         parcel.writeString(driverId);
         parcel.writeString(travelId);
         parcel.writeString(driverName);
+        parcel.writeString(driverCity);
         parcel.writeString(fare);
     }
 }

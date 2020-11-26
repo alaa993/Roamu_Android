@@ -12,7 +12,9 @@ import android.os.Handler;
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -114,8 +116,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     private String networkAvailable;
     private String tryAgain;
     private String directionRequest;
-    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime,TimeVal, txt_bag, txt_smoke, car_name;
-    TextView txt_Driver_name, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
+    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+    TextView txt_Driver_name,txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
     private ImageView DriverAvatar;
     private ImageView DriverCar;
     EditText cobun_num;
@@ -123,7 +125,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     String driver_id;
     String travel_id;
     private String user_id;
-    private String pickup_address, drop_address, dateandtime_val;
+    private String pickup_address, drop_address, dateandtime_val, time_val;
     String distance;
     private String drivername = "";
     SwipeRefreshLayout swipeRefreshLayout;
@@ -151,6 +153,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         if (!CheckConnection.haveNetworkConnection(getActivity())) {
             Toast.makeText(getActivity(), networkAvailable, Toast.LENGTH_LONG).show();
         }
+
         bindView(savedInstanceState);
 
         if (pass.getDriverId() == "-1") {
@@ -191,9 +194,6 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         String o = origin.latitude + "," + origin.longitude;
                         String d = destination.latitude + "," + destination.longitude;
                         AddRide(SessionManager.getKEY(), pickup_address, drop_address, o, d, String.valueOf(finalfare), distance, dateandtime_val);
-                        if(pass.getcheck()=="1")
-                        SavePost(pickup_address,drop_address,dateandtime_val);
-
                         Log.d(TAG, "onClick: " + SessionManager.getKEY());
                     }
                 }
@@ -245,45 +245,56 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
-    public void SavePost(String pickup_address,String Drop_address,String date_time_value) {
+
+    public void SavePost(String pickup_address, String Drop_address, String date_time_value, String time_value, int ride_id) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
-        log.i("tagwwwwww","success by ibrahim11111");
+        log.i("tagwwwwww", "success by ibrahim11111");
         databaseRefID.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
-                String text = UserName+" "+getString(R.string.Travel_is_going_from)+pickup_address+" "+
-                        getString(R.string.Travel_to)+Drop_address+" "+getString(R.string.Travel_on)+date_time_value+" ";
-                log.i("tagwwwwww","success by ibrahim11112");
+//                String text = UserName+" "+getString(R.string.Travel_is_going_from)+pickup_address+" "+
+//                        getString(R.string.Travel_to)+Drop_address+" "+getString(R.string.Travel_on)+date_time_value+" ";
+
+                String text = getString(R.string.Travel_is_going_from) + " " + System.getProperty("line.separator")
+                        + getString(R.string.Travel_from) + " " + pickup_address + System.getProperty("line.separator")
+                        + getString(R.string.Travel_to) + " " + Drop_address + System.getProperty("line.separator")
+                        + getString(R.string.Travel_on) + " " + date_time_value + System.getProperty("line.separator")
+                        + getString(R.string.the_clock) + " " + time_value;
+
+                log.i("tag", "success by ibrahim");
 //                log.i("tag","success by ibrahim");
 //                log.i("tag", UserName);
                 // Firebase code here
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("posts").push();
-                Map<String,Object> author = new HashMap<>();
-                author.put("uid" , user.getUid());
-                author.put("username" , UserName);
-                author.put("photoURL" , photoURL);
+                Map<String, Object> author = new HashMap<>();
+                author.put("uid", user.getUid());
+                author.put("username", UserName);
+                author.put("photoURL", photoURL);
 
-                Map<String,Object> userObject = new HashMap<>();
+                Map<String, Object> userObject = new HashMap<>();
                 userObject.put("author", author);
                 userObject.put("text", text);
                 userObject.put("type", "0");
+                userObject.put("privacy", "1");
+                userObject.put("travel_id", ride_id);
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
                 //inputEditPost.getText().clear();
-                log.i("tagwwwwww","success by ibrahim3333333");
+                log.i("tagwwwwww", "success by ibrahim3333333");
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
             }
         });
     }
+
     public void bindView(Bundle savedInstanceState) {
         // ((List_provider) getActivity()).fontToTitleBar(getString(R.string.ride_request));
         //((HomeActivity) getActivity()).toolbar.setTitle(getString(R.string.request_ride));
@@ -320,6 +331,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
         txt_name = (TextView) view.findViewById(R.id.txt_name);
         txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
+        txt_city = (TextView) view.findViewById(R.id.txt_city);
         txt_Empty_Seats = (TextView) view.findViewById(R.id.txt_Empty_Seats);
         txt_DriverRate = (TextView) view.findViewById(R.id.txt_DriverRate);
         txt_TravelsCount = (TextView) view.findViewById(R.id.txt_TravelsCount);
@@ -357,12 +369,14 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             DriverAvatar.setVisibility(View.GONE);
             DriverCar.setVisibility(View.GONE);
             txt_Driver_name.setVisibility(View.GONE);
+            txt_city.setVisibility(View.GONE);
             car_name.setVisibility(View.GONE);
             textView5.setVisibility(View.GONE);
             textView6.setVisibility(View.GONE);
             textView7.setVisibility(View.GONE);
             textView8.setVisibility(View.GONE);
             textView9.setVisibility(View.GONE);
+            textView10.setVisibility(View.GONE);
             txt_fare.setVisibility(View.GONE);
             txt_Empty_Seats.setVisibility(View.GONE);
             txt_DriverRate.setVisibility(View.GONE);
@@ -374,6 +388,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             DriverAvatar.setVisibility(View.VISIBLE);
             DriverCar.setVisibility(View.VISIBLE);
             txt_Driver_name.setVisibility(View.VISIBLE);
+            txt_city.setVisibility(View.VISIBLE);
             car_name.setVisibility(View.VISIBLE);
             textView5.setVisibility(View.VISIBLE);
             textView6.setVisibility(View.VISIBLE);
@@ -604,6 +619,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     }
                 };
                 dateandtime_val = pass.getDate();
+                time_val = pass.getTime();
                 origin = pickup.getLatLng();
                 destination = drop.getLatLng();
                 driver_id = pass.getDriverId();
@@ -631,6 +647,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     txt_name.setText(drivername);
                 }
                 txt_Driver_name.setText(pass.getDriverName());
+                txt_city.setText(pass.getDriverCity());
                 txt_Empty_Seats.setText(pass.empty_set);
                 txt_DriverRate.setText(pass.DriverRate);
                 txt_TravelsCount.setText(pass.Travels_Count);
@@ -677,10 +694,18 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     public void afterTextChanged(Editable editable) {
                     }
                 });
+
+                ////
+                if (pass.f == Pass.fragment_type.GET) {
+                    num_set.setRange(0, Integer.parseInt(pass.empty_set));
+                }
                 num_set.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
                     @Override
                     public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                        if (Integer.parseInt(num_set.getNumber().toString()) >= 1) {
+                        Log.i("ibrahim was here", pass.empty_set);
+                        Log.i("ibrahim was here", "");
+                        if (Integer.parseInt(num_set.getNumber().toString()) >= 1 && Integer.parseInt(num_set.getNumber().toString()) <= Integer.parseInt(pass.empty_set)) {
+
 
                             if (txt_fare.getText() != null) {
 
@@ -742,22 +767,39 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     @Override
                     public void onClick(View v) {
                         if (!String.valueOf(pass.getTravelId()).isEmpty()) {
-                            //getting the selected artist
-                            //creating an intent
-                            Intent intent = new Intent(getActivity(), PostActivity.class);
 
-                            //putting artist name and id to intent
-                            intent.putExtra("Post_id", pass.getTravelId());
-                            intent.putExtra("request_type", "private");
-                            //intent.putExtra(ARTIST_NAME, artist.getArtistName());
-
-                            //starting the activity with intent
-                            startActivity(intent);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Post_id", pass.getDriverId());
+                            bundle.putString("request_type", "private");
+                            Log.i("ibrahim from platform1", "-----------------");
+                            PostFragment postfragment = new PostFragment();
+                            Log.i("ibrahim from platform2", "-----------------");
+                            postfragment.setArguments(bundle);
+                            changeFragment(postfragment, "Requests");
                         }
                     }
                 });
 
             }
+        }
+    }
+
+    public void changeFragment(final Fragment fragment, final String fragmenttag) {
+
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                    drawer_close();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
+                    fragmentTransaction.commit();
+                    fragmentTransaction.addToBackStack(null);
+                }
+            }, 50);
+        } catch (Exception e) {
+
         }
     }
 
@@ -924,8 +966,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         params.put("user_id", user_id);
         params.put("pickup_adress", pickup_adress);
         params.put("drop_address", drop_address);
-        params.put("date",pass.getDate());
-        params.put("time",pass.getTime());
+        params.put("date", pass.getDate());
+        params.put("time", pass.getTime());
         log.i("tag", "success by ibrahim");
         log.i("tag", pass.getDate());
         //commited by ibrahim
@@ -936,7 +978,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         params.put("amount", fianl_fare.getText());
         params.put("distance", distance);
         params.put("status", pass.getStatus());
-        params.put("booked_set",num_set.getNumber());
+        params.put("booked_set", num_set.getNumber());
         Server.setHeader(key);
         Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
             @Override
@@ -949,8 +991,20 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
+//                    Log.i("ibrahim_response", response.toString());
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getActivity(), getString(R.string.ride_has_been_requested), Toast.LENGTH_LONG).show();
+                        if (response.has("data")) {
+                            JSONObject data = response.getJSONObject("data");
+                            int ride_id = Integer.parseInt(data.getString("id"));
+                            Log.i("ibrahim travel_id", String.valueOf(ride_id));
+                            if (pass.getcheck() == "1") {
+                                SavePost(pickup_address, drop_address, dateandtime_val, time_val, ride_id);
+
+                            }
+                        } else {
+//                            Log.i("ibrahim_response", "no travel id");
+                        }
                         startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                     } else {
                         Toast.makeText(getActivity(), tryAgain, Toast.LENGTH_LONG).show();

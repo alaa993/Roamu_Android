@@ -51,18 +51,20 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new Holder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.acceptedrequest_item, viewGroup, false));
     }
+
     public class Holder extends RecyclerView.ViewHolder {
 
 
-        TextView from, to, drivername,time,date,tvPrice,tvTypeCoach;
+        TextView from, to, drivername, time, date, tvPrice, tvTypeCoach;
 
         ImageButton btn_req;
+
         public Holder(View itemView) {
             super(itemView);
 
 
-          //  btn_req = (ImageButton) itemView.findViewById(R.id.img_arrow);
-           /// date = (TextView) itemView.findViewById(R.id.tvDate);
+            //  btn_req = (ImageButton) itemView.findViewById(R.id.img_arrow);
+            /// date = (TextView) itemView.findViewById(R.id.tvDate);
             time = (TextView) itemView.findViewById(R.id.time);
             from = (TextView) itemView.findViewById(R.id.txt_from_add);
             to = (TextView) itemView.findViewById(R.id.txt_to_add);
@@ -76,15 +78,15 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         final NearbyData nearbyData = list.get(i);
-        Place pickup, drop,s_drop,s_pic;
-     //   holder.tvPrice.setText(nearbyData.getAmount());
-      //  holder.tvTypeCoach.setText(nearbyData.getVehicle_info());
+        Place pickup, drop, s_drop, s_pic;
+        //   holder.tvPrice.setText(nearbyData.getAmount());
+        //  holder.tvTypeCoach.setText(nearbyData.getVehicle_info());
         holder.drivername.setText(nearbyData.getName());
         holder.from.setText(nearbyData.getPickup_address());
         holder.to.setText(nearbyData.getDrop_address());
         holder.time.setText(nearbyData.getTravel_date());
-      //  holder.date.setText(nearbyData.getTravel_date());
-       holder.itemView.setOnClickListener(new View.OnClickListener() {
+        //  holder.date.setText(nearbyData.getTravel_date());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // travel search results by ibrahim
@@ -102,19 +104,21 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
 
                 pass.setFare(nearbyData.getAmount());
                 pass.setDriverName(nearbyData.getName());
+                pass.setDriverCity(nearbyData.getDriverCity());
                 pass.setSmoke(nearbyData.getSomked());
                 pass.setDate(nearbyData.getTravel_date());
+                pass.setTime(nearbyData.getTravel_time());
                 pass.setAvalibleset(nearbyData.getBooked_set());
                 pass.avatar = nearbyData.avatar;
                 pass.vehicle_info = nearbyData.vehicle_info;
                 // by ibrahim
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag","success by ibrahim search_d_adapter");
-                log.i("tag",nearbyData.getVehicle_info());
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", "success by ibrahim search_d_adapter");
+                log.i("tag", nearbyData.getVehicle_info());
                 pass.setVehicleName(nearbyData.getVehicle_info());
                 pass.empty_set = nearbyData.empty_set;
                 pass.DriverRate = nearbyData.DriverRate;
@@ -123,18 +127,15 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
 
                 RequestFragment fragobj = new RequestFragment();
                 fragobj.setArguments(bundle);
-                 bundle.putSerializable("data", pass);
+                bundle.putSerializable("data", pass);
                 fragobj.setArguments(bundle);
-               ((List_provider) view.getContext()).changeFragment(fragobj, "Request Ride");
+                ((List_provider) view.getContext()).changeFragment(fragobj, "Request Ride");
                 ((List_provider) view.getContext()).showframe(0);
 
-               // activity.getFragmentManager().beginTransaction().replace(R.id.container,new RequestManagerFragment()).addToBackStack(null).commit();
-
-
-
-        }
+                // activity.getFragmentManager().beginTransaction().replace(R.id.container,new RequestManagerFragment()).addToBackStack(null).commit();
+            }
         });
-        log.e("ss",""+list.size());
+        log.e("ss", "" + list.size());
 
 
     }

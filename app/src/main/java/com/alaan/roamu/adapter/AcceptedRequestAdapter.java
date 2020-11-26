@@ -29,6 +29,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         this.list = list;
     }
 
+
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.acceptedrequest_item, parent, false));
@@ -41,19 +42,15 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         holder.to_add.setText(pojo.getDrop_address());
         holder.drivername.setText(pojo.getDriver_name());
 
-        try {
-            SimpleDateFormat toFullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date fullDate = toFullDate.parse(list.get(holder.getAdapterPosition()).getTime());
-            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss a");
-            String shortTime = time.format(fullDate);
-            SimpleDateFormat date = new SimpleDateFormat("dd-MMMM-yyyy");
+        //            SimpleDateFormat toFullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            Date fullDate = toFullDate.parse(list.get(holder.getAdapterPosition()).getTime());
+//            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss a");
+//            String shortTime = time.format(fullDate);
+//            SimpleDateFormat date = new SimpleDateFormat("dd-MMMM-yyyy");
 
-            String shortTimedate = date.format(fullDate);
-            holder.time.setText(shortTime);
-            holder.date.setText(shortTimedate);
-        } catch (ParseException e) {
-
-        }
+//            String shortTimedate = date.format(fullDate);
+        holder.time.setText(pojo.getTime());
+        holder.date.setText(pojo.getDate());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

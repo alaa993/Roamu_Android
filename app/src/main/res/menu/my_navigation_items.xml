@@ -5,49 +5,51 @@
         android:icon="@mipmap/ic_home_black_24dp"
         android:title="@string/home"></item>
     <item
-        android:id="@+id/pending_requests"
+        android:id="@+id/my_requests"
         android:icon="@mipmap/ic_hourglass_empty_black_24dp"
-        android:title="@string/Pending_Requests"></item>
+        android:title="@string/my_requests"></item>
 
-    <item
-        android:id="@+id/accepted_requests"
-        android:icon="@mipmap/ic_hourglass_full_black_24dp"
-        android:title="@string/accepted_request"></item>
-
-    <item
-        android:id="@+id/completed_rides"
-        android:icon="@mipmap/ic_thumb_up_black_24dp"
-        android:title="@string/completed_request"></item>
-    <item
-        android:id="@+id/cancelled"
-        android:icon="@mipmap/ic_cancel_black_24dp"
-        android:title="@string/cancelled_request"></item>
     <item
         android:id="@+id/profile"
         android:icon="@mipmap/ic_account_circle_black_24dp"
         android:title="@string/profile"></item>
     <item
-        android:id="@+id/promo"
-        android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-        android:title="@string/promocodes"></item>
-    <item
-        android:id="@+id/about_us"
-        android:icon="@drawable/ic_assignment_black_24dp"
-        android:title="@string/about_uss"></item>
+        android:id="@+id/platform"
+        android:icon="@drawable/ic_language_black_24dp"
+        android:title="@string/platform"></item>
+
     <item
         android:id="@+id/privacy_policy"
         android:icon="@drawable/ic_enhanced_encryption_black_24dp"
         android:title="@string/privacy_menu"></item>
     <item
+        android:id="@+id/profit"
+        android:icon="@drawable/ic_enhanced_encryption_black_24dp"
+        android:title="@string/profit"></item>
+    <item
+        android:id="@+id/about_us"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="@string/about_uss"></item>
+    <item
+        android:id="@+id/contact_us"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="@string/contact_us"></item>
+    <item
+        android:id="@+id/Nominate_Driver"
+        android:icon="@drawable/ic_language_black_24dp"
+        android:title="@string/nominate_a_driver"></item>
+    <item
         android:id="@+id/lang"
         android:icon="@drawable/ic_language_black_24dp"
         android:title="@string/lang"></item>
-
     <item
-        android:id="@+id/platform"
+        android:id="@+id/notifications"
         android:icon="@drawable/ic_language_black_24dp"
-        android:title="@string/platform"></item>
-
+        android:title="@string/nofifications"></item>
+    <item
+        android:id="@+id/shareApp"
+        android:icon="@drawable/ic_language_black_24dp"
+        android:title="@string/share_application"></item>
     <item
         android:id="@+id/logout"
         android:icon="@mipmap/ic_power_settings_new_black_24dp"

@@ -37,8 +37,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alaan.roamu.BuildConfig;
 import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.about_us;
+import com.alaan.roamu.fragement.Contact_usFragment;
+import com.alaan.roamu.fragement.NominateDriverFragment;
+import com.alaan.roamu.fragement.NotificationsFragment;
+import com.alaan.roamu.fragement.ProfitFragment;
 import com.alaan.roamu.fragement.RequestFragment;
 import com.alaan.roamu.fragement.lang;
 import com.alaan.roamu.privcy;
@@ -179,13 +184,20 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 addPost.setVisibility(View.GONE);
                 changeFragment(new HomeFragment(), getString(R.string.home));
                 break;
+
             case R.id.about_us:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new about_us(), getString(R.string.about_uss));
                 break;
+
             case R.id.privacy_policy:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new privcy(), getString(R.string.pricvys));
+                break;
+
+            case R.id.profit:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new ProfitFragment(), getString(R.string.pricvys));
                 break;
 
             case R.id.lang:
@@ -193,50 +205,50 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 changeFragment(new lang(), getString(R.string.lang));
                 break;
 
+            case R.id.notifications:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new NotificationsFragment(), getString(R.string.lang));
+                break;
+
             case R.id.platform:
                 addPost.setVisibility(View.VISIBLE);
                 changeFragment(new platform(), getString(R.string.platform));
                 break;
 
-            case R.id.pending_requests:
+            case R.id.my_requests:
                 addPost.setVisibility(View.GONE);
-                bundle = new Bundle();
-                bundle.putString("status", "PENDING");
-                acceptedRequestFragment.setArguments(bundle);
                 changeFragment(acceptedRequestFragment, "Requests");
                 break;
-            case R.id.accepted_requests:
-                addPost.setVisibility(View.GONE);
-                bundle = new Bundle();
-                bundle.putString("status", "ACCEPTED");
-                acceptedRequestFragment.setArguments(bundle);
-                changeFragment(acceptedRequestFragment, "Requests");
-                break;
-            case R.id.promo:
-                addPost.setVisibility(View.GONE);
-                bundle = new Bundle();
-                bundle.putString("status", "ACCEPTED");
-                acceptedRequestFragment.setArguments(bundle);
-                changeFragment(promo, "Requests");
-                break;
-            case R.id.completed_rides:
-                addPost.setVisibility(View.GONE);
-                bundle = new Bundle();
-                bundle.putString("status", "COMPLETED");
-                acceptedRequestFragment.setArguments(bundle);
-                changeFragment(acceptedRequestFragment, "Requests");
-                break;
-            case R.id.cancelled:
-                addPost.setVisibility(View.GONE);
-                bundle = new Bundle();
-                bundle.putString("status", "CANCELLED");
-                acceptedRequestFragment.setArguments(bundle);
-                changeFragment(acceptedRequestFragment, "Requests");
-                break;
+
             case R.id.profile:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new ProfileFragment(), getString(R.string.profile));
                 break;
+
+            case R.id.Nominate_Driver:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new NominateDriverFragment(), getString(R.string.profile));
+                break;
+
+            case R.id.contact_us:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new Contact_usFragment(), getString(R.string.profile));
+                break;
+
+            case R.id.shareApp:
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+                    String shareMessage= "\nLet me recommend you this application\n\n";
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "choose one"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
+                break;
+
             case R.id.logout:
                 addPost.setVisibility(View.GONE);
                 SessionManager.logoutUser(getApplicationContext());
@@ -268,6 +280,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
         }
     }
+
+
     public void getPhotoUri() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
@@ -277,23 +291,18 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
-               String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
+                String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Glide.with(getApplicationContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(avatar);
-//                log.i("tag","success by ibrahim");
-//                log.i("tag", UserName);
-                // Firebase code here
-                // User user = SessionManager.getUser();
-                //user.setAvatar(photoURL);
-                // profile_pic.setImageURI(photoURL);
-                // profileUpdateListener.update(photoURL);
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
             }
         });
     }
+
     public void changeFragment1() {
 
         try {
@@ -506,20 +515,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
     }
 
-
-   /* public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawer_close();
-
-        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            this.startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    */
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         addPost.setVisibility(View.GONE);
@@ -531,7 +528,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             super.onBackPressed();
         }
     }
-
     private boolean isInHomeFragment() {
         for (Fragment item : getSupportFragmentManager().getFragments()) {
             if (item.isVisible() && "HomeFragment".equals(item.getClass().getSimpleName())) {
@@ -540,5 +536,4 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
         return false;
     }
-
 }

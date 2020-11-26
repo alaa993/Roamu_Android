@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,17 +40,15 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-/**
- * Created by android on 10/3/17.
- */
-
-public class AcceptedRequestFragment extends Fragment implements BackFragment {
+public class AcceptedRequestFragment extends Fragment implements BackFragment, AdapterView.OnItemSelectedListener {
     private View view;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     String userid = "";
     String key = "";
+    String[] status_arr;
 
+    String[] status_val_arr = {"PENDING", "ACCEPTED", "COMPLETED", "CANCELLED", "REQUESTED"};
     TextView txt_error;
     String status;
 
@@ -58,19 +59,21 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
 
         view = inflater.inflate(R.layout.accepted_request_fragment, container, false);
         bindView();
-        if (CheckConnection.haveNetworkConnection(getActivity())) {
-            getAcceptedRequest(userid, status, key);
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
-        }
-
         return view;
     }
 
     public void bindView() {
+        status_arr = new String[]{
+                getString(R.string.pending_request), getString(R.string.accepted_request),
+                getString(R.string.completed_request), getString(R.string.cancelled_request),
+                getString(R.string.requested_request)};
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         txt_error = (TextView) view.findViewById(R.id.txt_error);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        Spinner droplist = (Spinner) view.findViewById(R.id.arf_simpleSpinner);
+        droplist.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        ArrayAdapter data = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, status_arr);
+        droplist.setAdapter(data);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         userid = SessionManager.getUserId();
@@ -79,7 +82,6 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             status = bundle.getString("status");
-            ((HomeActivity) getActivity()).fontToTitleBar(setTitle(status));
         }
         SetCustomFont setCustomFont = new SetCustomFont();
         setCustomFont.overrideFonts(getActivity(), view);
@@ -93,6 +95,20 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (CheckConnection.haveNetworkConnection(getActivity())) {
+            ((HomeActivity) getActivity()).fontToTitleBar(setTitle(status_val_arr[i]));
+            getAcceptedRequest(userid, status_val_arr[i], key);
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 
     public void getAcceptedRequest(String id, String status, String key) {
         final RequestParams params = new RequestParams();
@@ -103,7 +119,6 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
             @Override
             public void onStart() {
                 super.onStart();
-
                 swipeRefreshLayout.setRefreshing(true);
             }
 
@@ -112,32 +127,26 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     Gson gson = new GsonBuilder().create();
-
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
                         }.getType());
-
-                        Log.e("data-customer",list.size()+" "+list);
                         if (response.has("data") && response.getJSONArray("data").length() == 0) {
                             txt_error.setVisibility(View.VISIBLE);
+                            AcceptedRequestAdapter acceptedRequestAdapter = new AcceptedRequestAdapter(list);
+                            recyclerView.setAdapter(acceptedRequestAdapter);
+                            acceptedRequestAdapter.notifyDataSetChanged();
 
                         } else {
+                            txt_error.setVisibility(View.GONE);
                             AcceptedRequestAdapter acceptedRequestAdapter = new AcceptedRequestAdapter(list);
                             recyclerView.setAdapter(acceptedRequestAdapter);
                             acceptedRequestAdapter.notifyDataSetChanged();
                         }
-
-
                     } else {
-
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
-
                     }
                 } catch (JSONException e) {
-
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
-
-
                 }
             }
 
@@ -165,6 +174,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment {
                 break;
             case "COMPLETED":
                 title = getString(R.string.completed_request);
+                break;
+            case "REQUESTED":
+                title = getString(R.string.requested_request);
                 break;
 
         }

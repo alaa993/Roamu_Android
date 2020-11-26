@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alaan.roamu.acitivities.HomeActivity;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +59,7 @@ public class privcy extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.privacy_menu));
         return inflater.inflate(R.layout.fragment_privcy, container, false);
     }
 }

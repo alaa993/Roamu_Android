@@ -3,7 +3,6 @@
     <color name="colorPrimary">#f4a20a</color>
     <color name="hint">#ecf0f1</color>
     <color name="text_color">#000000
-
     </color>
     <color name="yellow">#f4a20a</color>
     <color name="black">#000000</color>
@@ -15,12 +14,10 @@
     <color name="QIBus_softui_colorPrimary">#7373ea</color>
     <color name="QIBus_softui_colorPrimaryDark">#7373ea</color>
     <color name="QIBus_softui_colorAccent">#7373ea</color>
-
-
     <color name="QIBus_softui_gray">#E2E2E2</color>
     <color name="QIBus_softui_rating">#FFC107</color>
-
     <color name="QIBus_softui_view_color">#DADADA</color>
+    <color name="PostTitle">#1B3B84</color>
 
 
 </resources>

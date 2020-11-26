@@ -10,6 +10,7 @@ public class PendingRequestPojo implements Serializable{
     private String ride_id;
     private String user_id;
     private String driver_id;
+    private String travel_id;
     private String pickup_adress;
     private String drop_address;
     private String pikup_location;
@@ -18,6 +19,7 @@ public class PendingRequestPojo implements Serializable{
     private String status;
     private String payment_status;
     private String amount;
+    private String date;
     private String time;
     private String user_mobile;
     private String user_avatar;
@@ -132,6 +134,13 @@ public class PendingRequestPojo implements Serializable{
     public void setDriver_id(String driver_id) {
         this.driver_id = driver_id;
     }
+    public String getTravel_id() {
+        return travel_id;
+    }
+
+    public void setTravel_id(String travel_id) {
+        this.travel_id = travel_id;
+    }
 
     public String getPickup_adress() {
         return pickup_adress;
@@ -195,6 +204,14 @@ public class PendingRequestPojo implements Serializable{
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTime() {

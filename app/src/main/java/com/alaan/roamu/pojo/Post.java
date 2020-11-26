@@ -11,6 +11,7 @@ public class Post implements Serializable{
     public String text;
     public String type;
     public String privacy;
+    public int travel_id;
 
     public Long timestamp;
 
@@ -18,7 +19,7 @@ public class Post implements Serializable{
     {
     }
 
-    public Post(String id, UserProfile author, String Text, Long timestamp,String type, String privacy)
+    public Post(String id, UserProfile author, String Text, Long timestamp,String type, String privacy, int travel_id)
     {
         this.id = id;
         this.author = author;
@@ -27,5 +28,6 @@ public class Post implements Serializable{
         this.timestamp = timestamp;
         this.type = type;
         this.privacy = privacy;
+        this.travel_id = travel_id;
     }
 }

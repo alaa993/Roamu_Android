@@ -1,30 +1,52 @@
 package com.alaan.roamu.acitivities;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.R;
+import com.alaan.roamu.fragement.HomeFragment;
+import com.alaan.roamu.fragement.PostFragment;
+import com.alaan.roamu.fragement.RequestFragment;
+import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.Post;
 
 import com.alaan.roamu.pojo.PostList;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import afu.org.checkerframework.checker.nullness.qual.NonNull;
+
+import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class platform extends Fragment {
 
@@ -39,6 +61,7 @@ public class platform extends Fragment {
 
     View view;
     ListView listViewPosts;
+    private FirebaseUser fUser;
 
 
     //a list to store all the artist from firebase database
@@ -92,24 +115,105 @@ public class platform extends Fragment {
                 //getting the selected artist
                 Post post = posts.get(i);
 
-                //creating an intent
-                Intent intent = new Intent(getActivity(), PostActivity.class);
-
-                //putting artist name and id to intent
-                intent.putExtra("Post_id", post.id);
-                intent.putExtra("request_type", "public");
-                //intent.putExtra(ARTIST_NAME, artist.getArtistName());
-
-                //starting the activity with intent
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putString("Post_id", post.id);
+                bundle.putString("request_type", "public");
+                Log.i("ibrahim from platform1", "-----------------");
+                PostFragment postfragment = new PostFragment();
+                Log.i("ibrahim from platform2", "-----------------");
+                postfragment.setArguments(bundle);
+                changeFragment(postfragment, "Requests");
             }
         });
+
+        listViewPosts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Post post = posts.get(i);
+                        //getting the selected artist
+                        if (post.author.uid.endsWith(fUser.getUid())) {
+                            android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(getActivity());
+                            View mView = getLayoutInflater().inflate(R.layout.dialog_update_post_layout, null);
+                            final EditText ET_DUOL = (EditText) mView.findViewById(R.id.ET_DUOL);
+                            ET_DUOL.setText(post.text);
+                            Button btnSubmit_DUOL = (Button) mView.findViewById(R.id.btnSubmit_DUOL);
+                            Button btnCancel_DUOL = (Button) mView.findViewById(R.id.btnCancel_DUOL);
+                            mBuilder.setView(mView);
+                            final AlertDialog dialog = mBuilder.create();
+                            dialog.show();
+                            btnSubmit_DUOL.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Log.i("ibrahim",post.id);
+                                    Log.i("ibrahim",ET_DUOL.getText().toString());
+                                    SavePost(ET_DUOL.getText().toString(), post.id);
+                                    dialog.dismiss();
+                                }
+                            });
+                            btnCancel_DUOL.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                }
+        );
+
 
         return view;
     }
 
+    public void SavePost(String post_text, String Post_id) {
+
+        Log.i("ibrahim",Post_id);
+        Log.i("ibrahim",post_text);
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("posts").child(Post_id).child("text");
+        databaseRef.setValue(post_text);
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String uid = user.getUid();
+//        DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
+//
+//        databaseRefID.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+////                log.i("tag","success by ibrahim");
+////                log.i("tag", UserName);
+//                // Firebase code here
+//
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//            }
+//        });
+    }
+
+    public void changeFragment(final Fragment fragment, final String fragmenttag) {
+
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                    drawer_close();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
+                    fragmentTransaction.commit();
+                    fragmentTransaction.addToBackStack(null);
+                }
+            }, 50);
+        } catch (Exception e) {
+
+        }
+    }
+
     public void BindView() {
         listViewPosts = (ListView) view.findViewById(R.id.listViewPosts);
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
     }
 
@@ -130,16 +234,15 @@ public class platform extends Fragment {
                     Post Post = postSnapshot.getValue(Post.class);
                     Post.id = postSnapshot.getKey();
                     //adding artist to the list
-                    Log.i("ibrahim",Post.privacy);
+                    Log.i("ibrahim", Post.privacy);
                     if (Post.privacy.contains("1")) {
                         posts.add(Post);
                     }
                 }
                 Collections.reverse(posts);
-                if(!posts.isEmpty()) {
+                if (!posts.isEmpty()) {
                     //creating adapter
                     PostList postAdapter = new PostList(getActivity(), posts);
-
                     //attaching adapter to the listview
                     postAdapter.notifyDataSetChanged();
                     listViewPosts.setAdapter(postAdapter);

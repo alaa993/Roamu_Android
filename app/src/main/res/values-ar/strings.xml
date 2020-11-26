@@ -77,8 +77,6 @@
 
     <string name="drop_location">"إلى"</string>
 
-    <string name="namee">"اسم"</string>
-
     <string name="drivername">"رقم السائق"</string>
 
 
@@ -113,7 +111,7 @@
 
     <string name="make_payment">"قم بالدفع"</string>
 
-    <string name="taxigo">"Texi"</string>
+    <string name="taxigo">roamu</string>
 
 
 
@@ -155,7 +153,7 @@
 
     <string name="mobile_number">"رقم الهاتف المحمول"</string>
     <string name="email">"البريد الإلكتروني"</string>
-    <string name="name">"اسم"</string>
+    <string name="name">الاسم</string>
     <string name="password">"كلمه السر"</string>
     <string name="confirm_password">"تأكيد كلمة المرور"</string>
     <string name="sign_up">"سجل"</string>
@@ -184,6 +182,8 @@
     <string name="pending_request">"الطلبات المعلقة"</string>
     <string name="cancelled_request">"الطلبات الملغات"</string>
     <string name="completed_request">"الطلبات المكتملة"</string>
+    <string name="requested_request">الطلبات المنتظرة</string>
+
     <string name="couldnt_get_location">"لا يمكن الحصول على موقعك"</string>
     <string name="profile_updated">"تحديث الملف الشخصي"</string>
     <string name="profile_uploaded">"الملف الشخصي تم الرفع"</string>
@@ -235,7 +235,7 @@
 يسعى التنقل التشاركي إلى تحقيق هدف رئيسي يرتبط بتوفير وسائط تنقل مريحة و متميزة ،  ليقلل الناس من استخدام مركباتهم الخاصة ، ما يسهم في خدمة البيئة و ذلك بالتقليل من التلوث ، و توفير وسائط تنقل جماعية بأسعار تنافسية ، و يسهم في التقليل من استهلاك المحروقات .
 أن اشاعة التنقل التشاركي وفق الاهداف التي ذكرناها أعلاه ، تدفع بجميع اطراف هذه الخدمة للحرص على التعاون و الارتقاء بالتنقل إلى درجات متميزة .
 "</string>
-    <string name="passenger_info">Passanger_info</string>
+    <string name="passenger_info">معلومات الرحلة</string>
     <string name="payment_hbeen_cancelled">paymnet cancelled</string>
     <string name="about_uss">عن التطبيق</string>
     <string name="pricvys">الأحكام العامة</string>
@@ -266,13 +266,15 @@
     <string name="post">إضافة</string>
     <string name="Post_Empty">من فضلك املأ النص!</string>
 
-    <string name="Travel_is_going_from">يسعدني السفر معكم من: </string>
+    <string name="Travel_is_going_from">يسعده السفر معكم</string>
+    <string name="Travel_from">من: </string>
     <string name="Travel_to">إلى: </string>
     <string name="Travel_on">بتاريخ: </string>
+    <string name="the_clock">الساعة: </string>
     <string name="CheckBox">إضافة إلى المنصة </string>
     <string name="travel_time">الوقت</string>
     <string name="Comments"><u>التعليقات</u></string>
-
+    <string name="CommentsNoSt">التعليقات</string>
     <string name="notification_0">اختاركم للسفر معكم</string>
     <string name="notification_1">اسم اليوزر اختاركم للسفر معكم</string>
     <string name="notification_2">سعيد بقبول طلبكم للسفر معه</string>
@@ -282,5 +284,33 @@
     <string name="notification_6">المستخدم دفع ثمن رحلتك للتو</string>
     <string name="notification_7">اختاركم للسفر معكم</string>
     <string name="notification_8">تم ارسال الطلب وسيصلكم التأكيد في أقرب وقت</string>
+    <string name="trip_detail">تفاصيل الرحلة</string>
+    <string name="about_driver">عن السائق</string>
+    <string name="my_requests">الطلبات الخاصة بي</string>
+    <string name="request_type">نوع الطلب</string>
+    <string name="nominate_a_driver">ترشيح قائد مركبة</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="Black_Sany">صني سوداء</string>
+    <string name="driver_city">مدينة السائق</string>
+    <string name="driver_country">بلد السائق</string>
+    <string name="driver_phone">هاتف السائق</string>
+    <string name="driver_vehicle">مركبة السائق</string>
+    <string name="description">التفاصيل</string>
+    <string name="send">إرسال</string>
+    <string name="profit">نجاح و أرباح</string>
+    <string name="profit_str">
+        لن يكون النجاح بعيدا عنك، الذي يعني تحقيق المزيد من الأرباح، وسندون هنا مجموعة نقاط التي تمثل مفتاح النجاح والطريق المؤدي إلى جني الأرباح.\n
+أولا- احرص للحصول على تقييم متقدم من قبل زبائنك، فهو وسيلتك الإعلانية الافضل لجذب الزبائن.\n
+ثانيا- الحرص على حصول تقييم الزبائن للاجرة التي تتقاضاها من الزبائن و أن تكون معقولة، ما يضعك في منافسة حقيقية مع الاخرين. " نحن التطبيق الرائد في استخدام تقييم خاص بالاجرة".\n
+ثالثا- راقب باستمرار عدد الرحلات التي استخدمت فيها التطبيق وعدد الذين تنقلوا معك، هذا وحده يعطي ثقة كبيرة للاخرين. تذكر دائما أن المسافر يدقق في معلومات ملفك قبل السفر معك.\n
+رابعا- أن مراعاة ما يرغب به المسافرون الواجهة الحضارية لجذب الكثيرين، احرص على ذلك.\n
+يتحقق النجاح من خلال المعلومات التي يعرضها التطبيق في حسابك امام الجمهور .
+تذكر باستمرار مقولة
+النجاح بوابة الأرباح
+    </string>
+    <string name="update_post">تعديل المنشور</string>
+    <string name="nofifications">الإشعارات</string>
+    <string name="city">المدينة</string>
+    <string name="share_application">مشاركة التطبيق</string>
 
 </resources>

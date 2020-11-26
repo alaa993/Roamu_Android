@@ -23,9 +23,9 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden|adjustResize"
         tools:replace="android:icon">
+        <activity android:name=".acitivities.Requst_ride"></activity>
+        <activity android:name=".acitivities.AddPostActivity" />
 
-        <activity android:name=".acitivities.AddPostActivity"></activity>
-        <activity android:name=".PostActivity" />
         <activity android:name=".acitivities.List_provider" />
 
         <meta-data

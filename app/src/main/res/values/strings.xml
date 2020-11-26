@@ -41,11 +41,10 @@
     <string name="ride_request_cancellation">RIDE UPDATE</string>
     <string name="FROM">FROM</string>
 
-    <string name="DRIVERNAME">DRIVER NAME</string>
+    <string name="DRIVERNAME">Driver Name</string>
 
     <string name="pickup_location">"From"</string>
     <string name="drop_location">"To"</string>
-    <string name="namee">"Name"</string>
     <string name="drivername">"Driver Number"</string>
 
     <string name="mobile_numberr">"Mobile Number       "</string>
@@ -63,7 +62,7 @@
     <string name="new_pwd">new password</string>
     <string name="INVALID_DISTANCE">INVALID DISTANCE</string>
     <string name="make_payment">Make Payment</string>
-    <string name="taxigo">TexiGO</string>
+    <string name="taxigo">roamu</string>
 
     <string name="fare">"Fare       "</string>
     <string name="vehicle_name">"Vehicle Name       "</string>
@@ -91,7 +90,7 @@
     <string name="English">English</string>
     <string name="arabic">Arabic</string>
     <string name="lang">Language</string>
-    <string name="platform" translatable="false">Social Media Platform</string>
+    <string name="platform">Social Media Platform</string>
 
 
     //////////////
@@ -127,6 +126,7 @@
     <string name="pending_request">Pending Request</string>
     <string name="cancelled_request">Cancelled Request</string>
     <string name="completed_request">Completed Request</string>
+    <string name="requested_request">Waited Request</string>
     <string name="couldnt_get_location">couldn\'t get your location</string>
     <string name="profile_updated">Profile Updated</string>
 
@@ -162,9 +162,10 @@
     <string name="applycoupon">Apply coupon</string>
     <string name="promocodes">Discount</string>
     <string name="cancel">Cancel</string>
-    <string name="about_us"><![CDATA["about the application The application works in the field of participatory mobility, with a pioneering feature in this type of transportation, as we gave both the owner of the means of transportation and the user the opportunity to reserve with the other freely, and when the traveler wants to go to an area within his city or to another city looking for available means of transportation At the appropriate time for him, and he chooses what he deems appropriate for his trip from among the available cars, and the driver is free to agree or apologize after seeing the traveler’s profile.  The driver searches for those who wish to travel at the time he leaves and the scheduled destination, and chooses the suitable travelers to travel with him, and the final approval of the traveler himself will be after reviewing the driver's file and its evaluation by others. The evaluation in the application is not limited to the vehicle and the performance of the driver only, but we have added an evaluation of the fare determined by the car owner, and our aim was to provide the best prices and outstanding service to travelers with the application. The passenger shall be aware, before booking, of the vehicle specifications  and the number of bags allowed And if smoking is allowed  During the trip or not. "]]></string>
+    <string name="about_us"><![CDATA["About the application\\n
+    The application works in the field of participatory mobility, with a pioneering feature in this type of transportation, as we gave both the owner of the means of transportation and the user the opportunity to reserve with the other freely, and when the traveler wants to go to an area within his city or to another city looking for available means of transportation At the appropriate time for him, and he chooses what he deems appropriate for his trip from among the available cars, and the driver is free to agree or apologize after seeing the traveler’s profile.  The driver searches for those who wish to travel at the time he leaves and the scheduled destination, and chooses the suitable travelers to travel with him, and the final approval of the traveler himself will be after reviewing the driver's file and its evaluation by others. The evaluation in the application is not limited to the vehicle and the performance of the driver only, but we have added an evaluation of the fare determined by the car owner, and our aim was to provide the best prices and outstanding service to travelers with the application. The passenger shall be aware, before booking, of the vehicle specifications  and the number of bags allowed And if smoking is allowed  During the trip or not. "]]></string>
     <string name="pricvy">"General provisions By general provisions, we mean services related to both users and car owners. We are keen to clarify the nature of the service provided, which is in line with the requirements of participatory transportation recognized in the countries of the world, and as much as we are keen to provide advanced and integrated services, we confirm that achieving this goal requires full cooperation by car owners and users at the same time, and All parties must believe that everyone is a partner in this service, and that its success depends on the type and nature of cooperation, and that achieving the set of goals that we want to achieve will not be achieved without understanding the nature of our work, the depth of the goals, their importance and the need to develop these services. Participatory mobility seeks to achieve a major goal related to providing comfortable and distinct means of transportation, to reduce people from using their own vehicles, which contributes to serving the environment by reducing pollution, and providing mass transportation means at competitive prices, and contributes to reducing fuel consumption. The rumor of participatory mobility, according to the goals that we mentioned above, pushes all parties to this service to ensure cooperation and advance mobility to distinct levels. "</string>
-    <string name="passenger_info">Passanger_info</string>
+    <string name="passenger_info">Passanger info</string>
     <string name="payment_hbeen_cancelled">paymnet cancelled</string>
     <string name="about_uss">About US</string>
     <string name="pricvys">privacy</string>
@@ -173,10 +174,11 @@
     <string name="passenger_one">1 Passenger</string>
     <string name="find_travel">Find Car</string>
     <string name="add_travel">Save</string>
-    <string name="privacy_menu">Privacy And Policy</string>
+    <string name="privacy_menu">General Provisions</string>
     <string name="carConditon">Fare Rate</string>
     <string name="Black_Sany">Black_sany_car_ui</string>
     <string name="reseve">RESERVE</string>
+
 
     <!-- Strings used for fragments for navigation -->
 
@@ -195,12 +197,15 @@
     <string name="add">Add</string>
     <string name="post">ADD</string>
 
-    <string name="Travel_is_going_from"> happy to travel with you from: </string>
+    <string name="Travel_is_going_from">is happy to travel with you</string>
+    <string name="Travel_from">From: </string>
     <string name="Travel_to">To: </string>
     <string name="Travel_on">On: </string>
+    <string name="the_clock">The Clock: </string>
     <string name="CheckBox">Add To Platform </string>
     <string name="travel_time">Time</string>
     <string name="Comments"><u>Comments</u></string>
+    <string name="CommentsNoSt">Comments</string>
     <!--    <string name="cancel">Cancel</string>-->
 
     <string name="notification_0">Choose you to travel with you</string>
@@ -212,5 +217,28 @@
     <string name="notification_6">User just paid for your ride</string>
     <string name="notification_7">Choose you to travel with you</string>
     <string name="notification_8">The request has been sent and you will receive confirmation as soon as possible</string>
+    <string name="trip_detail">Trip Detail</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="about_driver">About Driver</string>
+    <string name="my_requests">My Requests</string>
+    <string name="request_type">Request Type</string>
+    <string name="nominate_a_driver">Nominate a Driver</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="driver_city">Driver City</string>
+    <string name="driver_country">Driver Country</string>
+    <string name="driver_phone">Driver Phone</string>
+    <string name="driver_vehicle">Driver Vehicle</string>
+    <string name="description">Description</string>
+    <string name="send">Send</string>
+    <string name="profit">Success and Profit</string>
+    <string name="profit_str">The application depends on its dealings with drivers and users with very high flexibility, and we proceed from our firm conviction, which says that we are all partners in this project, which falls under the concept of participatory mobility, and the role of the application management is limited to technical service and development and the fix of any defect and oversight on Type and accuracy of service.
 
+The car owner and the customer participate in the management of mobility services, and the success of each of them is related to commitment, accuracy and cultural interaction. We do not ask the user a lot, we want the accurate information that makes accessing him while ordering the navigation service easy and accurate.
+
+But the owner of the car will have to check the car documents before agreeing to his request to join our fleet of vehicles, and in the event that the factors for joining him are not fully available he will receive an official apology.</string>
+    <string name="update_post">Update Post</string>
+    <string name="nofifications">Nofifications</string>
+    <string name="city">City</string>
+    <string name="share_application">Share Application</string>
 </resources>

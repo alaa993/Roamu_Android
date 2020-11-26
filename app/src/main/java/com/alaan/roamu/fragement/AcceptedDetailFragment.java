@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alaan.roamu.pojo.Pass;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -87,6 +89,8 @@ import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.loopj.android.http.AsyncHttpClient.log;
 
 /**
  * Created by android on 14/3/17.
@@ -351,7 +355,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_cancel), "CANCELLED");
             }
         });
@@ -361,7 +364,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_accept), "COMPLETED");
+                        //AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_accept), "COMPLETED");
                         dialog = new Dialog(getContext());
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.ratingdialog);
@@ -370,8 +373,29 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                         Button submitBtn = (Button)dialog.findViewById(R.id.submitRateBtn);
                         Button cancelBtn = (Button)dialog.findViewById(R.id.cancelRateBtn);
                         RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingsBar);
-                        titleTV.setText("Rate "+title);
+                        RatingBar fare_rating = (RatingBar)dialog.findViewById(R.id.fare_rating);
                         dialog.show();
+                        submitBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
+                                Log.i("ibrahim",String.valueOf(fare_rating.getRating()));
+                                Log.i("ibrahim getDriver_id",pojo.getDriver_id());
+                                Log.i("ibrahim getUser_id",pojo.getUser_id());
+                                Log.i("ibrahim getTravel_id",pojo.getTravel_id());
+                                sendRating(ratingBar.getRating() * 2 , fare_rating.getRating() * 2);
+                                Log.i("ibrahim","complete");
+                                dialog.cancel();
+                            }
+                        });
+                        cancelBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.i("ibrahim","cancel");
+                                dialog.cancel();
+                            }
+                        });
+
                     }
                 });
     }
@@ -465,7 +489,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 sendStatus(pojo.getRide_id(), status);
-
             }
         });
 
@@ -541,6 +564,69 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onFinish() {
                 super.onFinish();
+                if (getActivity() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
+
+    }
+
+    public void sendRating(float DriverRatingST, float FareRatingST) {
+
+        RequestParams params = new RequestParams();
+        params.put("driver_id", pojo.getDriver_id());
+        params.put("user_id", pojo.getUser_id());
+        params.put("travel_id", pojo.getTravel_id());
+        params.put("driver_rate", DriverRatingST);
+        params.put("travel_rate", FareRatingST);
+
+
+        Server.setHeader(SessionManager.getKEY());
+        Server.setContetntType();
+        Server.post("api/user/addRating", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+//                Log.i("ibrahim",response.toString());
+//                try {
+//                    if (response.has("status") && response.getString("status").equals("success")) {
+////                        sendStatus(pojo.getRide_id(), "COMPLETED");
+//                        //Log.i("ibrahim","complete travel");
+//                    } else {
+//                        //String error = response.getString("data");
+//                        //Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+//                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+//                Toast.makeText(getActivity(), getString(R.string.try_again), Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+                Log.i("ibrahim","Failure");
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                Log.i("ibrahim","onFinish");
+                sendStatus(pojo.getRide_id(), "COMPLETED");
                 if (getActivity() != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -907,3 +993,5 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         return 0;
     }
 }
+
+//sendStatus(pojo.getRide_id(), status);
