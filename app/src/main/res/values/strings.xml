@@ -73,7 +73,7 @@
 
 
     <string-array name="payment_mode">
-        <item>Cash on hand [to driver]</item>
+        <item>Pay now [to driver]</item>
         <item>pay via Paypal</item>
     </string-array>
 
@@ -241,4 +241,5 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="nofifications">Nofifications</string>
     <string name="city">City</string>
     <string name="share_application">Share Application</string>
+    <string name="All_travel">-ِAll-</string>
 </resources>

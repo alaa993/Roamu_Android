@@ -48,7 +48,7 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
     String key = "";
     String[] status_arr;
 
-    String[] status_val_arr = {"PENDING", "ACCEPTED", "COMPLETED", "CANCELLED", "REQUESTED"};
+    String[] status_val_arr = {"All","PENDING", "ACCEPTED", "COMPLETED", "CANCELLED", "REQUESTED"};
     TextView txt_error;
     String status;
 
@@ -63,7 +63,7 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
     }
 
     public void bindView() {
-        status_arr = new String[]{
+        status_arr = new String[]{getString(R.string.All_travel),
                 getString(R.string.pending_request), getString(R.string.accepted_request),
                 getString(R.string.completed_request), getString(R.string.cancelled_request),
                 getString(R.string.requested_request)};
@@ -73,6 +73,7 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
         Spinner droplist = (Spinner) view.findViewById(R.id.arf_simpleSpinner);
         droplist.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         ArrayAdapter data = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, status_arr);
+
         droplist.setAdapter(data);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -177,6 +178,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
                 break;
             case "REQUESTED":
                 title = getString(R.string.requested_request);
+                break;
+            case "All":
+                title = getString(R.string.All_travel);
                 break;
 
         }

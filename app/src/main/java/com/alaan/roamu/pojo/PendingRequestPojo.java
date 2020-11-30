@@ -30,6 +30,15 @@ public class PendingRequestPojo implements Serializable{
     private String somked;
 
     private String booked_set;
+    private String empty_set;
+
+    public String getempty_set() {
+        return empty_set;
+    }
+
+    public void setempty_set(String empty_set) {
+        this.empty_set = empty_set;
+    }
 
     public String getSomked() {
         return somked;

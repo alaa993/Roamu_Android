@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alaan.roamu.pojo.Pass;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -46,6 +48,9 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -104,7 +109,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     AppCompatButton btn_cancel, btn_payment, btn_complete;
     LinearLayout linearChat;
     ImageView call_phone;
-    TextView title, drivername, mobilenumber, pickup_location, drop_location, fare, payment_status;
+    TextView title, drivername, pickup_location, drop_location, fare, payment_status;
     private AlertDialog alert;
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -119,6 +124,41 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Dialog dialog;
+
+
+
+    AppCompatButton confirm, cancel,mobilenumber;
+
+    Double finalfare;
+    Place pickup, drop, s_drop, s_pic;
+
+    com.google.android.gms.maps.MapView mapView;
+
+    GoogleMap myMap;
+
+    private LatLng origin;
+    private LatLng destination;
+    private String networkAvailable;
+    private String tryAgain;
+    private String directionRequest;
+    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+    TextView txt_Driver_name,txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare,num_set;
+    private ImageView DriverAvatar;
+    private ImageView DriverCar;
+    EditText cobun_num;
+    //ElegantNumberButton num_set;
+    String driver_id;
+    String travel_id;
+    private String user_id;
+    private String pickup_address, drop_address, dateandtime_val, time_val;
+    String distance;
+
+    Pass pass;
+    PendingRequestPojo pass1;
+    TextView calculateFare;
+    Snackbar snackbar;
+    Button btn_cobo;
+    TableRow rating, car, fare_rating;
 
 
     @Nullable
@@ -154,35 +194,92 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void BindView() {
+        mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.mapview);
+        calculateFare = (TextView) view.findViewById(R.id.txt_calfare);
+        confirm = (AppCompatButton) view.findViewById(R.id.btn_confirm);
+        cancel = (AppCompatButton) view.findViewById(R.id.btn_cancel);
+        mobilenumber= (AppCompatButton) view.findViewById(R.id.mobilenumber);
+        pickup_location = (TextView) view.findViewById(R.id.txt_pickup);
+        drop_location = (TextView) view.findViewById(R.id.txt_drop);
+        textView1 = (TextView) view.findViewById(R.id.textView1);
+        textView2 = (TextView) view.findViewById(R.id.textView2);
+        rating = (TableRow) view.findViewById(R.id.car_rating);
+        car = (TableRow) view.findViewById(R.id.car_image);
+        fare_rating = (TableRow) view.findViewById(R.id.fare_rating);
+        textView3 = (TextView) view.findViewById(R.id.textView3);
+        car_name = (TextView) view.findViewById(R.id.car_name);
+        textView4 = (TextView) view.findViewById(R.id.textView4);
+
+        num_set = (TextView) view.findViewById(R.id.num_set);
+        txt_fare = (TextView) view.findViewById(R.id.txt_fare);
+        btn_cobo = (Button) view.findViewById(R.id.btn_cobo);
+        cobun_num = (EditText) view.findViewById(R.id.cobun_num);
+        fianl_fare = (TextView) view.findViewById(R.id.fianl_fare);
+        dateandtime = (TextView) view.findViewById(R.id.dateTimeVal);
+        TimeVal = (TextView) view.findViewById(R.id.TimeVal);
+        txt_bag = (TextView) view.findViewById(R.id.bag_val);
+        txt_smoke = (TextView) view.findViewById(R.id.smoke_val);
+        textView5 = (TextView) view.findViewById(R.id.textView5);
+        textView6 = (TextView) view.findViewById(R.id.textView6);
+        textView7 = (TextView) view.findViewById(R.id.textView7);
+        textView8 = (TextView) view.findViewById(R.id.textView8);
+        textView9 = (TextView) view.findViewById(R.id.textView9);
+        textView10 = (TextView) view.findViewById(R.id.textView10);
+        txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
+        txt_name = (TextView) view.findViewById(R.id.txt_name);
+        txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
+        txt_city = (TextView) view.findViewById(R.id.txt_city);
+        txt_Empty_Seats = (TextView) view.findViewById(R.id.txt_Empty_Seats);
+        txt_DriverRate = (TextView) view.findViewById(R.id.txt_DriverRate);
+        txt_TravelsCount = (TextView) view.findViewById(R.id.txt_TravelsCount);
+        txt_PickupPoint = (TextView) view.findViewById(R.id.txt_PickupPoint);
+        txt_number = (TextView) view.findViewById(R.id.txt_number);
+        txt_vehiclename = (TextView) view.findViewById(R.id.txt_vehiclename);
+        title = (TextView) view.findViewById(R.id.title);
+
+        DriverAvatar = (ImageView) view.findViewById(R.id.DriverImage);
+        DriverCar = (ImageView) view.findViewById(R.id.carImage);
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+
         btn_complete = (AppCompatButton) view.findViewById(R.id.btn_complete);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        mobilenumber_row = (TableRow) view.findViewById(R.id.mobilenumber_row);
-        linearChat = (LinearLayout) view.findViewById(R.id.linear_chat);
+       // mobilenumber_row = (TableRow) view.findViewById(R.id.mobilenumber_row);
+
+
+       // linearChat = (LinearLayout) view.findViewById(R.id.linear_chat);
         title = (TextView) view.findViewById(R.id.title);
-        call_phone = (ImageView)view.findViewById(R.id.call_phone);
-        drivername = (TextView) view.findViewById(R.id.driver_name);
-        mobilenumber = (TextView) view.findViewById(R.id.txt_mobilenumber);
-        pickup_location = (TextView) view.findViewById(R.id.txt_pickuplocation);
-        drop_location = (TextView) view.findViewById(R.id.txt_droplocation);
-        fare = (TextView) view.findViewById(R.id.txt_basefare);
+        //call_phone = (ImageView)view.findViewById(R.id.call_phone);
+        drivername = (TextView) view.findViewById(R.id.Driver_name);
+
         trackRide = (AppCompatButton) view.findViewById(R.id.btn_trackride);
         btn_payment = (AppCompatButton) view.findViewById(R.id.btn_payment);
         btn_cancel = (AppCompatButton) view.findViewById(R.id.btn_cancel);
-        payment_status = (TextView) view.findViewById(R.id.txt_paymentstatus);
+
         pickup_location.setSelected(true);
         drop_location.setSelected(true);
 
+
         Bundle bundle = getArguments();
+        //pass = new Pass();
         if (bundle != null) {
+           // pass = (Pass) bundle.getSerializable("data");
             pojo = (PendingRequestPojo) bundle.getSerializable("data");
             title.setText(getString(R.string.taxi));
             pickup_location.setText(pojo.getPickup_adress() + " ");
             drop_location.setText(pojo.getDrop_address());
             drivername.setText(pojo.getDriver_name());
-            fare.setText(pojo.getAmount() + " " + SessionManager.getUnit());
+          //  fare.setText(pojo.getAmount() + " " + SessionManager.getUnit());
             mobilenumber.setText(pojo.getDriver_mobile());
             mobile = pojo.getDriver_mobile();
-            call_phone.setOnClickListener(new View.OnClickListener() {
+            TimeVal.setText(pojo.getTime());
+            dateandtime.setText(pojo.getDate());
+            txt_Empty_Seats.setText(pojo.getempty_set());
+            num_set.setText(pojo.getBooked_set());
+
+
+            mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
@@ -218,7 +315,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 btn_cancel.setVisibility(View.GONE);
                 btn_payment.setVisibility(View.GONE);
                 trackRide.setVisibility(View.GONE);
-                payment_status.setText(pojo.getPayment_status());
+//                payment_status.setText(pojo.getPayment_status());
 
             }
             if (pojo.getStatus().equalsIgnoreCase("COMPLETED")) {
@@ -226,7 +323,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-                payment_status.setText(pojo.getPayment_status());
+             //   payment_status.setText(pojo.getPayment_status());
 
             }
             if (pojo.getStatus().equalsIgnoreCase("ACCEPTED")) {
@@ -240,7 +337,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 } else {
                     btn_complete.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.VISIBLE);
-                    mobilenumber_row.setVisibility(View.VISIBLE);
+//                    mobilenumber_row.setVisibility(View.VISIBLE);
 
                 }
                 if (!pojo.getPayment_status().equals("PAID") && pojo.getPayment_mode().equals("OFFLINE")) {
@@ -253,17 +350,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             }
 
             if (pojo.getPayment_status().equals("") && pojo.getPayment_mode().equals("")) {
-                payment_status.setText(getString(R.string.unpaid));
+              //  payment_status.setText(getString(R.string.unpaid));
 
             } else {
-                payment_status.setText(pojo.getPayment_status());
+                //payment_status.setText(pojo.getPayment_status());
 
             }
             if (!pojo.getPayment_status().equals("PAID") && pojo.getPayment_mode().equals("OFFLINE")) {
-                payment_status.setText(R.string.cash_on_hand);
+               // payment_status.setText(R.string.cash_on_hand);
 
             } else {
-                payment_status.setText(pojo.getPayment_status());
+               // payment_status.setText(pojo.getPayment_status());
             }
         }
 

@@ -442,7 +442,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
         switchCompat = (SwitchCompat) navigationView.getHeaderView(0).findViewById(R.id.online);
         avatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile);
-        linearLayout = (LinearLayout) navigationView.getHeaderView(0).findViewById(R.id.linear);
+        //linearLayout = (LinearLayout) navigationView.getHeaderView(0).findViewById(R.id.linear);
         is_online = (TextView) navigationView.getHeaderView(0).findViewById(R.id.is_online);
         username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.txt_name);
         TextView version = (TextView) navigationView.getHeaderView(0).findViewById(R.id.version);

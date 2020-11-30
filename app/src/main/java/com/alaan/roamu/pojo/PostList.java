@@ -138,7 +138,7 @@ public class PostList extends ArrayAdapter<Post> {
 
         TripDetail.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                NeaBy("10");
+                NeaBy("349");
             }
         });
 

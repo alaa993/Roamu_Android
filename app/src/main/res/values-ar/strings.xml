@@ -3,7 +3,7 @@
 <resources>
 
 
-    <string name="request_ride">"طلب ركوب"</string>
+    <string name="request_ride">"طلب رحلة"</string>
 
     <string name="merchant_privacy">"https://www.example.com/privacy"</string>
 
@@ -120,16 +120,16 @@
     <string name="vehicle_name">"اسم السيارة"</string>
 
 
-    <string name="Track_Driver">"سائق المسار"</string>
+    <string name="Track_Driver">"سائق السيارة"</string>
 
-    <string name="Track_Ride">"مسار الركوب"</string>
+    <string name="Track_Ride">"مسار الرحلة"</string>
 
     <string name="exit">close</string>
 
 
     <string-array name="payment_mode">
-        <item>Cash on hand [to driver]</item>
-        <item>pay via Paypal</item>
+        <item>ادفع الأن</item>
+        <item>دفع الكتروني</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -178,7 +178,7 @@
     <string name="accepted_request">"الطلبات المقبولة"</string>
     <string name="ok">"حسنا"</string>
     <string name="track_ride">"مسار الركوب"</string>
-    <string name="taxi">"سيارة اجره"</string>
+    <string name="taxi">"Roamu"</string>
     <string name="pending_request">"الطلبات المعلقة"</string>
     <string name="cancelled_request">"الطلبات الملغات"</string>
     <string name="completed_request">"الطلبات المكتملة"</string>
@@ -190,8 +190,8 @@
     <string name="change">"يتغيرون"</string>
     <string name="newpwd_required">"كلمة المرور الجديدة مطلوبة"</string>
     <string name="password_updated">"تم تحديث كلمة السر"</string>
-    <string name="complete_ride">"ركوب كامل"</string>
-    <string name="cancel_ride">"إلغاء ركوب"</string>
+    <string name="complete_ride">"انتهاء الرحلة"</string>
+    <string name="cancel_ride">"إلغاء الرحلة"</string>
     <string name="basefare">"الاجرة الاساسية"</string>
     <string name="invalid_location">"موقع غير صالح"</string>
 
@@ -286,7 +286,7 @@
     <string name="notification_8">تم ارسال الطلب وسيصلكم التأكيد في أقرب وقت</string>
     <string name="trip_detail">تفاصيل الرحلة</string>
     <string name="about_driver">عن السائق</string>
-    <string name="my_requests">الطلبات الخاصة بي</string>
+    <string name="my_requests">رحلاتي</string>
     <string name="request_type">نوع الطلب</string>
     <string name="nominate_a_driver">ترشيح قائد مركبة</string>
     <string name="contact_us">اتصل بنا</string>
@@ -312,5 +312,6 @@
     <string name="nofifications">الإشعارات</string>
     <string name="city">المدينة</string>
     <string name="share_application">مشاركة التطبيق</string>
+    <string name="All_travel">كل الرحلات</string>
 
 </resources>

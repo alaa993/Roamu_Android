@@ -51,6 +51,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
 //            String shortTimedate = date.format(fullDate);
         holder.time.setText(pojo.getTime());
         holder.date.setText(pojo.getDate());
+        holder.status.setText(pojo.getStatus());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +85,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     public class Holder extends RecyclerView.ViewHolder {
 
 
-        TextView  drivername, from_add, to_add, date, time;
+        TextView  drivername, from_add, to_add, date, time,status;
         TextView f, t, dn, dt;
 
         public Holder(View itemView) {
@@ -102,6 +103,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
             to_add = (TextView) itemView.findViewById(R.id.txt_to_add);
             date = (TextView) itemView.findViewById(R.id.date);
             time = (TextView) itemView.findViewById(R.id.time);
+            status =(TextView) itemView.findViewById(R.id.Statuss);
         }
     }
 
