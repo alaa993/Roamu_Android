@@ -1,6 +1,7 @@
 package com.alaan.roamu.adapter;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alaan.roamu.R;
+import com.alaan.roamu.Server.Server;
+import com.alaan.roamu.acitivities.HomeActivity;
+import com.alaan.roamu.fragement.AcceptedDetailFragment;
 import com.alaan.roamu.pojo.Notification;
 import com.alaan.roamu.pojo.Pass;
+import com.alaan.roamu.pojo.PendingRequestPojo;
 import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.pojo.PostList;
+import com.alaan.roamu.session.SessionManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +30,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class NotificationAdapter extends ArrayAdapter<Notification> {
+import cz.msebera.android.httpclient.Header;
 
+public class NotificationAdapter extends ArrayAdapter<Notification> {
     private FragmentActivity context;
     List<Notification> notifications;
     Pass pass;
@@ -75,8 +90,40 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                 // Getting Post failed, log a message
             }
         });
-
+        listViewItem.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                GetRides(String.valueOf(notification.ride_id));
+            }
+        });
 
         return listViewItem;
+    }
+
+    private void GetRides(String ride_id) {
+        RequestParams params = new RequestParams();
+        params.put("ride_id", ride_id);
+        Server.setHeader(SessionManager.getKEY());
+        Server.get(Server.GET_SPECIFIC_RIDE, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.e("success", response.toString());
+                try {
+                    Gson gson = new GsonBuilder().create();
+                    List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
+                    }.getType());
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", list.get(0));
+                    AcceptedDetailFragment detailFragment = new AcceptedDetailFragment();
+                    detailFragment.setArguments(bundle);
+
+                    ((HomeActivity) getContext()).changeFragment(detailFragment, "Passenger Information");
+
+                } catch (JSONException e) {
+                    Log.e("Get Data", e.getMessage());
+                }
+            }
+        });
     }
 }

@@ -92,7 +92,9 @@ public class PostList extends ArrayAdapter<Post> {
             textViewName.setText(post.author.username);
             textViewText.setText(post.text);
         }
-        if (post.type.contains("1") && post.travel_id > 0)
+        //type = 0 => driver
+        //type = 1 => user
+        if (post.type.contains("0") && post.travel_id > 0)
         {
             TripDetail.setVisibility(View.VISIBLE);
         }
@@ -138,7 +140,7 @@ public class PostList extends ArrayAdapter<Post> {
 
         TripDetail.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                NeaBy("349");
+                NeaBy(String.valueOf(post.travel_id));
             }
         });
 
@@ -176,7 +178,7 @@ public class PostList extends ArrayAdapter<Post> {
                         pass.setTravelId(nearbyData.getTravel_id());
                         pass.setFare(nearbyData.getAmount());
                         pass.setDriverName(nearbyData.getName());
-                        pass.setSmoke(nearbyData.getSomked());
+                        pass.setSmoke(nearbyData.getsmoked());
                         pass.setDate(nearbyData.getTravel_date());
                         pass.setTime(nearbyData.getTravel_time());
                         pass.setAvalibleset(nearbyData.getBooked_set());

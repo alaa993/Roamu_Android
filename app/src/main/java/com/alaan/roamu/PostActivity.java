@@ -137,7 +137,7 @@ public class PostActivity extends Fragment {
         TripDetail.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("ibrahim was here1","-----------------------------");
-                NeaBy("10");
+//                NeaBy("10");
             }
         });
 
@@ -184,7 +184,7 @@ public class PostActivity extends Fragment {
 /////////
                         pass.setFare(nearbyData.getAmount());
                         pass.setDriverName(nearbyData.getName());
-//                        pass.setSmoke(nearbyData.getSomked());
+//                        pass.setSmoke(nearbyData.getsmoked());
                         pass.setDate(nearbyData.getTravel_date());
                         pass.setTime(nearbyData.getTravel_time());
                         pass.setAvalibleset(nearbyData.getBooked_set());
@@ -260,6 +260,8 @@ public class PostActivity extends Fragment {
                     userObject.put("author", author);
                     userObject.put("text", inputEditComment.getText().toString());
                     userObject.put("timestamp", ServerValue.TIMESTAMP);
+                    //type = 0 => driver
+                    //type = 1 => user
                     userObject.put("type", "1");
                     databaseRef.setValue(userObject);
                     inputEditComment.getText().clear();
@@ -274,6 +276,8 @@ public class PostActivity extends Fragment {
                     userObject.put("author", author);
                     userObject.put("text", inputEditComment.getText().toString());
                     userObject.put("timestamp", ServerValue.TIMESTAMP);
+                    //type = 0 => driver
+                    //type = 1 => user
                     userObject.put("type", "1");
                     databaseRef.setValue(userObject);
                     inputEditComment.getText().clear();

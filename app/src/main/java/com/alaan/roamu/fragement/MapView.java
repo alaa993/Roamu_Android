@@ -259,14 +259,14 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
         try {
             if (bundle != null) {
                 pojo = (PendingRequestPojo) bundle.getSerializable("data");
-                pickup_location = pojo.getPikup_location();
-                drop_location = pojo.getDrop_locatoin();
+                pickup_location = pojo.getpickup_location();
+                drop_location = pojo.getdrop_location();
 
                 try {
-                    String[] latlong = pojo.getPikup_location().split(",");
+                    String[] latlong = pojo.getpickup_location().split(",");
                     double latitude = Double.parseDouble(latlong[0]);
                     double longitude = Double.parseDouble(latlong[1]);
-                    String[] latlong1 = pojo.getDrop_locatoin().split(",");
+                    String[] latlong1 = pojo.getdrop_location().split(",");
                     double latitude1 = Double.parseDouble(latlong1[0]);
                     double longitude1 = Double.parseDouble(latlong1[1]);
 

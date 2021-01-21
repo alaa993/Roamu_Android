@@ -20,6 +20,7 @@
     <string name="payment_update">Payment Updated</string>
     <string name="ride_request_completed">ride request completed</string>
     <string name="ride_request_cancelled">ride request cancelled</string>
+    <string name="ride_request_accepted">ride request accepted</string>
 
 
     <string name="old_pws_is_required">old password is required</string>
@@ -61,7 +62,7 @@
 
     <string name="new_pwd">new password</string>
     <string name="INVALID_DISTANCE">INVALID DISTANCE</string>
-    <string name="make_payment">Make Payment</string>
+    <string name="make_payment">Payment Options</string>
     <string name="taxigo">roamu</string>
 
     <string name="fare">"Fare       "</string>
@@ -73,8 +74,8 @@
 
 
     <string-array name="payment_mode">
-        <item>Pay now [to driver]</item>
-        <item>pay via Paypal</item>
+        <item>Pay Cash</item>
+        <item>E-Payment</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -126,7 +127,8 @@
     <string name="pending_request">Pending Request</string>
     <string name="cancelled_request">Cancelled Request</string>
     <string name="completed_request">Completed Request</string>
-    <string name="requested_request">Waited Request</string>
+    <string name="requested_request">Requested Request</string>
+    <string name="waited_request">Waited Request</string>
     <string name="couldnt_get_location">couldn\'t get your location</string>
     <string name="profile_updated">Profile Updated</string>
 
@@ -221,7 +223,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="about_driver">About Driver</string>
-    <string name="my_requests">My Requests</string>
+    <string name="my_requests">My Travels</string>
     <string name="request_type">Request Type</string>
     <string name="nominate_a_driver">Nominate a Driver</string>
     <string name="contact_us">Contact Us</string>
@@ -238,8 +240,10 @@ The car owner and the customer participate in the management of mobility service
 
 But the owner of the car will have to check the car documents before agreeing to his request to join our fleet of vehicles, and in the event that the factors for joining him are not fully available he will receive an official apology.</string>
     <string name="update_post">Update Post</string>
-    <string name="nofifications">Nofifications</string>
+    <string name="notifications">Notifications</string>
     <string name="city">City</string>
     <string name="share_application">Share Application</string>
     <string name="All_travel">-ِAll-</string>
+    <string name="my_accepted_travels">My Accepted Travels</string>
+    <string name="no_status">No Status</string>
 </resources>

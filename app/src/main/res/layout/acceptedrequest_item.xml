@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="176dp"
         android:layout_margin="1dp"
-        app:cardBackgroundColor="@color/black"
+        app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="1dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
@@ -262,9 +262,8 @@
                 </LinearLayout>
 
 
-
-
             </RelativeLayout>
+
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
@@ -282,7 +281,6 @@
                 android:weightSum="0">
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -294,14 +292,11 @@
                         android:id="@+id/Statuss"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pandding"
+                        android:text="PENDING"
                         android:textStyle="bold" />
 
 
                 </LinearLayout>
-
-
-
 
 
             </RelativeLayout>

@@ -160,7 +160,9 @@ public class Requst_ride extends AppCompatActivity {
                 Map<String, Object> userObject = new HashMap<>();
                 userObject.put("author", author);
                 userObject.put("text", text);
-                userObject.put("type", "0");
+                //type = 0 => driver
+                //type = 1 => user
+                userObject.put("type", "1");
                 userObject.put("privacy", "1");
                 userObject.put("travel_id", 0);
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
@@ -346,13 +348,13 @@ public class Requst_ride extends AppCompatActivity {
         }
     }
 
-    public void AddRide(String key, String pickup_adress, String drop_address, String pickup_location, String drop_locatoin, String amount, String distance, String time) {
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String time) {
         final RequestParams params = new RequestParams();
         params.put("driver_id", driver_id);
         //by ibrahim
         params.put("travel_id", travel_id);
         params.put("user_id", user_id);
-        params.put("pickup_adress", pickup_adress);
+        params.put("pickup_address", pickup_address);
         params.put("drop_address", drop_address);
         params.put("date", pass.getDate());
         params.put("time", pass.getTime());
@@ -360,9 +362,9 @@ public class Requst_ride extends AppCompatActivity {
         log.i("tag", pass.getDate());
         //commited by ibrahim
         //params.put("time",pass.getDate());
-        params.put("pikup_location", pickup_location);
-        params.put("drop_locatoin", drop_locatoin);
-        params.put("Ride_somked", pass.getSmoke());
+        params.put("pickup_location", pickup_location);
+        params.put("drop_location", drop_location);
+        params.put("Ride_smoked", pass.getSmoke());
         params.put("amount", fianl_fare.getText());
         params.put("distance", distance);
         params.put("status", pass.getStatus());

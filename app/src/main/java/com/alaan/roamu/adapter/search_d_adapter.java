@@ -105,7 +105,7 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
                 pass.setFare(nearbyData.getAmount());
                 pass.setDriverName(nearbyData.getName());
                 pass.setDriverCity(nearbyData.getDriverCity());
-                pass.setSmoke(nearbyData.getSomked());
+                pass.setSmoke(nearbyData.getsmoked());
                 pass.setDate(nearbyData.getTravel_date());
                 pass.setTime(nearbyData.getTravel_time());
                 pass.setAvalibleset(nearbyData.getBooked_set());

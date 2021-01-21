@@ -6,31 +6,36 @@ import java.io.Serializable;
  * Created by android on 15/3/17.
  */
 
-public class PendingRequestPojo implements Serializable{
+public class PendingRequestPojo implements Serializable {
     private String ride_id;
     private String user_id;
     private String driver_id;
     private String travel_id;
-    private String pickup_adress;
+    private String pickup_address;
     private String drop_address;
-    private String pikup_location;
-    private String drop_locatoin;
+    private String pickup_point;
+    private String pickup_location;
+    private String drop_location;
     private String distance;
     private String status;
+    private String travel_status;
     private String payment_status;
+    private String payment_mode;
     private String amount;
     private String date;
     private String time;
     private String user_mobile;
     private String user_avatar;
-    private String driver_avatar;
     private String user_name;
-
+    private String driver_avatar;
+    private String driver_name;
     private String driver_mobile;
-    private String somked;
-
+    private String smoked;
     private String booked_set;
     private String empty_set;
+
+    public PendingRequestPojo() {
+    }
 
     public String getempty_set() {
         return empty_set;
@@ -40,12 +45,12 @@ public class PendingRequestPojo implements Serializable{
         this.empty_set = empty_set;
     }
 
-    public String getSomked() {
-        return somked;
+    public String getsmoked() {
+        return smoked;
     }
 
-    public void setSomked(String somked) {
-        this.somked = somked;
+    public void setsmoked(String smoked) {
+        this.smoked = smoked;
     }
 
     public String getBooked_set() {
@@ -63,10 +68,6 @@ public class PendingRequestPojo implements Serializable{
     public void setPayment_mode(String payment_mode) {
         this.payment_mode = payment_mode;
     }
-
-    private String payment_mode;
-    private String driver_name;
-
 
     public String getUser_mobile() {
         return user_mobile;
@@ -116,10 +117,6 @@ public class PendingRequestPojo implements Serializable{
         this.driver_name = driver_name;
     }
 
-
-    public PendingRequestPojo() {
-    }
-
     public String getRide_id() {
         return ride_id;
     }
@@ -143,6 +140,7 @@ public class PendingRequestPojo implements Serializable{
     public void setDriver_id(String driver_id) {
         this.driver_id = driver_id;
     }
+
     public String getTravel_id() {
         return travel_id;
     }
@@ -151,12 +149,20 @@ public class PendingRequestPojo implements Serializable{
         this.travel_id = travel_id;
     }
 
-    public String getPickup_adress() {
-        return pickup_adress;
+    public String getpickup_address() {
+        return pickup_address;
     }
 
-    public void setPickup_adress(String pickup_adress) {
-        this.pickup_adress = pickup_adress;
+    public void setpickup_address(String pickup_address) {
+        this.pickup_address = pickup_address;
+    }
+
+    public String getPickup_point() {
+        return pickup_point;
+    }
+
+    public void setPickup_point(String pickup_point) {
+        this.pickup_point = pickup_point;
     }
 
     public String getDrop_address() {
@@ -167,20 +173,20 @@ public class PendingRequestPojo implements Serializable{
         this.drop_address = drop_address;
     }
 
-    public String getPikup_location() {
-        return pikup_location;
+    public String getpickup_location() {
+        return pickup_location;
     }
 
-    public void setPikup_location(String pikup_location) {
-        this.pikup_location = pikup_location;
+    public void setpickup_location(String pickup_location) {
+        this.pickup_location = pickup_location;
     }
 
-    public String getDrop_locatoin() {
-        return drop_locatoin;
+    public String getdrop_location() {
+        return drop_location;
     }
 
-    public void setDrop_locatoin(String drop_locatoin) {
-        this.drop_locatoin = drop_locatoin;
+    public void setdrop_location(String drop_location) {
+        this.drop_location = drop_location;
     }
 
     public String getDistance() {
@@ -197,6 +203,14 @@ public class PendingRequestPojo implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTravel_status() {
+        return travel_status;
+    }
+
+    public void setTravel_status(String travel_status) {
+        this.travel_status = travel_status;
     }
 
     public String getPayment_status() {

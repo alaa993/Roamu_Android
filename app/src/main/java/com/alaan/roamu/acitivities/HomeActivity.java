@@ -41,6 +41,7 @@ import com.alaan.roamu.BuildConfig;
 import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.about_us;
 import com.alaan.roamu.fragement.Contact_usFragment;
+import com.alaan.roamu.fragement.MyAcceptedRequestFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
@@ -93,8 +94,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     LinearLayout linearLayout;
     NavigationView navigationView;
     private ImageView avatar;
-
-
+    boolean post_notification = true;
+    DatabaseReference databasePosts;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,13 +176,18 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
+        MyAcceptedRequestFragment myAcceptedRequestFragment;
         promo promo = new promo();
 
         Bundle bundle;
 
         switch (item.getItemId()) {
             case R.id.home:
-                addPost.setVisibility(View.GONE);
+                post_notification = false;
+                getNotificationsCount();
+                addPost.setBackgroundResource(R.drawable.ic_notification);
+                addPost.setText("");
+                addPost.setVisibility(View.VISIBLE);
                 changeFragment(new HomeFragment(), getString(R.string.home));
                 break;
 
@@ -207,10 +213,13 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
             case R.id.notifications:
                 addPost.setVisibility(View.GONE);
-                changeFragment(new NotificationsFragment(), getString(R.string.lang));
+                changeFragment(new NotificationsFragment(), getString(R.string.notifications));
                 break;
 
             case R.id.platform:
+                post_notification = true;
+                addPost.setBackgroundResource(R.drawable.ronded_button2);
+                addPost.setText(R.string.post);
                 addPost.setVisibility(View.VISIBLE);
                 changeFragment(new platform(), getString(R.string.platform));
                 break;
@@ -218,6 +227,15 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             case R.id.my_requests:
                 addPost.setVisibility(View.GONE);
                 changeFragment(acceptedRequestFragment, "Requests");
+                break;
+
+            case R.id.my_accepted_requests:
+                addPost.setVisibility(View.GONE);
+                myAcceptedRequestFragment = new MyAcceptedRequestFragment();
+                bundle = new Bundle();
+                bundle.putString("status", "ACCEPTED");
+                myAcceptedRequestFragment.setArguments(bundle);
+                changeFragment(myAcceptedRequestFragment, "Requests");
                 break;
 
             case R.id.profile:
@@ -240,11 +258,11 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
-                    String shareMessage= "\nLet me recommend you this application\n\n";
-                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+                    String shareMessage = "\nLet me recommend you this application\n\n";
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, "choose one"));
-                } catch(Exception e) {
+                } catch (Exception e) {
                     //e.toString();
                 }
                 break;
@@ -427,14 +445,15 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         addPost.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //creating an intent
-                Intent intent = new Intent(HomeActivity.this, AddPostActivity.class);
-
-                //putting artist name and id to intent
-                //intent.putExtra("Post_id", "1234");
-                //intent.putExtra(ARTIST_NAME, artist.getArtistName());
-
-                //starting the activity with intent
-                startActivity(intent);
+                if (post_notification == true)
+                {
+                    Intent intent = new Intent(HomeActivity.this, AddPostActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    addPost.setVisibility(View.GONE);
+                    changeFragment(new NotificationsFragment(), getString(R.string.notifications));
+                }
             }
         });
 
@@ -479,7 +498,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
     }
 
-
     public void getUserInfo() {
         String uid = SessionManager.getUserId();
         RequestParams params = new RequestParams();
@@ -519,7 +537,12 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
     @Override
     public void onBackPressed() {
-        addPost.setVisibility(View.GONE);
+        post_notification = false;
+        getNotificationsCount();
+        addPost.setBackgroundResource(R.drawable.ic_notification);
+        addPost.setText("");
+        addPost.setVisibility(View.VISIBLE);
+
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawer_close();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
@@ -528,6 +551,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             super.onBackPressed();
         }
     }
+
     private boolean isInHomeFragment() {
         for (Fragment item : getSupportFragmentManager().getFragments()) {
             if (item.isVisible() && "HomeFragment".equals(item.getClass().getSimpleName())) {
@@ -535,5 +559,24 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             }
         }
         return false;
+    }
+
+    private void getNotificationsCount(){
+        try {
+            databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
+            databasePosts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    addPost.setText(dataSnapshot.getChildrenCount() + "");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception e){
+            Log.i("ibrahim_e",e.getMessage());
+        }
     }
 }

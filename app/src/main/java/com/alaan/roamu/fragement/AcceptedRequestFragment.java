@@ -47,11 +47,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
     String userid = "";
     String key = "";
     String[] status_arr;
-
-    String[] status_val_arr = {"All","PENDING", "ACCEPTED", "COMPLETED", "CANCELLED", "REQUESTED"};
+    String[] status_val_arr = {"All", "PENDING", "ACCEPTED", "COMPLETED", "CANCELLED", "REQUESTED", "WAITED"};
     TextView txt_error;
     String status;
-
 
     @Nullable
     @Override
@@ -66,7 +64,8 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
         status_arr = new String[]{getString(R.string.All_travel),
                 getString(R.string.pending_request), getString(R.string.accepted_request),
                 getString(R.string.completed_request), getString(R.string.cancelled_request),
-                getString(R.string.requested_request)};
+                getString(R.string.requested_request), getString(R.string.waited_request)};
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         txt_error = (TextView) view.findViewById(R.id.txt_error);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
@@ -116,13 +115,12 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
         params.put("id", id);
         params.put("status", status);
         Server.setHeader(key);
-        Server.get("api/user/rides/format/json", params, new JsonHttpResponseHandler() {
+        Server.get("api/user/rides2/format/json", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
                 swipeRefreshLayout.setRefreshing(true);
             }
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -131,12 +129,14 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
                         }.getType());
+                        Log.i("ibrahim_list",list.toString());
+                        Log.i("ibrahim_list",response.getString("data"));
+                        Log.i("ibrahim_list","-----------");
                         if (response.has("data") && response.getJSONArray("data").length() == 0) {
                             txt_error.setVisibility(View.VISIBLE);
                             AcceptedRequestAdapter acceptedRequestAdapter = new AcceptedRequestAdapter(list);
                             recyclerView.setAdapter(acceptedRequestAdapter);
                             acceptedRequestAdapter.notifyDataSetChanged();
-
                         } else {
                             txt_error.setVisibility(View.GONE);
                             AcceptedRequestAdapter acceptedRequestAdapter = new AcceptedRequestAdapter(list);
@@ -178,6 +178,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
                 break;
             case "REQUESTED":
                 title = getString(R.string.requested_request);
+                break;
+            case "WAITED":
+                title = getString(R.string.waited_request);
                 break;
             case "All":
                 title = getString(R.string.All_travel);

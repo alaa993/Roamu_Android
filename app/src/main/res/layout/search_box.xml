@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="rtl"
     android:layout_width="match_parent"
-    android:layoutDirection="ltr"
     android:layout_height="@dimen/margin_300">
 
 
@@ -76,7 +76,7 @@
                 android:textColor="@color/hint"
                 android:textColorHint="@color/md_grey_200"
                 android:textSize="@dimen/QIBus_softui_font_large"
-                tools:ignore="RtlHardcoded" />
+                 />
 
 <!--            android:gravity="left"-->
 
@@ -87,7 +87,6 @@
                 android:background="@color/QIBus_softui_view_color" />
 
             <TextView
-
                 android:id="@+id/search_drop_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,19 +105,7 @@
                 android:textColor="@color/hint"
                 android:textColorHint="@color/md_grey_200"
                 android:textSize="@dimen/QIBus_softui_font_large"
-                tools:ignore="RtlHardcoded" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:orientation="horizontal"
-            android:padding="1dp"
-            android:scrollbars="vertical">
-
+                />
 
             <TextView
                 android:id="@+id/Time_date_search"
@@ -139,10 +126,10 @@
                 android:textColor="@color/hint"
                 android:textColorHint="@color/md_grey_200"
                 android:textSize="@dimen/QIBus_softui_font_large"
-                tools:ignore="RtlHardcoded" />
-
-
+                tools:ignore="RtlHardcoded"
+                 />
         </LinearLayout>
+
 
         <HorizontalScrollView
             android:id="@+id/horizontalScroll"
@@ -170,7 +157,6 @@
                     android:padding="5dp"
                     android:textColorHint="@color/md_grey_200"
                     android:textSize="@dimen/QIBus_softui_font_large"
-                    tools:ignore="RtlCompat,RtlHardcoded"
                     android:visibility="gone">
 
                 </TextView>
@@ -188,9 +174,8 @@
                     android:textColor="@color/hint"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/QIBus_softui_font_large"
-                    tools:ignore="RtlCompat,RtlHardcoded"
                     android:visibility="gone">
-
+<!--                    tools:ignore="RtlCompat,RtlHardcoded"-->
                 </TextView>
 
 

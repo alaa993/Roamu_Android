@@ -96,9 +96,6 @@ import cz.msebera.android.httpclient.Header;
 ;import static com.loopj.android.http.AsyncHttpClient.log;
 import static gun0912.tedbottompicker.TedBottomPicker.TAG;
 
-/**
- * Created by android on 14/3/17.
- */
 
 public class RequestFragment extends FragmentManagePermission implements OnMapReadyCallback, DirectionCallback, BackFragment {
     View view;
@@ -116,8 +113,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     private String networkAvailable;
     private String tryAgain;
     private String directionRequest;
-    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
-    TextView txt_Driver_name,txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
+    TextView textViewCity, textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+    TextView txt_Driver_name, txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
     private ImageView DriverAvatar;
     private ImageView DriverCar;
     EditText cobun_num;
@@ -164,13 +161,17 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             fare_rating.setVisibility(View.GONE);
             fianl_fare.setVisibility(View.GONE);
             txt_fare_view.setVisibility(View.GONE);
-
+            txt_city.setVisibility(View.GONE);
+            textViewCity.setVisibility(View.GONE);
+            //1234
 
         } else {
             txt_fare.setText(pass.getFare());
             car.setVisibility(View.VISIBLE);
             rating.setVisibility(View.VISIBLE);
             fare_rating.setVisibility(View.VISIBLE);
+            txt_city.setVisibility(View.VISIBLE);
+            textViewCity.setVisibility(View.VISIBLE);
 
         }
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -279,7 +280,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 Map<String, Object> userObject = new HashMap<>();
                 userObject.put("author", author);
                 userObject.put("text", text);
-                userObject.put("type", "0");
+                //type = 0 => driver
+                //type = 1 => user
+                userObject.put("type", "1");
                 userObject.put("privacy", "1");
                 userObject.put("travel_id", ride_id);
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
@@ -332,6 +335,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         txt_name = (TextView) view.findViewById(R.id.txt_name);
         txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
         txt_city = (TextView) view.findViewById(R.id.txt_city);
+        textViewCity = (TextView) view.findViewById(R.id.textViewCity);
         txt_Empty_Seats = (TextView) view.findViewById(R.id.txt_Empty_Seats);
         txt_DriverRate = (TextView) view.findViewById(R.id.txt_DriverRate);
         txt_TravelsCount = (TextView) view.findViewById(R.id.txt_TravelsCount);
@@ -370,6 +374,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             DriverCar.setVisibility(View.GONE);
             txt_Driver_name.setVisibility(View.GONE);
             txt_city.setVisibility(View.GONE);
+            textViewCity.setVisibility(View.GONE);
             car_name.setVisibility(View.GONE);
             textView5.setVisibility(View.GONE);
             textView6.setVisibility(View.GONE);
@@ -389,6 +394,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             DriverCar.setVisibility(View.VISIBLE);
             txt_Driver_name.setVisibility(View.VISIBLE);
             txt_city.setVisibility(View.VISIBLE);
+            textViewCity.setVisibility(View.VISIBLE);
             car_name.setVisibility(View.VISIBLE);
             textView5.setVisibility(View.VISIBLE);
             textView6.setVisibility(View.VISIBLE);
@@ -657,19 +663,11 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 pickup_location.setText(pickup_address);
                 drop_location.setText(drop_address);
                 txt_bag.setText(pass.getAvalibleset());
-
                 txt_smoke.setText(pass.getSmoke());
                 dateandtime.setText(pass.getDate());
                 TimeVal.setText(pass.getTime());
                 log.e("from", pickup.getAddress() + "to" + (drop.getAddress()));
 
-                //
-//                if (!String.valueOf(pass.NoPassengers).isEmpty()) {
-//                    num_set.setNumber(String.valueOf(pass.NoPassengers));
-//                    log.i("tag", "success by ibrahim");
-//                    log.i("tag", String.valueOf(pass.NoPassengers));
-//                }
-// edited by ibrahim
                 if (!String.valueOf(pass.TripPrice).isEmpty() && pass.NoPassengers != 0) {
                     int personal_fare = pass.TripPrice / pass.NoPassengers;
                     txt_fare.setText(String.valueOf(personal_fare));
@@ -695,31 +693,19 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     }
                 });
 
-                ////
                 if (pass.f == Pass.fragment_type.GET) {
                     num_set.setRange(0, Integer.parseInt(pass.empty_set));
                 }
                 num_set.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
                     @Override
                     public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                        Log.i("ibrahim was here", pass.empty_set);
-                        Log.i("ibrahim was here", "");
                         if (Integer.parseInt(num_set.getNumber().toString()) >= 1 && Integer.parseInt(num_set.getNumber().toString()) <= Integer.parseInt(pass.empty_set)) {
-
-
                             if (txt_fare.getText() != null) {
-
-                                //calculateDistance(Double.valueOf(num_set.getNumber().toString()));
-//                                    Toast.makeText(getContext(), ""+newValue  + "old value "+oldValue, Toast.LENGTH_SHORT).show();
                                 calculateDistance(Double.valueOf(newValue));
-
                             } else {
                                 Toast.makeText(getContext(), "Enter fare", Toast.LENGTH_SHORT).show();
                             }
-
-
                         } else {
-//                            Toast.makeText(getContext(), "sorry minimum seat is 1", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -891,13 +877,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 myMap.addMarker(new MarkerOptions().position(new LatLng(destination.latitude, destination.longitude)).title("Drop Location").snippet(drop_address).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 10));
 
-//                calculateDistance(Double.valueOf(direction.getRouteList().get(0).getLegList().get(0).getDistance().getValue()) / 1000);
-//                calculateDistance(Double.valueOf(num_set.getText().toString()));
-
-
             } else {
                 distanceAlert(direction.getErrorMessage());
-                //calculateFare.setVisibility(View.GONE);
                 dismiss();
             }
 
@@ -958,13 +939,13 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     }
 
     // pending request by ibrahim
-    public void AddRide(String key, String pickup_adress, String drop_address, String pickup_location, String drop_locatoin, String amount, String distance, String time) {
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String time) {
         final RequestParams params = new RequestParams();
         params.put("driver_id", driver_id);
         //by ibrahim
         params.put("travel_id", travel_id);
         params.put("user_id", user_id);
-        params.put("pickup_adress", pickup_adress);
+        params.put("pickup_address", pickup_address);
         params.put("drop_address", drop_address);
         params.put("date", pass.getDate());
         params.put("time", pass.getTime());
@@ -972,9 +953,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         log.i("tag", pass.getDate());
         //commited by ibrahim
         //params.put("time",pass.getDate());
-        params.put("pikup_location", pickup_location);
-        params.put("drop_locatoin", drop_locatoin);
-        params.put("Ride_somked", pass.getSmoke());
+        params.put("pickup_location", pickup_location);
+        params.put("drop_location", drop_location);
+        params.put("Ride_smoked", pass.getSmoke());
         params.put("amount", fianl_fare.getText());
         params.put("distance", distance);
         params.put("status", pass.getStatus());
@@ -984,7 +965,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             @Override
             public void onStart() {
                 super.onStart();
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -1000,11 +981,11 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                             Log.i("ibrahim travel_id", String.valueOf(ride_id));
                             if (pass.getcheck() == "1") {
                                 SavePost(pickup_address, drop_address, dateandtime_val, time_val, ride_id);
-
                             }
                         } else {
 //                            Log.i("ibrahim_response", "no travel id");
                         }
+//                        changeFragment(new AcceptedRequestFragment(), "Requests");
                         startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                     } else {
                         Toast.makeText(getActivity(), tryAgain, Toast.LENGTH_LONG).show();
@@ -1028,9 +1009,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             @Override
             public void onFinish() {
                 super.onFinish();
-                if (getActivity() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+//                if (getActivity() != null) {
+//                    swipeRefreshLayout.setRefreshing(false);
+//                }
 
             }
         });

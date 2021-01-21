@@ -33,8 +33,9 @@ import android.widget.RatingBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.alaan.roamu.pojo.Pass;
+import com.alaan.roamu.pojo.Post;
+import com.alaan.roamu.pojo.PostList;
+import com.alaan.roamu.pojo.firebaseRide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,10 +52,13 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.alaan.roamu.R;
 import com.alaan.roamu.Server.Server;
@@ -84,32 +88,27 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.thebrownarrow.permissionhelper.FragmentManagePermission;
 import com.thebrownarrow.permissionhelper.PermissionResult;
 import com.thebrownarrow.permissionhelper.PermissionUtils;
-
 import net.skoumal.fragmentback.BackFragment;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static com.loopj.android.http.AsyncHttpClient.log;
-
-/**
- * Created by android on 14/3/17.
- */
 
 public class AcceptedDetailFragment extends FragmentManagePermission implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener , BackFragment {
     private View view;
     AppCompatButton trackRide;
-
     private String mobile = "";
     AppCompatButton btn_cancel, btn_payment, btn_complete;
     LinearLayout linearChat;
     ImageView call_phone;
-    TextView title, drivername, pickup_location, drop_location, fare, payment_status;
+    TextView title, drivername, pickup_location, drop_location, fare;
     private AlertDialog alert;
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -117,63 +116,69 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private static PayPalConfiguration config;
     PayPalPayment thingToBuy;
     TableRow mobilenumber_row;
-    PendingRequestPojo pojo;
+    PendingRequestPojo rideJson;
     String permissions[] = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Dialog dialog;
-
-
-
     AppCompatButton confirm, cancel,mobilenumber;
-
     Double finalfare;
     Place pickup, drop, s_drop, s_pic;
-
     com.google.android.gms.maps.MapView mapView;
-
     GoogleMap myMap;
-
     private LatLng origin;
     private LatLng destination;
     private String networkAvailable;
     private String tryAgain;
     private String directionRequest;
-    TextView textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
-    TextView txt_Driver_name,txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare,num_set;
+    TextView textView1, textView2, textView3, textView4, textView5,
+            textView6, textView7, textView8, textView9, textView10,
+            txt_fare_view, txt_name, txt_number, txt_vehiclename,
+            dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+
+    TextView txt_Driver_name,txt_city, txt_Empty_Seats,
+            txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare,num_set;
+
     private ImageView DriverAvatar;
     private ImageView DriverCar;
     EditText cobun_num;
-    //ElegantNumberButton num_set;
     String driver_id;
     String travel_id;
     private String user_id;
     private String pickup_address, drop_address, dateandtime_val, time_val;
     String distance;
-
-    Pass pass;
-    PendingRequestPojo pass1;
     TextView calculateFare;
     Snackbar snackbar;
     Button btn_cobo;
     TableRow rating, car, fare_rating;
-
-
+    DatabaseReference databaseRides;
+    Bundle bundle;
+    private String travel_status;
+    private String ride_status;
+    private String payment_status;
+    private String payment_mode;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        bundle = getArguments();
+        if (bundle != null) {
+            rideJson = (PendingRequestPojo) bundle.getSerializable("data");
+            travel_status = rideJson.getTravel_status();
+            ride_status = rideJson.getStatus();
+            payment_status = rideJson.getPayment_status();
+            payment_mode = rideJson.getPayment_mode();
 
+            Log.i("ibrahim",rideJson.getRide_id());
+            databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
+        }
         view = inflater.inflate(R.layout.accepted_detail_fragmnet, container, false);
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.passenger_info));
         BindView();
         configPaypal();
-
-
         return view;
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -181,7 +186,30 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             mGoogleApiClient.connect();
         }
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //attaching value event listener
+        databaseRides.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot rideSnapshot : dataSnapshot.getChildren()) {
+                    firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+                    Log.i("ibrahim ride","----------");
+                    travel_status = fbRide.travel_status;
+                    ride_status = fbRide.ride_status;
+                    payment_status = fbRide.payment_status;
+                    payment_mode = fbRide.payment_mode;
+                    setupData();
+                    changeFragment();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
     @Override
     public void onPause() {
         super.onPause();
@@ -209,7 +237,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         textView3 = (TextView) view.findViewById(R.id.textView3);
         car_name = (TextView) view.findViewById(R.id.car_name);
         textView4 = (TextView) view.findViewById(R.id.textView4);
-
         num_set = (TextView) view.findViewById(R.id.num_set);
         txt_fare = (TextView) view.findViewById(R.id.txt_fare);
         btn_cobo = (Button) view.findViewById(R.id.btn_cobo);
@@ -236,49 +263,29 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         txt_number = (TextView) view.findViewById(R.id.txt_number);
         txt_vehiclename = (TextView) view.findViewById(R.id.txt_vehiclename);
         title = (TextView) view.findViewById(R.id.title);
-
         DriverAvatar = (ImageView) view.findViewById(R.id.DriverImage);
         DriverCar = (ImageView) view.findViewById(R.id.carImage);
-
-
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-
         btn_complete = (AppCompatButton) view.findViewById(R.id.btn_complete);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-       // mobilenumber_row = (TableRow) view.findViewById(R.id.mobilenumber_row);
-
-
-       // linearChat = (LinearLayout) view.findViewById(R.id.linear_chat);
         title = (TextView) view.findViewById(R.id.title);
-        //call_phone = (ImageView)view.findViewById(R.id.call_phone);
         drivername = (TextView) view.findViewById(R.id.Driver_name);
-
         trackRide = (AppCompatButton) view.findViewById(R.id.btn_trackride);
         btn_payment = (AppCompatButton) view.findViewById(R.id.btn_payment);
         btn_cancel = (AppCompatButton) view.findViewById(R.id.btn_cancel);
-
         pickup_location.setSelected(true);
         drop_location.setSelected(true);
-
-
-        Bundle bundle = getArguments();
-        //pass = new Pass();
         if (bundle != null) {
-           // pass = (Pass) bundle.getSerializable("data");
-            pojo = (PendingRequestPojo) bundle.getSerializable("data");
-            title.setText(getString(R.string.taxi));
-            pickup_location.setText(pojo.getPickup_adress() + " ");
-            drop_location.setText(pojo.getDrop_address());
-            drivername.setText(pojo.getDriver_name());
-          //  fare.setText(pojo.getAmount() + " " + SessionManager.getUnit());
-            mobilenumber.setText(pojo.getDriver_mobile());
-            mobile = pojo.getDriver_mobile();
-            TimeVal.setText(pojo.getTime());
-            dateandtime.setText(pojo.getDate());
-            txt_Empty_Seats.setText(pojo.getempty_set());
-            num_set.setText(pojo.getBooked_set());
 
-
+            pickup_location.setText(rideJson.getpickup_address() + " ");
+            drop_location.setText(rideJson.getDrop_address());
+            drivername.setText(rideJson.getDriver_name());
+            mobilenumber.setText(rideJson.getDriver_mobile());
+            mobile = rideJson.getDriver_mobile();
+            TimeVal.setText(rideJson.getTime());
+            dateandtime.setText(rideJson.getDate());
+            txt_Empty_Seats.setText(rideJson.getempty_set());
+            num_set.setText(rideJson.getBooked_set());
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -306,87 +313,49 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             });
 
-            if (pojo.getStatus().equalsIgnoreCase("PENDING")) {
+            if (ride_status.equalsIgnoreCase("WAITED")) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setVisibility(View.VISIBLE);
+                isStarted();
+            }
+            if (ride_status.equalsIgnoreCase("PENDING")) {
                 btn_cancel.setVisibility(View.VISIBLE);
                 isStarted();
             }
-            if (pojo.getStatus().equalsIgnoreCase("CANCELLED")) {
+            if (ride_status.equalsIgnoreCase("CANCELLED")) {
                 btn_complete.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_payment.setVisibility(View.GONE);
                 trackRide.setVisibility(View.GONE);
-//                payment_status.setText(pojo.getPayment_status());
 
             }
-            if (pojo.getStatus().equalsIgnoreCase("COMPLETED")) {
+            if (ride_status.equalsIgnoreCase("COMPLETED")) {
                 btn_payment.setVisibility(View.GONE);
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-             //   payment_status.setText(pojo.getPayment_status());
 
             }
-            if (pojo.getStatus().equalsIgnoreCase("ACCEPTED")) {
+            if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
-
-                if (pojo.getPayment_status().equals("") && pojo.getPayment_mode().equals("")) {
-
+                if (payment_status.equals("") && payment_mode.equals("")) {
                     btn_cancel.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.VISIBLE);
                 } else {
+                    btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.VISIBLE);
 //                    mobilenumber_row.setVisibility(View.VISIBLE);
-
                 }
-                if (!pojo.getPayment_status().equals("PAID") && pojo.getPayment_mode().equals("OFFLINE")) {
-
+                if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
                     btn_complete.setVisibility(View.GONE);
                 } else {
                 }
-
-
-            }
-
-            if (pojo.getPayment_status().equals("") && pojo.getPayment_mode().equals("")) {
-              //  payment_status.setText(getString(R.string.unpaid));
-
-            } else {
-                //payment_status.setText(pojo.getPayment_status());
-
-            }
-            if (!pojo.getPayment_status().equals("PAID") && pojo.getPayment_mode().equals("OFFLINE")) {
-               // payment_status.setText(R.string.cash_on_hand);
-
-            } else {
-               // payment_status.setText(pojo.getPayment_status());
             }
         }
-
-        SetCustomFont setCustomFont = new SetCustomFont();
-        setCustomFont.overrideFonts(getActivity(), view);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-       /* linearChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle b = new Bundle();
-                b.putString("name", pojo.getDriver_name());
-                b.putString("id", pojo.getRide_id());
-                b.putString("user_id", pojo.getDriver_id());
-                ChatFragment chatFragment = new ChatFragment();
-                chatFragment.setArguments(b);
-                ((HomeActivity) getActivity()).changeFragment(chatFragment, "Messages");
-            }
-        });*/
-
-
+        setupData();
         btn_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,7 +366,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
                                 RequestParams params = new RequestParams();
-                                params.put("ride_id", pojo.getRide_id());
+                                params.put("ride_id", rideJson.getRide_id());
                                 params.put("payment_mode", "OFFLINE");
                                 Server.setContetntType();
                                 Server.setHeader(SessionManager.getKEY());
@@ -406,25 +375,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                     public void onStart() {
                                         swipeRefreshLayout.setRefreshing(true);
                                     }
-
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         super.onSuccess(statusCode, headers, response);
-                                        pojo.setPayment_mode("OFFLINE");
-                                        if (pojo.getPayment_mode().equals("OFFLINE")) {
-                                            payment_status.setText(R.string.cash_on_hand);
-                                        } else {
-                                            payment_status.setText(pojo.getPayment_status());
-                                        }
-
+                                        updateRideFirebase(travel_status,ride_status,payment_status,"OFFLINE");
+                                        rideJson.setPayment_mode("OFFLINE");
                                         btn_payment.setVisibility(View.GONE);
                                         Toast.makeText(getActivity(), getString(R.string.payment_update), Toast.LENGTH_LONG).show();
                                     }
-
                                     @Override
                                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                         super.onFailure(statusCode, headers, responseString, throwable);
-
                                     }
 
                                     @Override
@@ -448,55 +409,171 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             }
         });
-
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_cancel), "CANCELLED");
             }
         });
-
-
-        btn_complete.setOnClickListener(
-                new View.OnClickListener() {
+        btn_complete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_accept), "COMPLETED");
-                        dialog = new Dialog(getContext());
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.ratingdialog);
-                        TextView titleTV = (TextView)dialog.findViewById(R.id.rateHeader);
-                        final TextView rateTV = (TextView)dialog.findViewById(R.id.rateTV);
-                        Button submitBtn = (Button)dialog.findViewById(R.id.submitRateBtn);
-                        Button cancelBtn = (Button)dialog.findViewById(R.id.cancelRateBtn);
-                        RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingsBar);
-                        RatingBar fare_rating = (RatingBar)dialog.findViewById(R.id.fare_rating);
-                        dialog.show();
-                        submitBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
-                                Log.i("ibrahim",String.valueOf(fare_rating.getRating()));
-                                Log.i("ibrahim getDriver_id",pojo.getDriver_id());
-                                Log.i("ibrahim getUser_id",pojo.getUser_id());
-                                Log.i("ibrahim getTravel_id",pojo.getTravel_id());
-                                sendRating(ratingBar.getRating() * 2 , fare_rating.getRating() * 2);
-                                Log.i("ibrahim","complete");
-                                dialog.cancel();
-                            }
-                        });
-                        cancelBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.i("ibrahim","cancel");
-                                dialog.cancel();
-                            }
-                        });
-
+                        if (ride_status.equalsIgnoreCase("WAITED")) {
+                            Log.i("ibrahim_waited","--------------");
+                            sendStatus(rideJson.getRide_id(), "ACCEPTED");
+                        }
+                        if (ride_status.equalsIgnoreCase("ACCEPTED")) {// edited by ibrahim it was completed date:21/1/2021
+                            Log.i("ibrahim_completed","--------------");
+                            completeTask();
+                        }
                     }
                 });
     }
 
+    public void setupData(){
+        if (bundle != null) {
+            pickup_location.setText(rideJson.getpickup_address() + " ");
+            drop_location.setText(rideJson.getDrop_address());
+            txt_PickupPoint.setText(rideJson.getPickup_point());
+            drivername.setText(rideJson.getDriver_name());
+            mobilenumber.setText(rideJson.getDriver_mobile());
+            mobile = rideJson.getDriver_mobile();
+            TimeVal.setText(rideJson.getTime());
+            dateandtime.setText(rideJson.getDate());
+            txt_Empty_Seats.setText(rideJson.getempty_set());
+            num_set.setText(rideJson.getBooked_set());
+            mobilenumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
+                        @Override
+                        public void permissionGranted() {
+
+                            if (mobile != null && !mobile.equals("")) {
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:" + mobile));
+                                startActivity(callIntent);
+                            }
+                        }
+
+                        @Override
+                        public void permissionDenied() {
+
+                        }
+
+                        @Override
+                        public void permissionForeverDenied() {
+
+                        }
+                    });
+                }
+            });
+
+            if (ride_status.equalsIgnoreCase("WAITED")) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setVisibility(View.VISIBLE);
+                isStarted();
+            }
+            if (ride_status.equalsIgnoreCase("PENDING")) {
+                btn_cancel.setVisibility(View.VISIBLE);
+                isStarted();
+            }
+            if (ride_status.equalsIgnoreCase("CANCELLED")) {
+                btn_complete.setVisibility(View.GONE);
+                btn_cancel.setVisibility(View.GONE);
+                btn_payment.setVisibility(View.GONE);
+                trackRide.setVisibility(View.GONE);
+
+            }
+            if (ride_status.equalsIgnoreCase("COMPLETED")) {
+                btn_payment.setVisibility(View.GONE);
+                trackRide.setVisibility(View.GONE);
+                btn_cancel.setVisibility(View.GONE);
+                btn_complete.setVisibility(View.GONE);
+            }
+            if (ride_status.equalsIgnoreCase("ACCEPTED")) {
+                isStarted();
+                if (payment_status.equals("") && payment_mode.equals("")) {
+                    btn_cancel.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
+                    btn_payment.setVisibility(View.VISIBLE);
+                }
+                else if(payment_status.equals("") && payment_mode.equals("OFFLINE")) {
+                    btn_cancel.setVisibility(View.GONE);
+                    trackRide.setVisibility(View.VISIBLE);
+                    btn_payment.setVisibility(View.GONE);
+                }
+                else {
+                    btn_complete.setText(getString(R.string.complete_ride));
+                    btn_complete.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.VISIBLE);
+//                    mobilenumber_row.setVisibility(View.VISIBLE);
+                }
+                if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
+                    btn_complete.setVisibility(View.GONE);
+                } else {
+                }
+            }
+        }
+        SetCustomFont setCustomFont = new SetCustomFont();
+        setCustomFont.overrideFonts(getActivity(), view);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    public void changeFragment(){
+        if (ride_status.equalsIgnoreCase("ACCEPTED") && travel_status.equalsIgnoreCase("STARTED"))
+        {
+            Bundle bundle = new Bundle();
+            rideJson.setTravel_status(travel_status);
+            rideJson.setStatus(ride_status);
+            rideJson.setPayment_status(payment_status);
+            rideJson.setPayment_mode(payment_mode);
+            bundle.putSerializable("data", rideJson);
+            MyAcceptedDetailFragment detailFragment = new MyAcceptedDetailFragment();
+            detailFragment.setArguments(bundle);
+            ((HomeActivity) getContext()).changeFragment(detailFragment, "Passenger Information");
+        }
+    }
+
+    public void completeTask() {
+        //AlertDialogCreate(getString(R.string.ride_request_cancellation), getString(R.string.want_to_accept), "COMPLETED");
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.ratingdialog);
+        TextView titleTV = (TextView)dialog.findViewById(R.id.rateHeader);
+        final TextView rateTV = (TextView)dialog.findViewById(R.id.rateTV);
+        Button submitBtn = (Button)dialog.findViewById(R.id.submitRateBtn);
+        Button cancelBtn = (Button)dialog.findViewById(R.id.cancelRateBtn);
+        RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingsBar);
+        RatingBar fare_rating = (RatingBar)dialog.findViewById(R.id.fare_rating);
+        dialog.show();
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
+                Log.i("ibrahim",String.valueOf(fare_rating.getRating()));
+                Log.i("ibrahim getDriver_id",rideJson.getDriver_id());
+                Log.i("ibrahim getUser_id",rideJson.getUser_id());
+                Log.i("ibrahim getTravel_id",rideJson.getTravel_id());
+                sendRating(ratingBar.getRating() * 2 , fare_rating.getRating() * 2);
+                Log.i("ibrahim","complete");
+                dialog.cancel();
+            }
+        });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("ibrahim","cancel");
+                dialog.cancel();
+            }
+        });
+    }
 
     public void Updatepayemt(String ride_id, String payment_status) {
         RequestParams params = new RequestParams();
@@ -545,7 +622,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
     }
 
-
     public void AlertDialogCreate(String title, String message, final String status) {
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.ic_warning_white_24dp);
         drawable = DrawableCompat.wrap(drawable);
@@ -559,7 +635,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        sendStatus(pojo.getRide_id(), status);
+                        sendStatus(rideJson.getRide_id(), status);
 
                     }
                 })
@@ -585,7 +661,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sendStatus(pojo.getRide_id(), status);
+                sendStatus(rideJson.getRide_id(), status);
             }
         });
 
@@ -602,12 +678,9 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void sendStatus(String ride_id, final String status) {
-
         RequestParams params = new RequestParams();
         params.put("ride_id", ride_id);
         params.put("status", status);
-
-
         Server.setHeader(SessionManager.getKEY());
         Server.setContetntType();
         Server.post("api/user/rides", params, new JsonHttpResponseHandler() {
@@ -624,20 +697,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
                     Bundle bundle = null;
                     if (response.has("status") && response.getString("status").equals("success")) {
-                        if (status.equalsIgnoreCase("COMPLETED")) {
-                            Toast.makeText(getActivity(), getString(R.string.ride_request_completed), Toast.LENGTH_LONG).show();
-                            bundle = new Bundle();
-                            bundle.putString("status", "COMPLETED");
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.ride_request_cancelled), Toast.LENGTH_LONG).show();
-                            bundle = new Bundle();
-                            bundle.putString("status", "CANCELLED");
-                        }
-                        acceptedRequestFragment.setArguments(bundle);
-                        ((HomeActivity) getActivity()).changeFragment(acceptedRequestFragment, "Accepted Request");
-                    } else {
-                        String error = response.getString("data");
-                        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+                        updateRideFirebase(travel_status,status,payment_status,payment_mode);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -669,12 +729,24 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
     }
 
+    public void updateRideFirebase(String travel_status, String ride_status, String payment_status, String payment_mode) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
+        Map<String,Object> rideObject = new HashMap<>();
+
+        rideObject.put("ride_status", ride_status);
+        rideObject.put("travel_status", travel_status);
+        rideObject.put("payment_status", payment_status);
+        rideObject.put("payment_mode", payment_mode);
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        databaseRef.setValue(rideObject);
+    }
+
     public void sendRating(float DriverRatingST, float FareRatingST) {
 
         RequestParams params = new RequestParams();
-        params.put("driver_id", pojo.getDriver_id());
-        params.put("user_id", pojo.getUser_id());
-        params.put("travel_id", pojo.getTravel_id());
+        params.put("driver_id", rideJson.getDriver_id());
+        params.put("user_id", rideJson.getUser_id());
+        params.put("travel_id", rideJson.getTravel_id());
         params.put("driver_rate", DriverRatingST);
         params.put("travel_rate", FareRatingST);
 
@@ -694,7 +766,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 //                Log.i("ibrahim",response.toString());
 //                try {
 //                    if (response.has("status") && response.getString("status").equals("success")) {
-////                        sendStatus(pojo.getRide_id(), "COMPLETED");
+////                        sendStatus(rideJson.getRide_id(), "COMPLETED");
 //                        //Log.i("ibrahim","complete travel");
 //                    } else {
 //                        //String error = response.getString("data");
@@ -723,7 +795,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             public void onFinish() {
                 super.onFinish();
                 Log.i("ibrahim","onFinish");
-                sendStatus(pojo.getRide_id(), "COMPLETED");
+                sendStatus(rideJson.getRide_id(), "COMPLETED");
                 if (getActivity() != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -745,25 +817,20 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
     public void MakePayment() {
 
-        if (pojo.getAmount() != null && !pojo.getAmount().equals("")) {
+        if (rideJson.getAmount() != null && !rideJson.getAmount().equals("")) {
             Intent intent = new Intent(getActivity(), PayPalService.class);
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
             getActivity().startService(intent);
-            thingToBuy = new PayPalPayment(new java.math.BigDecimal(String.valueOf(pojo.getAmount())), getString(R.string.paypal_payment_currency), "Ride Payment", PayPalPayment.PAYMENT_INTENT_SALE);
-            Intent payment = new Intent(getActivity(),
-                    PaymentActivity.class);
-
+            thingToBuy = new PayPalPayment(new java.math.BigDecimal(String.valueOf(rideJson.getAmount())), getString(R.string.paypal_payment_currency), "Ride Payment",
+                    PayPalPayment.PAYMENT_INTENT_SALE);
+            Intent payment = new Intent(getActivity(), PaymentActivity.class);
             payment.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
             payment.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-
             startActivityForResult(payment, REQUEST_CODE_PAYMENT);
-
-
         }
 
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PAYMENT) {
@@ -776,7 +843,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                         System.out.println(confirm.toJSONObject().toString(4));
                         System.out.println(confirm.getPayment().toJSONObject()
                                 .toString(4));
-                        Updatepayemt(pojo.getRide_id(), "PAID");
+                        Updatepayemt(rideJson.getRide_id(), "PAID");
 
                     } catch (JSONException e) {
 
@@ -896,7 +963,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         }
 
     }
-
     @SuppressLint("MissingPermission")
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -906,12 +972,10 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
     }
-
     @Override
     public void onConnectionSuspended(int i) {
 
     }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
@@ -933,16 +997,14 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
              */
         }
     }
-
     @Override
     public void onLocationChanged(Location location) {
 
     }
 
+    void isStarted() {
 
-     void isStarted() {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + pojo.getRide_id());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + rideJson.getRide_id());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -963,7 +1025,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                                 if (GPSEnable()) {
 
                                                     Bundle bundle = new Bundle();
-                                                    bundle.putSerializable("data", pojo);
+                                                    bundle.putSerializable("data", rideJson);
                                                     MapView mapView = new MapView();
                                                     mapView.setArguments(bundle);
                                                     ((HomeActivity) getActivity()).changeFragment(mapView, "MapView");
@@ -999,10 +1061,10 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                                 if (GPSEnable()) {
 
                                                     try {
-                                                        String[] latlong = pojo.getPikup_location().split(",");
+                                                        String[] latlong = rideJson.getpickup_location().split(",");
                                                         double latitude = Double.parseDouble(latlong[0]);
                                                         double longitude = Double.parseDouble(latlong[1]);
-                                                        String[] latlong1 = pojo.getDrop_locatoin().split(",");
+                                                        String[] latlong1 = rideJson.getdrop_location().split(",");
                                                         double latitude1 = Double.parseDouble(latlong1[0]);
                                                         double longitude1 = Double.parseDouble(latlong1[1]);
 
@@ -1074,21 +1136,14 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         navigationLauncherOptions.snapToRoute(true);
         navigationLauncherOptions.directionsRoute(directionsRoute);
         NavigationLauncher.startNavigation(getActivity(), navigationLauncherOptions.build());
-
-
     }
-
     @Override
     public boolean onBackPressed() {
         this.startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-
         return false;
     }
-
     @Override
     public int getBackPriority() {
         return 0;
     }
 }
-
-//sendStatus(pojo.getRide_id(), status);

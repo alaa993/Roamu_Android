@@ -77,11 +77,11 @@ public class NotificationsFragment extends Fragment {
         notifications = new ArrayList<>();
         Log.i("ibrahim_uid", String.valueOf(SessionManager.getUser()));
         try {
-            databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child("308");
+            databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
         }catch (Exception e){
             Log.i("ibrahim_e",e.getMessage());
         }
-        ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.platform));
+        ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.notifications));
         view.setBackgroundColor(Color.WHITE);
         BindView();
 

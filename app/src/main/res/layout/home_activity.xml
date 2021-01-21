@@ -41,7 +41,7 @@
                         android:layout_gravity="right"
                         android:text="@string/post"
                         android:tint="@color/white"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:background="@drawable/ronded_button2"
                         />
 <!--                    android:visibility="gone"-->

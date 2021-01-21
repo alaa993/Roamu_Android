@@ -149,6 +149,8 @@ public class PostFragment extends Fragment {
                     userObject.put("author", author);
                     userObject.put("text", inputEditComment.getText().toString());
                     userObject.put("timestamp", ServerValue.TIMESTAMP);
+                    //type = 0 => driver
+                    //type = 1 => user
                     userObject.put("type", "1");
                     databaseRef.setValue(userObject);
                     inputEditComment.getText().clear();
@@ -163,6 +165,8 @@ public class PostFragment extends Fragment {
                     userObject.put("author", author);
                     userObject.put("text", inputEditComment.getText().toString());
                     userObject.put("timestamp", ServerValue.TIMESTAMP);
+                    //type = 0 => driver
+                    //type = 1 => user
                     userObject.put("type", "1");
                     databaseRef.setValue(userObject);
                     inputEditComment.getText().clear();

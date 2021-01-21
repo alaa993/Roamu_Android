@@ -32,8 +32,8 @@ public class NearbyData implements Serializable {
     String booked_set;
     String amount;
     String travel_date;
-    String avalable_set;
-    String somked;
+    String available_set;
+    String smoked;
     String pickup_location;
     String drop_location;
     String latitude;
@@ -77,20 +77,20 @@ public class NearbyData implements Serializable {
         this.travel_date = travel_date;
     }
 
-    public String getAvalable_set() {
-        return avalable_set;
+    public String getavailable_set() {
+        return available_set;
     }
 
-    public void setAvalable_set(String avalable_set) {
-        this.avalable_set = avalable_set;
+    public void setavailable_set(String available_set) {
+        this.available_set = available_set;
     }
 
-    public String getSomked() {
-        return somked;
+    public String getsmoked() {
+        return smoked;
     }
 
-    public void setSomked(String somked) {
-        this.somked = somked;
+    public void setsmoked(String smoked) {
+        this.smoked = smoked;
     }
 
     public String getUser_id() {

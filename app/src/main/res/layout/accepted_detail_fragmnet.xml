@@ -29,7 +29,6 @@
                 android:orientation="vertical">
 
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,8 +40,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginBottom="@dimen/margin_m10"
                         android:layout_marginTop="15dp"
+                        android:layout_marginBottom="@dimen/margin_m10"
                         android:text="@string/taxigo"
                         android:textColor="@color/black"
                         tools:ignore="HardcodedText" />
@@ -105,6 +104,7 @@
 
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
+
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -206,6 +206,7 @@
                             android:src="@drawable/car" />
 
                     </TableRow>
+
                     <TableRow
                         android:id="@+id/phone_row"
                         android:layout_width="wrap_content"
@@ -222,19 +223,17 @@
 
                         <android.support.v7.widget.AppCompatButton
                             android:id="@+id/mobilenumber"
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/linear_child1"
                             android:layout_margin="@dimen/margin_10"
-                            android:layout_marginBottom="@dimen/detail_bottom_margin"
                             android:layout_marginTop="@dimen/detail_bottom_margin"
+                            android:layout_marginBottom="@dimen/detail_bottom_margin"
                             android:layout_weight="1"
-
-                            android:text="+964999000000"
-                             />
+                            android:text="+964999000000" />
 
                     </TableRow>
+
                     <TableRow
                         android:id="@+id/city_row"
                         android:layout_width="wrap_content"
@@ -258,7 +257,7 @@
                             android:layout_marginLeft="5dp"
                             android:maxLines="1"
                             android:padding="1dp"
-                            android:text="بغداد، العراق"/>
+                            android:text="بغداد، العراق" />
                     </TableRow>
 
                     <TableRow
@@ -408,10 +407,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/empty_seats"
-                            android:textStyle="bold"
-                            android:textSize="18sp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/PostTitle"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_Empty_Seats"
@@ -423,9 +422,9 @@
                             android:maxLines="1"
                             android:padding="1dp"
                             android:text="5"
-                            android:textStyle="bold"
+                            android:textColor="@color/PostTitle"
                             android:textSize="18sp"
-                            android:textColor="@color/PostTitle"/>
+                            android:textStyle="bold" />
 
 
                     </TableRow>
@@ -454,9 +453,9 @@
                             android:maxLines="1"
                             android:padding="1dp"
                             android:text="5"
-                            android:textStyle="bold"
+                            android:textColor="@color/PostTitle"
                             android:textSize="18sp"
-                            android:textColor="@color/PostTitle"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow
@@ -711,8 +710,6 @@
                             android:text=""
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:visibility="gone" />
-
-
                     </TableRow>
 
                     <TableRow
@@ -738,32 +735,26 @@
                             android:text=""
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:visibility="gone" />
-
-
                     </TableRow>
-
-
                 </TableLayout>
 
-
                 <View
-
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#DDE4E8" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_trackride"
-
                     style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/detail_bottom_margin"
-                    android:layout_marginEnd="@dimen/margin_10"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_10"
                     android:layout_marginStart="@dimen/margin_10"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:layout_marginTop="@dimen/detail_bottom_margin"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_margin="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/detail_bottom_margin"
                     android:background="@drawable/ripple_effect"
                     android:text="@string/track_ride"
                     android:visibility="gone" />
@@ -773,8 +764,9 @@
                     style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/detail_bottom_margin"
+                    android:layout_margin="@dimen/detail_bottom_margin"
                     android:layout_marginTop="@dimen/detail_bottom_margin"
+                    android:layout_marginBottom="@dimen/detail_bottom_margin"
                     android:background="@drawable/ripple_effect"
                     android:text="@string/make_payment"
                     android:visibility="gone"
@@ -793,8 +785,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linear_child1"
                         android:layout_margin="@dimen/margin_10"
-                        android:layout_marginBottom="@dimen/detail_bottom_margin"
                         android:layout_marginTop="@dimen/detail_bottom_margin"
+                        android:layout_marginBottom="@dimen/detail_bottom_margin"
                         android:layout_weight="1"
                         android:background="@drawable/ripple_effect"
                         android:text="@string/complete_ride"
@@ -807,16 +799,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linear_child1"
                         android:layout_margin="@dimen/margin_10"
-                        android:layout_marginBottom="@dimen/detail_bottom_margin"
                         android:layout_marginTop="@dimen/detail_bottom_margin"
+                        android:layout_marginBottom="@dimen/detail_bottom_margin"
                         android:layout_weight="1"
                         android:background="@drawable/ripple_effect"
                         android:text="@string/cancel_ride"
                         android:visibility="gone" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
         </RelativeLayout>
 

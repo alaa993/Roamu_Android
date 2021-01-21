@@ -13,7 +13,7 @@
 
     <string name="paypal_payment_currency">"دولار أمريكي"</string>
 
-    <string name="cash_on_hand">"طلب النقد على اليد للسائق"</string>
+    <string name="cash_on_hand">طلب الدفع النقدي للسائق</string>
 
 
 
@@ -23,11 +23,13 @@
 
 
 
-    <string name="payment_update">"دفع تحديث"</string>
+    <string name="payment_update">تم تحديد نوع الدفع</string>
 
-    <string name="ride_request_completed">"اكتمل طلب الركوب"</string>
+    <string name="ride_request_completed">تم إكتمال الرحلة</string>
 
-    <string name="ride_request_cancelled">"طلب الركوب الملغى"</string>
+    <string name="ride_request_cancelled">تم إلغاء الرحلة</string>
+
+    <string name="ride_request_accepted">تم قبول الرحلة</string>
 
 
 
@@ -49,7 +51,7 @@
 
     <string name="invalid_droplocation">"ارجو إدخال مسار طريقك"</string>
 
-    <string name="ride_has_been_requested">"تم طلب الركوب"</string>
+    <string name="ride_has_been_requested">تم التأكيد</string>
 
 
 
@@ -63,7 +65,7 @@
 
     <string name="want_to_accept">"هل تريد إكمال رحلتك المقبولة؟"</string>
 
-    <string name="ride_request_cancellation">"ركوب التحديث"</string>
+    <string name="ride_request_cancellation">تم إلغاء الرحلة</string>
 
     <string name="FROM">"من"</string>
 
@@ -89,7 +91,7 @@
 
 
 
-    <string name="REQUEST_RIDE">"طلب ركوب"</string>
+    <string name="REQUEST_RIDE">نوع الطلب</string>
 
     <string name="Login">"تسجيل الدخول"</string>
 
@@ -109,7 +111,7 @@
 
     <string name="INVALID_DISTANCE">"المسافة غير الصالحة"</string>
 
-    <string name="make_payment">"قم بالدفع"</string>
+    <string name="make_payment">"خيارات بالدفع"</string>
 
     <string name="taxigo">roamu</string>
 
@@ -128,8 +130,8 @@
 
 
     <string-array name="payment_mode">
-        <item>ادفع الأن</item>
-        <item>دفع الكتروني</item>
+        <item>الدفع نقداً</item>
+        <item>الدفع الالكتروني</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -177,12 +179,13 @@
     <string name="password_nomatch">"كلمة المرور غير متطابقة"</string>
     <string name="accepted_request">"الطلبات المقبولة"</string>
     <string name="ok">"حسنا"</string>
-    <string name="track_ride">"مسار الركوب"</string>
+    <string name="track_ride">مسار الرحلة</string>
     <string name="taxi">"Roamu"</string>
     <string name="pending_request">"الطلبات المعلقة"</string>
     <string name="cancelled_request">"الطلبات الملغات"</string>
     <string name="completed_request">"الطلبات المكتملة"</string>
     <string name="requested_request">الطلبات المنتظرة</string>
+    <string name="waited_request">الطلبات المنتظرة من قبلك</string>
 
     <string name="couldnt_get_location">"لا يمكن الحصول على موقعك"</string>
     <string name="profile_updated">"تحديث الملف الشخصي"</string>
@@ -215,7 +218,7 @@
 
     <string name="fare_calculating">حساب التذكرة</string>
 
-    <string name="Howmanyseatsyouwant">كم عدد المقاعد التي تريدها</string>
+    <string name="Howmanyseatsyouwant">عدد المسافرين</string>
     <string name="applycoupon">تطبيق الكوبون</string>
     <string name="promocodes">الخصومات</string>
 
@@ -255,7 +258,7 @@
     <string name="enter_coubbon_number">أدخل رقم الكوبون</string>
     <string name="date_and_time">التاريخ</string>
     <string name="reseve">حجز</string>
-    <string name="empty_seats">عدد المقاعد المتبقية</string>
+    <string name="empty_seats">عدد المسافرين المتبقيين</string>
     <string name="driver_rate">تقييم السائق</string>
     <string name="carConditon">تقييم الأجرة</string>
     <string name="travels_count">الرحلات المنجزة</string>
@@ -288,7 +291,7 @@
     <string name="about_driver">عن السائق</string>
     <string name="my_requests">رحلاتي</string>
     <string name="request_type">نوع الطلب</string>
-    <string name="nominate_a_driver">ترشيح قائد مركبة</string>
+    <string name="nominate_a_driver">ترشيح سائق</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="Black_Sany">صني سوداء</string>
     <string name="driver_city">مدينة السائق</string>
@@ -309,9 +312,11 @@
 النجاح بوابة الأرباح
     </string>
     <string name="update_post">تعديل المنشور</string>
-    <string name="nofifications">الإشعارات</string>
+    <string name="notifications">الإشعارات</string>
     <string name="city">المدينة</string>
     <string name="share_application">مشاركة التطبيق</string>
     <string name="All_travel">كل الرحلات</string>
+    <string name="my_accepted_travels">رحلاتي المقبولة</string>
+    <string name="no_status">No Status</string>
 
 </resources>

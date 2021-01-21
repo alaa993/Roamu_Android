@@ -98,7 +98,7 @@ public class List_provider extends AppCompatActivity {
 
         if (Smoke == "No") smoke_int = 0;
         else if (Smoke == "Yes") smoke_int = 1;
-        params.put("somked",smoke_int);
+        params.put("smoked",smoke_int);
 
         params.put("bag",bag);
         params.put("booked_set",passn);

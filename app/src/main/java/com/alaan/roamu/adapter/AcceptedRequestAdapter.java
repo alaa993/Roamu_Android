@@ -7,20 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.fragement.AcceptedDetailFragment;
 import com.alaan.roamu.pojo.PendingRequestPojo;
 
-/**
- * Created by android on 8/3/17.
- */
 
 public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequestAdapter.Holder> {
     List<PendingRequestPojo> list;
@@ -38,21 +33,12 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
         final PendingRequestPojo pojo = list.get(position);
-        holder.from_add.setText(pojo.getPickup_adress());
+        holder.from_add.setText(pojo.getpickup_address());
         holder.to_add.setText(pojo.getDrop_address());
         holder.drivername.setText(pojo.getDriver_name());
-
-        //            SimpleDateFormat toFullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            Date fullDate = toFullDate.parse(list.get(holder.getAdapterPosition()).getTime());
-//            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss a");
-//            String shortTime = time.format(fullDate);
-//            SimpleDateFormat date = new SimpleDateFormat("dd-MMMM-yyyy");
-
-//            String shortTimedate = date.format(fullDate);
         holder.time.setText(pojo.getTime());
         holder.date.setText(pojo.getDate());
         holder.status.setText(pojo.getStatus());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +55,9 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         BookFont(holder, holder.t);
         BookFont(holder, holder.dn);
         BookFont(holder, holder.dt);
-
         MediumFont(holder, holder.from_add);
         MediumFont(holder, holder.to_add);
         MediumFont(holder, holder.date);
-
-
     }
 
     @Override
@@ -83,27 +66,20 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-
-
-        TextView  drivername, from_add, to_add, date, time,status;
+        TextView drivername, from_add, to_add, date, time, status;
         TextView f, t, dn, dt;
-
         public Holder(View itemView) {
             super(itemView);
-
             f = (TextView) itemView.findViewById(R.id.from);
             t = (TextView) itemView.findViewById(R.id.to);
-
             dn = (TextView) itemView.findViewById(R.id.drivername);
             dt = (TextView) itemView.findViewById(R.id.datee);
-
-
             drivername = (TextView) itemView.findViewById(R.id.txt_drivername);
             from_add = (TextView) itemView.findViewById(R.id.txt_from_add);
             to_add = (TextView) itemView.findViewById(R.id.txt_to_add);
             date = (TextView) itemView.findViewById(R.id.date);
             time = (TextView) itemView.findViewById(R.id.time);
-            status =(TextView) itemView.findViewById(R.id.Statuss);
+            status = (TextView) itemView.findViewById(R.id.Statuss);
         }
     }
 

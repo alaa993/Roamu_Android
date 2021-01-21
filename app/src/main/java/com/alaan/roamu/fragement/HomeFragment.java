@@ -1,5 +1,6 @@
 package com.alaan.roamu.fragement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -50,6 +51,7 @@ import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.model.Direction;
 import com.alaan.roamu.Server.Server;
 import com.alaan.roamu.acitivities.List_provider;
+import com.fxn.stash.Stash;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -125,13 +127,9 @@ import cz.msebera.android.httpclient.Header;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.alaan.roamu.fragement.lang.setLocale;
 import static com.loopj.android.http.AsyncHttpClient.log;
 import static com.mapbox.mapboxsdk.Mapbox.getApplicationContext;
-
-
-/**
- * Created by android on 7/3/17.
- */
 
 public class HomeFragment extends FragmentManagePermission implements OnMapReadyCallback, DirectionCallback, Animation.AnimationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, BackFragment,
@@ -144,7 +142,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
     private int PLACE_search_AUTOCOMPLETE_REQUEST_CODE = 7777;
     private int PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE = 7778;
-
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -156,15 +153,12 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     int mYear;
     int mMonth;
     int mDay;
-
     int mHour;
     int mMinute;
-
     Boolean flag = false;
     GoogleMap myMap;
     Button custom_request, search_box_custom;
     ImageView current_location, clear;
-    // PlaceDetectionClient mPlaceDetectionClient;
     private RelativeLayout header, footer, search_box;
     Animation animFadeIn, animFadeOut;
     TextView pickup_location, drop_location, search_drop_location, search_pich_location;
@@ -186,18 +180,12 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     public void onDetach() {
         super.onDetach();
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //  MapsInitializer.initialize(this.getActivity());
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         try {
             rootView = inflater.inflate(R.layout.home_fragment, container, false);
             ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.home));
@@ -216,37 +204,26 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             getcurrentlocation();
                         }
                     }
-
                     @Override
                     public void permissionDenied() {
-
                     }
-
                     @Override
                     public void permissionForeverDenied() {
-
                         openSettingsApp(getActivity());
                     }
                 });
-
             } else {
                 if (!GPSEnable()) {
                     tunonGps();
                 } else {
                     getcurrentlocation();
                 }
-
             }
 
             linear_request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (CheckConnection.haveNetworkConnection(getActivity())) {
-                        //      if (pickup_location.getText().toString().trim().equals("")) {
-                        //        Toast.makeText(getActivity(), getString(R.string.select_pickup_location), Toast.LENGTH_LONG).show();
-                        //  } else if (drop_location.getText().toString().trim().equals("")) {
-                        //    Toast.makeText(getActivity(), getString(R.string.select_drop_location), Toast.LENGTH_LONG).show();
                         if (pickup_location == null || drop == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_location), Toast.LENGTH_LONG).show();
                         } else if (driver_id == null || drivername == null) {
@@ -254,7 +231,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         } else if (cost == null || unit == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_fare), Toast.LENGTH_SHORT).show();
                         } else {
-
                             Bundle bundle = new Bundle();
                             pass.setDriverId(driver_id);
                             pass.setDriverName(drivername);
@@ -265,21 +241,17 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
-
                     }
                 }
             });
             custom_request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (CheckConnection.haveNetworkConnection(getActivity())) {
                         if (s_drop == null || s_pic == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_pickupaddress), Toast.LENGTH_LONG).show();
                             Toast.makeText(getActivity(), getString(R.string.invalid_droplocation), Toast.LENGTH_LONG).show();
-
                         } else {
-                            //
                             AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeFragment.this.getContext());
                             View mView = getLayoutInflater().inflate(R.layout.dialog_addtravel_layout, null);
                             final EditText mPassengers = (EditText) mView.findViewById(R.id.etPassengers);
@@ -294,13 +266,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                 @Override
                                 public void onClick(View view) {
                                     if (!mPassengers.getText().toString().isEmpty()) {
-//                                        Toast.makeText(HomeFragment.this.getContext(),
-//                                                "Success",
-//                                                Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
-                                        log.i("tag", "success by ibrahim");
-                                        log.i("tag", mPassengers.getText().toString());
-                                        log.i("tag", mPrice.getText().toString());
                                         Bundle bundle = new Bundle();
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
@@ -309,9 +275,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                         pass.setToAddress(to_add);
                                         pass.setFromPlace(s_pic.getAddress());
                                         pass.setFromAddress(from_add);
-                                        log.i("tag", "DateTime by ibrahim");
-                                        log.i("tag", date_time_value);
-                                        log.i("tag", time_value);
                                         pass.setTime(time_value);
                                         pass.setDate(date_time_value);
                                         pass.setDriverId("-1");
@@ -319,12 +282,9 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                         pass.setDriverName(drivername);
                                         pass.setStatus("REQUESTED");
                                         pass.NoPassengers = Integer.parseInt(mPassengers.getText().toString());
-                                        //                                       pass.TripPrice = Integer.parseInt(mPrice.getText().toString());
-
                                         if (Checkbox.isChecked())
                                             pass.setCheck("1");
                                         else pass.setCheck("0");
-
                                         bundle.putSerializable("data", pass);
                                         RequestFragment fragobj = new RequestFragment();
                                         fragobj.setArguments(bundle);
@@ -342,11 +302,9 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                     dialog.dismiss();
                                 }
                             });
-
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
-
                     }
                 }
             });
@@ -359,11 +317,8 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         header.setVisibility(View.GONE);
                         footer.setVisibility(View.GONE);
                     }
-
-
                 }
             });
-
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -373,60 +328,36 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         header.setVisibility(View.GONE);
                         footer.setVisibility(View.GONE);
                     }
-
                 }
             });
-
             pickup_location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-
-// Start the autocomplete intent.
                     Intent intent = new Autocomplete.IntentBuilder(
                             AutocompleteActivityMode.FULLSCREEN, fields)
                             .build(getActivity());
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
-
                 }
             });
             search_drop_location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /* Intent intent =
-                             new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                     .build(getActivity());
-                     startActivityForResult(intent, PLACE_PICKER_REQUEST);*/
-
-
                     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-
-// Start the autocomplete intent.
                     Intent intent = new Autocomplete.IntentBuilder(
                             AutocompleteActivityMode.FULLSCREEN, fields)
                             .build(getActivity());
                     startActivityForResult(intent, PLACE_search_AUTOCOMPLETE_REQUEST_CODE);
-
                 }
             });
             search_pich_location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /* Intent intent =
-                             new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                     .build(getActivity());
-                     startActivityForResult(intent, PLACE_PICKER_REQUEST);*/
-
                     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-
-// Start the autocomplete intent.
                     Intent intent = new Autocomplete.IntentBuilder(
                             AutocompleteActivityMode.FULLSCREEN, fields)
                             .build(getActivity());
                     startActivityForResult(intent, PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE);
-
                 }
             });
 
@@ -434,7 +365,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 @Override
                 public void onClick(View v) {
                     onRefresh();
-
                     if (currentLatitude != null && !currentLatitude.equals(0.0) && currentLongitude != null && !currentLongitude.equals(0.0)) {
                         Intent intent = new Intent(getActivity(), List_provider.class);
                         intent.putExtra("cureentlatitude", String.valueOf(currentLatitude));
@@ -451,60 +381,44 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             intent.putExtra("passanger_value", String.valueOf(passanger_value));
                         }
                         if (bag_value != null) {
-
                             intent.putExtra("bag_value", String.valueOf(bag_value));
                         }
                         startActivity(intent);
-
-
                         s_pic = null;
                         s_drop = null;
-
                     }
-
                 }
             });
             drop_location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-
-// Start the autocomplete intent.
                     Intent intent = new Autocomplete.IntentBuilder(
                             AutocompleteActivityMode.FULLSCREEN, fields)
                             .build(getActivity());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-
                 }
             });
 
         } catch (InflateException e) {
-
         }
-
         return rootView;
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("result");
                 getcurrentlocation();
             }
             if (resultCode == RESULT_CANCELED) {
-                //Write your code if there's no result
             }
         } else if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 pickup = Autocomplete.getPlaceFromIntent(data);
                 pickup_location.setText(pickup.getAddress());
-                //  search_drop.setVisibility(View.VISIBLE);
-
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.e(TAG, status.toString());
@@ -517,35 +431,26 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
-
             }
-
         } else if (requestCode == PLACE_search_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 s_drop = Autocomplete.getPlaceFromIntent(data);
                 search_drop_location.setText(s_drop.getAddress());
-
                 Log.e(TAG, "search_drop: " + PLACE_search_AUTOCOMPLETE_REQUEST_CODE);
-
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
-
             }
         } else if (requestCode == PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 s_pic = Autocomplete.getPlaceFromIntent(data);
                 search_pich_location.setText(s_pic.getAddress());
-
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
-
             }
         }
     }
-
-
     @Override
     public void onPause() {
         super.onPause();
@@ -558,14 +463,11 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 mGoogleApiClient.disconnect();
             }
         }
-
     }
 
     public void onRefresh() {
-
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
-
     }
 
     @Override
@@ -582,7 +484,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         if (mMapView != null) {
             mMapView.onDestroy();
         }
-
     }
 
     @Override
@@ -605,9 +506,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     public void onStart() {
         super.onStart();
         if (mMapView != null) {
-
             mMapView.onStart();
-
         }
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
@@ -618,9 +517,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     public void onResume() {
         super.onResume();
         if (mMapView != null) {
-
             mMapView.onResume();
-
         }
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
@@ -632,7 +529,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         super.onDestroyView();
     }
 
-
     public void multipleMarker(List<NearbyData> list) {
         if (list != null) {
             for (NearbyData location : list) {
@@ -640,77 +536,49 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 Double longitude = null;
                 try {
                     String[] parts = location.getPickup_location().split(",");
-
-                    // latitude = Double.valueOf(location.getLatitude());
-                    //longitude = Double.valueOf(location.getLongitude());
                     latitude = Double.valueOf(parts[0]);
                     longitude = Double.valueOf(parts[1]);
-
                     Marker marker = myMap.addMarker(new MarkerOptions()
                             .position(new LatLng(latitude, longitude))
                             .title(location.getName())
                             .snippet(location.getVehicle_info()));
                     marker.setTag(location);
                 } catch (NumberFormatException e) {
-
                 }
-
                 CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
                 myMap.animateCamera(camera);
             }
         }
-
     }
 
     public void Search(List<NearbyData> list) {
         String[] da = new String[]{};
         if (list != null) {
-
             for (NearbyData search : list) {
-
                 try {
-
                     da = new String[]{search.getPickup_address().toString()};
-
                 } catch (NumberFormatException e) {
-
                 }
-
                 CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
                 myMap.animateCamera(camera);
             }
         }
-
     }
-
-
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
-
-
     }
-
     @Override
     public void onDirectionFailure(Throwable t) {
-
     }
-
-
     @Override
     public void onAnimationStart(Animation animation) {
-
     }
-
     @Override
     public void onAnimationEnd(Animation animation) {
-
     }
-
     @Override
     public void onAnimationRepeat(Animation animation) {
-
     }
-
     public void bindView(Bundle savedInstanceState) {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         MapsInitializer.initialize(this.getActivity());
@@ -723,14 +591,12 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         smoke_search = (TextView) rootView.findViewById(R.id.somoke_search);
         date_time_search = (TextView) rootView.findViewById(R.id.Time_date_search);
         passanger_search = (TextView) rootView.findViewById(R.id.passenger_search);
-
         txt_info = (TextView) rootView.findViewById(R.id.txt_info);
         txt_address = (TextView) rootView.findViewById(R.id.txt_addresss);
         request_ride = (TextView) rootView.findViewById(R.id.request_rides);
         txt_fee = (TextView) rootView.findViewById(R.id.TravelFee);
         txt_date = (TextView) rootView.findViewById(R.id.TravelDate);
         txt_smoke = (TextView) rootView.findViewById(R.id.Smoke);
-
         txt_color = (TextView) rootView.findViewById(R.id.txt_color);
         txt_cost = (TextView) rootView.findViewById(R.id.txt_cost);
         mMapView = (MapView) rootView.findViewById(R.id.mapview);
@@ -738,33 +604,25 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         liner_close = (LinearLayout) rootView.findViewById(R.id.linear_clear);
         custom_request = (Button) rootView.findViewById(R.id.ride_add_btn);
         search_box_custom = (Button) rootView.findViewById(R.id.search_for_users_btn);
-
         header = (RelativeLayout) rootView.findViewById(R.id.header);
         search_box = (RelativeLayout) rootView.findViewById(R.id.search_box_rel);
         footer = (RelativeLayout) rootView.findViewById(R.id.footer);
-        //  search_drop = (RelativeLayout) rootView.findViewById(R.id.search_drop);
-
         pickup_location = (TextView) rootView.findViewById(R.id.pickup_location);
         search_drop_location = (TextView) rootView.findViewById(R.id.search_drop_location);
         search_pich_location = (TextView) rootView.findViewById(R.id.pickup_search_location);
-
         drop_location = (TextView) rootView.findViewById(R.id.drop_location);
         linear_pickup = (RelativeLayout) rootView.findViewById(R.id.linear_pickup);
         relative_drop = (RelativeLayout) rootView.findViewById(R.id.relative_drop);
-        /*mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity(), null);*/
         mMapView.getMapAsync(this);
         mMapView.onCreate(savedInstanceState);
         Places.initialize(getApplicationContext(), getString(R.string.google_android_map_api_key));
         pass = new Pass();
-        // load animations
         animFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-        animFadeOut = AnimationUtils.loadAnimation(getActivity(),
-                R.anim.fade_out);
+        animFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
         animFadeIn.setAnimationListener(this);
         animFadeOut.setAnimationListener(this);
         applyfonts();
         placesClient = Places.createClient(getActivity());
-
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -787,7 +645,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 final TextInputLayout inputvalue = (TextInputLayout) viewInflated.findViewById(R.id.input_value);
                 final RadioButton no = (RadioButton) viewInflated.findViewById(R.id.no);
                 final RadioButton yes = (RadioButton) viewInflated.findViewById(R.id.yes);
-
                 inputvalue.setVisibility(View.GONE);
                 builder.setView(viewInflated);
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -796,17 +653,10 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         dialog.dismiss();
                         if (yes.isChecked()) {
                             smoke_value = "Yes";
-
                         } else {
                             smoke_value = "no";
                         }
-                        //log.e("grouop_id", String.valueOf(gruop_id));
-                        //gruop_id = gruop_id;
-                        //phone = input.getText().toString();
-                        //Add_user_Group(phone,Driver_groups_model.getGroup_id());
                         txt_smoke.setText(smoke_value);
-                        //Toast.makeText(getContext(), "smoked" + smoke_value, Toast.LENGTH_SHORT).show();
-
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -815,10 +665,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
-
-
             }
         });
         passanger_search.setOnClickListener(new View.OnClickListener() {
@@ -829,34 +676,17 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.box_input, (ViewGroup) getView(), false);
                 final EditText input = (EditText) viewInflated.findViewById(R.id.input);
                 final TextInputLayout inputvalue = (TextInputLayout) viewInflated.findViewById(R.id.input_value);
-                // final RadioButton no = (RadioButton) viewInflated.findViewById(R.id.no);
-                //final RadioButton yes = (RadioButton) viewInflated.findViewById(R.id.yes);
                 final LinearLayout smoke_lyner = (LinearLayout) viewInflated.findViewById(R.id.smoke_lyner);
-
                 smoke_lyner.setVisibility(View.GONE);
                 builder.setView(viewInflated);
-
-
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-
-
                         if (!input.getText().toString().equals("")) {
-
                             passanger_value = String.valueOf(input.getText());
                             passanger_search.setText(String.valueOf(input.getText()));
-
                         }
-
-
-                        //log.e("grouop_id", String.valueOf(gruop_id));
-                        //gruop_id = gruop_id;
-                        //phone = input.getText().toString();
-                        //Add_user_Group(phone,Driver_groups_model.getGroup_id());
-                        //  Toast.makeText(getContext(), "passs" + passanger_value, Toast.LENGTH_SHORT).show();
-
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -865,7 +695,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
             }
         });
@@ -874,17 +703,13 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             @Override
             public void onClick(View v) {
 
-
                 datePicker();
-                //  Toast.makeText(getContext(), "date" + date_time_value, Toast.LENGTH_SHORT).show();
-
 
             }
         });
         current_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     askCompactPermissions(permissionAsk, new PermissionResult() {
                         @Override
@@ -896,17 +721,13 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                 current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
                             }
                         }
-
                         @Override
                         public void permissionDenied() {
-
                         }
-
                         @Override
                         public void permissionForeverDenied() {
                             Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
                             openSettingsApp(getActivity());
-
                         }
                     });
                 } else {
@@ -919,33 +740,26 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             pickup_location.setText("");
                             current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
                         }
-
                     }
-
                 }
             }
         });
-
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
         int result = ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) {
             android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             } else {
-                //If everything went fine lets get latitude and longitude
                 currentLatitude = location.getLatitude();
                 currentLongitude = location.getLongitude();
                 if (!currentLatitude.equals(0.0) && !currentLongitude.equals(0.0)) {
                     if (!flag) {
-                        //     NeaBy(String.valueOf(currentLatitude), String.valueOf(currentLongitude),search_pich_location.getText().toString(),search_drop_location.getText().toString(),smoke_value,date_time_value,passanger_value,bag_value);
                     }
                 } else {
-
                     Toast.makeText(getActivity(), getString(R.string.couldnt_get_location), Toast.LENGTH_LONG).show();
                 }
             }
@@ -953,43 +767,41 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             askCompactPermissions(permissionAsk, new PermissionResult() {
                 @Override
                 public void permissionGranted() {
-
                 }
-
                 @Override
                 public void permissionDenied() {
                 }
-
                 @Override
                 public void permissionForeverDenied() {
                     Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
                     openSettingsApp(getActivity());
                 }
             });
-
         }
-
-
     }
 
     private void datePicker() {
-
-        // Get Current Date
+        setLocale("en",getActivity());
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
-
+//                    @SuppressLint("US")
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        if (Locale.getDefault().getLanguage().equals("ar")) {
+                            Log.i("lang_ibrahim","arabic");
+                            Log.i("lang_ibrahim",Locale.getDefault().getLanguage());
+                            date_time_value = String.format("%02d-%02d-%04d", dayOfMonth, 1 + monthOfYear, year);
+                        }
+                        else {
+                            Log.i("lang_ibrahim","english");
+                            Log.i("lang_ibrahim",Locale.getDefault().getLanguage());
+                            date_time_value = String.format("%04d-%02d-%02d", year, 1 + monthOfYear, dayOfMonth);
+                        }
 
-//                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        date_time = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                        //*************Call Time Picker Here ********************
-                        // date_time_search.setText(date_time);
                         tiemPicker();
                     }
                 }, mYear, mMonth, mDay);
@@ -997,27 +809,22 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     }
 
     private void tiemPicker() {
-        // Get Current Time
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
-
-        // Launch Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
-
-
+//                    @SuppressLint("US")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
                         mHour = hourOfDay;
                         mMinute = minute;
 
-                        date_time_value = date_time;// + " " + hourOfDay + ":" + minute;
-                        time_value = hourOfDay + ":" + minute;
-                        date_time_search.setText(date_time_value + " " + String.format("%02d:%02d", hourOfDay, minute));
+                        time_value = String.format("%02d:%02d", hourOfDay, minute);
+                        date_time_search.setText(date_time_value + " " + time_value);
+                        setLocale("ar",getActivity());
                     }
-                }, mHour, 0, true);
+                }, mHour, mMinute, true);
         timePickerDialog.show();
     }
 
@@ -1028,58 +835,18 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         } else {
             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 try {
-                    /*@SuppressLint("MissingPermission") Task<PlaceLikelihoodBufferResponse> placeResult = mPlaceDetectionClient.getCurrentPlace(null);
-                    placeResult.addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-                        @Override
-                        public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                            try {
-                                if (task.isSuccessful()) {
-                                    PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-                                    for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                                        pickup = placeLikelihood.getPlace().freeze();
-                                        pickup_location.setText(placeLikelihood.getPlace().getAddress());
-                                        current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
-
-                                    }
-                                    likelyPlaces.release();
-                                }
-                            } catch (Exception e) {
-
-                            }
-
-                        }
-                    });*/
-
-                    // Use fields to define the data types to return.
                     List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-
-// Use the builder to create a FindCurrentPlaceRequest.
-                    FindCurrentPlaceRequest request =
-                            FindCurrentPlaceRequest.builder(placeFields).build();
-
-// Call findCurrentPlace and handle the response (first check that the user has granted permission).
+                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
                     if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
                         Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
                         placeResponse.addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 FindCurrentPlaceResponse response = task.getResult();
-                                /*for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                                    Log.i(TAG, String.format("Place '%s' has likelihood: %f",
-                                            placeLikelihood.getPlace().getName(),
-                                            placeLikelihood.getLikelihood()));
-                                    pickup = placeLikelihood.getPlace();
-                                    pickup_location.setText(placeLikelihood.getPlace().getAddress());
-                                    current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
-
-                                }
-*/
                                 if (response != null && response.getPlaceLikelihoods() != null) {
                                     PlaceLikelihood placeLikelihood = response.getPlaceLikelihoods().get(0);
                                     pickup = placeLikelihood.getPlace();
                                     pickup_location.setText(placeLikelihood.getPlace().getAddress());
                                     current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
-
                                 }
                             } else {
                                 Exception exception = task.getException();
@@ -1091,19 +858,13 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                         });
                     }
                 } catch (Exception e) {
-
                 }
-
-
             }
         }
-
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
@@ -1112,21 +873,12 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             try {
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(getActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-                 * PendingIntent
-                 */
             } catch (IntentSender.SendIntentException e) {
 
                 e.printStackTrace();
             }
         } else {
-            /*
-             * If no resolution is available, display a dialog to the
-             * user with the error.
-             */
         }
-
     }
 
     @Override
@@ -1145,22 +897,17 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         drop_location.setTypeface(font);
         txt_vehicleinfo.setTypeface(font1);
         rate.setTypeface(font1);
-
         txt_color.setTypeface(font);
         txt_address.setTypeface(font);
         request_ride.setTypeface(font1);
-
-
     }
 
 
     public void getcurrentlocation() {
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                // The next two lines tell the new client that “this” current class will handle connection stuff
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                //fourth line adds the LocationServices API endpoint from GooglePlayServices
                 .addApi(LocationServices.API)
                 .build();
 
@@ -1198,15 +945,9 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             .getLocationSettingsStates();
                     switch (status.getStatusCode()) {
                         case LocationSettingsStatusCodes.SUCCESS:
-                            // All location settings are satisfied. The client can
-                            // initialize location
-                            // requests here.
                             getcurrentlocation();
                             break;
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            // Location settings are not satisfied. But could be
-                            // fixed by showing the user
-                            // a dialog.
                             try {
                                 // Show the dialog by calling
                                 // startResolutionForResult(),
@@ -1272,12 +1013,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
 
                 if (nearbyData != null) {
-                    log.i("tag", "success by ibrahim1234");
-                    log.i("tag", "success by ibrahim1234");
-                    log.i("tag", "success by ibrahim1234");
-                    log.i("tag", "success by ibrahim1234");
-                    log.i("tag", "success by ibrahim1234");
-                    log.i("tag", nearbyData.getVehicle_info());
                     pass.setVehicleName(nearbyData.getVehicle_info());
                     txt_info.setText(nearbyData.getVehicle_info());
                     txt_address.setText("");
@@ -1502,7 +1237,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 SessionManager.setUnit(unit);
 
                 txt_address.setText(getAdd(Double.valueOf(nearbyData.getLatitude()), Double.valueOf(nearbyData.getLongitude())) + " " + "PickUp Location");
-                txt_smoke.setText(nearbyData.getSomked());
+                txt_smoke.setText(nearbyData.getsmoked());
                 txt_date.setText("Date: " + nearbyData.getTravel_date() + " Time: " + nearbyData.getTravel_time());
                 txt_fee.setText(nearbyData.getAmount());
 
@@ -1600,5 +1335,3 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         return NORMAL_BACK_PRIORITY;
     }
 }
-
-

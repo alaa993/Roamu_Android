@@ -39,9 +39,13 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="118dp"
-        app:srcCompat="@drawable/imageb1"
-        tools:srcCompat="@drawable/imageb1" />
+        android:layout_height="120dp"
+        tools:layout_centerHorizontal="true"
+        tools:layout_center="true"
+        tools:layout_centerVertical="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/roamu_user_transparent" />
 
     <RelativeLayout
         android:id="@+id/search_box_rel"

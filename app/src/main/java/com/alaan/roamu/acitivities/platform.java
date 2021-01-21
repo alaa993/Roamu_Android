@@ -224,10 +224,8 @@ public class platform extends Fragment {
         databasePosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 //clearing the previous artist list
                 posts.clear();
-
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting artist
@@ -251,7 +249,6 @@ public class platform extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
