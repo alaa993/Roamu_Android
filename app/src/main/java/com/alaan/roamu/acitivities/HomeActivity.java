@@ -47,6 +47,8 @@ import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
 import com.alaan.roamu.fragement.RequestFragment;
 import com.alaan.roamu.fragement.lang;
+import com.alaan.roamu.pojo.Notification;
+import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.privcy;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -96,6 +98,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     private ImageView avatar;
     boolean post_notification = true;
     DatabaseReference databasePosts;
+    int NotificationsCount = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -564,10 +568,21 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     private void getNotificationsCount(){
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
+            NotificationsCount = 0;
             databasePosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    addPost.setText(dataSnapshot.getChildrenCount() + "");
+                    for (DataSnapshot notificationSnapshot : dataSnapshot.getChildren()) {
+                        //getting artist
+                        Notification notification = notificationSnapshot.getValue(Notification.class);
+                        notification.id = notificationSnapshot.getKey();
+
+                        if (notification.readStatus.contains("0")) {
+                            NotificationsCount ++;
+                        }
+                    }
+
+                    addPost.setText(String.valueOf(NotificationsCount));
                 }
 
                 @Override

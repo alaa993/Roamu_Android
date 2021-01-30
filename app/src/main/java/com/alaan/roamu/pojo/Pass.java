@@ -13,7 +13,48 @@ import java.io.Serializable;
 
 public class Pass implements Serializable, Parcelable {
 
+    private String fromPlace;
+    private String toPlace;
+    private String fromAddress;
+    private String toAddress;
+    private String pickupPoint;
+    private String Check;
 
+    private String driverId;
+    // by ibrahim
+    private String travelId;
+    //    public String model;
+    public String color;
+    public String avatar;
+    public String vehicle_info;
+    public String Travels_Count;
+    public String DriverRate;
+    public String empty_set;
+    public String pickup_location;
+    public fragment_type f;
+    //
+    private String driverName;
+    private String driverCity;
+    private String date;
+    private String time;
+    private String smoke;
+    private String status;
+    private String travel_status;
+    private String payment_status;
+    private String payment_mode;
+
+    private String avalibleset;
+
+    public int NoPassengers;
+    public int TripPrice;
+    private String fare;
+    private String model;
+
+
+    static public enum fragment_type {
+        ADD,
+        GET
+    }
 
     public String getFromAddress() {
         return fromAddress;
@@ -38,41 +79,6 @@ public class Pass implements Serializable, Parcelable {
     public void setPickupPoint(String pickupPoint) {
         this.pickupPoint = pickupPoint;
     }
-
-    private String fromPlace;
-    private String toPlace;
-    private String fromAddress;
-    private String toAddress;
-    private String pickupPoint;
-    private String Check;
-
-    private String driverId;
-    // by ibrahim
-    private String travelId;
-//    public String model;
-    public String color;
-    public String avatar;
-    public String vehicle_info;
-    public String Travels_Count;
-    public String DriverRate;
-    public String empty_set;
-    public String pickup_location;
-    static public enum fragment_type {
-        ADD,
-        GET
-    }
-    public fragment_type f;
-    //
-    private String driverName;
-    private String driverCity;
-    private String date;
-    private String time;
-    private String smoke;
-    private String status;
-    private String avalibleset;
-
-    public int NoPassengers;
-    public int TripPrice;
 
     public String getDate() {
         return date;
@@ -114,6 +120,22 @@ public class Pass implements Serializable, Parcelable {
         this.status = status;
     }
 
+    public String getTravel_status() {
+        return travel_status;
+    }
+
+    public void setTravel_status(String travel_status) {
+        this.travel_status = travel_status;
+    }
+
+    public String getPayment_mode() {
+        return payment_mode;
+    }
+
+    public void setPayment_mode(String payment_mode) {
+        this.payment_mode = payment_mode;
+    }
+
     public String getAvalibleset() {
         return avalibleset;
     }
@@ -122,8 +144,7 @@ public class Pass implements Serializable, Parcelable {
         this.avalibleset = avalibleset;
     }
 
-    private String fare;
-    private String model;
+
 
     public String getVehicleName() {
         return model;
@@ -211,6 +232,14 @@ public class Pass implements Serializable, Parcelable {
 
     public void setFare(String fare) {
         this.fare = fare;
+    }
+
+    public String getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
     }
 
     @Override

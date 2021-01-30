@@ -175,15 +175,18 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     ProgressBar progressBar;
     private PlacesClient placesClient;
     RecyclerView recyclerView;
+    private CheckBox Checkbox;
 
     @Override
     public void onDetach() {
         super.onDetach();
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
@@ -204,9 +207,11 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             getcurrentlocation();
                         }
                     }
+
                     @Override
                     public void permissionDenied() {
                     }
+
                     @Override
                     public void permissionForeverDenied() {
                         openSettingsApp(getActivity());
@@ -258,7 +263,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
-                            CheckBox Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
+                            Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
                             mBuilder.setView(mView);
                             final AlertDialog dialog = mBuilder.create();
                             dialog.show();
@@ -267,28 +272,11 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                 public void onClick(View view) {
                                     if (!mPassengers.getText().toString().isEmpty()) {
                                         dialog.dismiss();
-                                        Bundle bundle = new Bundle();
+
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
-                                        pass.f = Pass.fragment_type.ADD;
-                                        pass.setToPlace(s_drop.getAddress());
-                                        pass.setToAddress(to_add);
-                                        pass.setFromPlace(s_pic.getAddress());
-                                        pass.setFromAddress(from_add);
-                                        pass.setTime(time_value);
-                                        pass.setDate(date_time_value);
-                                        pass.setDriverId("-1");
-                                        pass.setFare(cost);
-                                        pass.setDriverName(drivername);
-                                        pass.setStatus("REQUESTED");
-                                        pass.NoPassengers = Integer.parseInt(mPassengers.getText().toString());
-                                        if (Checkbox.isChecked())
-                                            pass.setCheck("1");
-                                        else pass.setCheck("0");
-                                        bundle.putSerializable("data", pass);
-                                        RequestFragment fragobj = new RequestFragment();
-                                        fragobj.setArguments(bundle);
-                                        ((HomeActivity) getActivity()).changeFragment(fragobj, getString(R.string.request_ride));
+
+                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(mPrice), "0", String.valueOf(mPassengers.getText()));
                                     } else {
                                         Toast.makeText(HomeFragment.this.getContext(),
                                                 "Failed",
@@ -405,7 +393,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         return rootView;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1000) {
@@ -451,6 +438,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             }
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -564,21 +552,27 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             }
         }
     }
+
     @Override
     public void onDirectionSuccess(Direction direction, String rawBody) {
     }
+
     @Override
     public void onDirectionFailure(Throwable t) {
     }
+
     @Override
     public void onAnimationStart(Animation animation) {
     }
+
     @Override
     public void onAnimationEnd(Animation animation) {
     }
+
     @Override
     public void onAnimationRepeat(Animation animation) {
     }
+
     public void bindView(Bundle savedInstanceState) {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         MapsInitializer.initialize(this.getActivity());
@@ -721,9 +715,11 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                 current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
                             }
                         }
+
                         @Override
                         public void permissionDenied() {
                         }
+
                         @Override
                         public void permissionForeverDenied() {
                             Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
@@ -768,9 +764,11 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 @Override
                 public void permissionGranted() {
                 }
+
                 @Override
                 public void permissionDenied() {
                 }
+
                 @Override
                 public void permissionForeverDenied() {
                     Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
@@ -781,24 +779,23 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     }
 
     private void datePicker() {
-        setLocale("en",getActivity());
+        setLocale("en", getActivity());
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
-//                    @SuppressLint("US")
+                    //                    @SuppressLint("US")
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         if (Locale.getDefault().getLanguage().equals("ar")) {
-                            Log.i("lang_ibrahim","arabic");
-                            Log.i("lang_ibrahim",Locale.getDefault().getLanguage());
+                            Log.i("lang_ibrahim", "arabic");
+                            Log.i("lang_ibrahim", Locale.getDefault().getLanguage());
                             date_time_value = String.format("%02d-%02d-%04d", dayOfMonth, 1 + monthOfYear, year);
-                        }
-                        else {
-                            Log.i("lang_ibrahim","english");
-                            Log.i("lang_ibrahim",Locale.getDefault().getLanguage());
+                        } else {
+                            Log.i("lang_ibrahim", "english");
+                            Log.i("lang_ibrahim", Locale.getDefault().getLanguage());
                             date_time_value = String.format("%04d-%02d-%02d", year, 1 + monthOfYear, dayOfMonth);
                         }
 
@@ -814,7 +811,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         mMinute = c.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
-//                    @SuppressLint("US")
+                    //                    @SuppressLint("US")
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         mHour = hourOfDay;
@@ -822,7 +819,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
                         time_value = String.format("%02d:%02d", hourOfDay, minute);
                         date_time_search.setText(date_time_value + " " + time_value);
-                        setLocale("ar",getActivity());
+                        setLocale("ar", getActivity());
                     }
                 }, mHour, mMinute, true);
         timePickerDialog.show();
@@ -889,7 +886,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         }
     }
 
-
     public void applyfonts() {
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Book.otf");
@@ -901,7 +897,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         txt_address.setTypeface(font);
         request_ride.setTypeface(font1);
     }
-
 
     public void getcurrentlocation() {
 
@@ -1279,7 +1274,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
     }
 
-
     private String getAdd(double latitude, double longitude) {
         String finalAddress = null;
         try {
@@ -1322,7 +1316,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
     }
 
-
     @Override
     public boolean onBackPressed() {
         Log.d("app fargment", "onBackPressed: homeprovider ");
@@ -1333,5 +1326,124 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     @Override
     public int getBackPriority() {
         return NORMAL_BACK_PRIORITY;
+    }
+
+    // pending request by ibrahim
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String booked_set) {
+        final RequestParams params = new RequestParams();
+        params.put("driver_id", "-1");
+        //by ibrahim
+        params.put("travel_id", "-1");
+        params.put("user_id", SessionManager.getUserId());
+        params.put("pickup_address", pickup_address);
+        params.put("drop_address", drop_address);
+        params.put("date", date_time_value);
+        params.put("time", time_value);
+        params.put("pickup_location", pickup_location);
+        params.put("drop_location", drop_location);
+        params.put("Ride_smoked", "0");
+        params.put("amount", amount);
+        params.put("distance", distance);
+        params.put("status", "REQUESTED");
+        params.put("booked_set", booked_set);
+        Server.setHeader(key);
+        Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getActivity(), getString(R.string.ride_has_been_requested), Toast.LENGTH_LONG).show();
+                        if (response.has("data")) {
+                            JSONObject data = response.getJSONObject("data");
+                            int ride_id = Integer.parseInt(data.getString("ride_id"));
+                            if (Checkbox.isChecked()) {
+                                SavePost(pickup_address, drop_address, date_time_value, time_value, ride_id);
+                            }
+                            addRideFirebase(ride_id, "","REQUESTED", "", "");
+                            search_drop_location.setText("");
+                            search_pich_location.setText("");
+                            date_time_search.setText("");
+                        }
+//                        startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.try_again), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.try_again), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+        });
+    }
+
+    public void SavePost(String pickup_address, String Drop_address, String date_time_value, String time_value, int ride_id) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
+        databaseRefID.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String UserName = dataSnapshot.child("username").getValue(String.class);
+                String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
+                String text = getString(R.string.Travel_is_going_from) + " " + System.getProperty("line.separator")
+                        + getString(R.string.Travel_from) + " " + pickup_address + System.getProperty("line.separator")
+                        + getString(R.string.Travel_to) + " " + Drop_address + System.getProperty("line.separator")
+                        + getString(R.string.Travel_on) + " " + date_time_value + System.getProperty("line.separator")
+                        + getString(R.string.the_clock) + " " + time_value;
+                // Firebase code here
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("posts").push();
+                Map<String, Object> author = new HashMap<>();
+                author.put("uid", user.getUid());
+                author.put("username", UserName);
+                author.put("photoURL", photoURL);
+                Map<String, Object> userObject = new HashMap<>();
+                userObject.put("author", author);
+                userObject.put("text", text);
+                //type = 0 => driver
+                //type = 1 => user
+                userObject.put("type", "1");
+                userObject.put("privacy", "1");
+                userObject.put("travel_id", ride_id);
+                userObject.put("timestamp", ServerValue.TIMESTAMP);
+                databaseRef.setValue(userObject);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
+    }
+
+    public void addRideFirebase(int ride_id_param, String travel_status, String ride_status, String payment_status, String payment_mode) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("rides").child(String.valueOf(ride_id_param));
+        Map<String, Object> rideObject = new HashMap<>();
+
+        rideObject.put("ride_status", ride_status);
+        rideObject.put("travel_status", travel_status);
+        rideObject.put("payment_status", payment_status);
+        rideObject.put("payment_mode", payment_mode);
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        databaseRef.setValue(rideObject);
     }
 }

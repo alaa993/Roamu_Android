@@ -61,13 +61,7 @@ public class PendingRequestPojo implements Serializable {
         this.booked_set = booked_set;
     }
 
-    public String getPayment_mode() {
-        return payment_mode;
-    }
 
-    public void setPayment_mode(String payment_mode) {
-        this.payment_mode = payment_mode;
-    }
 
     public String getUser_mobile() {
         return user_mobile;
@@ -219,6 +213,14 @@ public class PendingRequestPojo implements Serializable {
 
     public void setPayment_status(String payment_status) {
         this.payment_status = payment_status;
+    }
+
+    public String getPayment_mode() {
+        return payment_mode;
+    }
+
+    public void setPayment_mode(String payment_mode) {
+        this.payment_mode = payment_mode;
     }
 
     public String getAmount() {

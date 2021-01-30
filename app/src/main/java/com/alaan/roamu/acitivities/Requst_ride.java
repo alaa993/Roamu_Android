@@ -69,6 +69,7 @@ import cz.msebera.android.httpclient.Header;
 import static com.loopj.android.http.AsyncHttpClient.log;
 import static gun0912.tedbottompicker.TedBottomPicker.TAG;
 
+// not used by ibrahim probably
 public class Requst_ride extends AppCompatActivity {
 
     AppCompatButton confirm, cancel;

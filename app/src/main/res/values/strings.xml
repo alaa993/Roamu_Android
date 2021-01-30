@@ -246,4 +246,5 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="All_travel">-ِAll-</string>
     <string name="my_accepted_travels">My Accepted Travels</string>
     <string name="no_status">No Status</string>
+    <string name="DetailReqVCEnterRating">Please Enter Driver Rating\n Trip price Rating\n Comment(Optional)</string>
 </resources>

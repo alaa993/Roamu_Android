@@ -109,6 +109,10 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
                 pass.setDate(nearbyData.getTravel_date());
                 pass.setTime(nearbyData.getTravel_time());
                 pass.setAvalibleset(nearbyData.getBooked_set());
+                pass.setTravel_status(nearbyData.getTravel_status());
+                pass.setStatus(nearbyData.getStatus());
+                pass.setPayment_mode(nearbyData.getPayment_mode());
+                pass.setPayment_status(nearbyData.getPayment_status());
                 pass.avatar = nearbyData.avatar;
                 pass.vehicle_info = nearbyData.vehicle_info;
                 // by ibrahim

@@ -6,12 +6,23 @@
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/rd_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:gravity="center_horizontal"
+        android:text="@string/DetailReqVCEnterRating"
+        android:textSize="20sp" />
+
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/rateHeader"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/rd_textView"
+        android:layout_marginTop="15dp"
         android:background="@color/colorPrimary" />
 
     <TextView
@@ -20,12 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_below="@+id/separator"
+        android:layout_marginTop="10dp"
         android:text="@string/driver_rate"
         android:textColor="@color/dim_foreground_material_light"
         android:textSize="20sp"
         android:theme="@style/RatingBar" />
 
-<!--    style="@style/QIBusSoftui"-->
     <RatingBar
         android:id="@+id/ratingsBar"
         android:layout_width="wrap_content"
@@ -60,6 +72,24 @@
         android:rating="0"
         android:theme="@style/RatingBar" />
 
+    <EditText
+        android:id="@+id/etComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="@dimen/QIBus_softui_margin_32dp"
+        android:hint="@string/Comments"
+        android:layout_below="@+id/fare_rating"
+        android:lines="1"
+        android:maxLines="5"
+        android:padding="@dimen/QIBus_softui_spacing_large"
+        android:textColor="@color/black"
+        android:textSize="@dimen/QIBus_softui_font_large"
+        />
+
     <TextView
         android:id="@+id/errorTV"
         android:layout_width="wrap_content"
@@ -74,7 +104,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fare_rating"
+        android:layout_below="@+id/etComments"
         android:layout_gravity="center"
         android:weightSum="2">
 

@@ -63,7 +63,11 @@
             layout="@layout/search_box"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_below="@+id/icon_rommu" />
+            android:layout_below="@+id/icon_rommu"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp" />
 
     </RelativeLayout>
 

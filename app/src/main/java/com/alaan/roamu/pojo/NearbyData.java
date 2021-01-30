@@ -41,6 +41,11 @@ public class NearbyData implements Serializable {
     //    String vehicle_info;
     String distance;
 
+    private String status;
+    private String travel_status;
+    private String payment_status;
+    private String payment_mode;
+
 
     public NearbyData() {
     }
@@ -202,6 +207,38 @@ public class NearbyData implements Serializable {
 
     public void setDrop_location(String drop_location) {
         this.drop_location = drop_location;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTravel_status() {
+        return travel_status;
+    }
+
+    public void setTravel_status(String travel_status) {
+        this.travel_status = travel_status;
+    }
+
+    public String getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
+    }
+
+    public String getPayment_mode() {
+        return payment_mode;
+    }
+
+    public void setPayment_mode(String payment_mode) {
+        this.payment_mode = payment_mode;
     }
 
 }
