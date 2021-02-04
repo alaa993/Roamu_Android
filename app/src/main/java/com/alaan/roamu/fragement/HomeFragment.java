@@ -1304,10 +1304,10 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 @Override
                 public void run() {
                     FragmentManager fragmentManager = getChildFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                    fragmentTransaction.addToBackStack(null);
+                    //fragmentTransaction.addToBackStack(null);
                 }
             }, 50);
         } catch (Exception e) {

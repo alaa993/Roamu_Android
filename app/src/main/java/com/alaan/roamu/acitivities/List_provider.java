@@ -174,7 +174,7 @@ public class List_provider extends AppCompatActivity {
 
                    // recyclerView.setVisibility(View.GONE);
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame_list, fragment, fragmenttag);
                     fragmentTransaction.commit();
                   //  fragmentTransaction.addToBackStack(null);

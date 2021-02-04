@@ -690,10 +690,10 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 @Override
                 public void run() {
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                    fragmentTransaction.addToBackStack(null);
+                    //fragmentTransaction.addToBackStack(null);
                 }
             }, 50);
         } catch (Exception e) {

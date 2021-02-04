@@ -11,9 +11,13 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -56,6 +60,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -169,28 +174,20 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private String ride_status;
     private String payment_status;
     private String payment_mode;
+    boolean isActive = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        bundle = getArguments();
-        if (bundle != null) {
-            rideJson = (PendingRequestPojo) bundle.getSerializable("data");
-            travel_status = rideJson.getTravel_status();
-            ride_status = rideJson.getStatus();
-            payment_status = rideJson.getPayment_status();
-            payment_mode = rideJson.getPayment_mode();
-
-            Log.i("ibrahim", rideJson.getRide_id());
-            databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
-        }
+        Log.i("ibrahim","onCreateView");
         view = inflater.inflate(R.layout.accepted_detail_fragmnet, container, false);
+        isActive = true;
+        bundle = getArguments();
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.passenger_info));
         BindView();
         configPaypal();
         return view;
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -198,41 +195,28 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             mGoogleApiClient.connect();
         }
     }
-
     @Override
     public void onStart() {
         super.onStart();
-        //attaching value event listener
-        databaseRides.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot rideSnapshot : dataSnapshot.getChildren()) {
-                    firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-                    Log.i("ibrahim ride", "----------");
-                    travel_status = fbRide.travel_status;
-                    ride_status = fbRide.ride_status;
-                    payment_status = fbRide.payment_status;
-                    payment_mode = fbRide.payment_mode;
-                    setupData();
-                    changeFragment();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        Log.i("ibrahim","onStart");
     }
-
     @Override
     public void onPause() {
         super.onPause();
+        isActive = false;
+        Log.i("ibrahim","onPause");
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
                 mGoogleApiClient.disconnect();
             }
         }
+    }
+
+    public void onRefresh() {
+        Log.i("ibrahim","onRefresh");
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 
     public void BindView() {
@@ -281,8 +265,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         DriverCar = (ImageView) view.findViewById(R.id.carImage);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         btn_complete = (AppCompatButton) view.findViewById(R.id.btn_complete);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        title = (TextView) view.findViewById(R.id.title);
         drivername = (TextView) view.findViewById(R.id.Driver_name);
         trackRide = (AppCompatButton) view.findViewById(R.id.btn_trackride);
         btn_payment = (AppCompatButton) view.findViewById(R.id.btn_payment);
@@ -290,6 +272,12 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         pickup_location.setSelected(true);
         drop_location.setSelected(true);
         if (bundle != null) {
+            rideJson = (PendingRequestPojo) bundle.getSerializable("data");
+            databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
+            travel_status = rideJson.getTravel_status();
+            ride_status = rideJson.getStatus();
+            payment_status = rideJson.getPayment_status();
+            payment_mode = rideJson.getPayment_mode();
 
             pickup_location.setText(rideJson.getpickup_address() + " ");
             drop_location.setText(rideJson.getDrop_address());
@@ -439,12 +427,57 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     Log.i("ibrahim_waited", "--------------");
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
                 }
-                if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED") ) {// edited by ibrahim it was completed date:21/1/2021
+                if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
                     Log.i("ibrahim_completed", "--------------");
                     completeTask();
                 }
             }
         });
+        if (isActive)
+        {
+            databaseRides.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    if (dataSnapshot.getKey().contains("travel_status"))
+                    {
+                        travel_status = dataSnapshot.getValue().toString();
+                    }
+                    else if (dataSnapshot.getKey().contains("ride_status"))
+                    {
+                        ride_status = dataSnapshot.getValue().toString();
+                    }
+                    else if (dataSnapshot.getKey().contains("payment_status"))
+                    {
+                        payment_status = dataSnapshot.getValue().toString();
+                    }
+                    else if (dataSnapshot.getKey().contains("payment_mode"))
+                    {
+                        payment_mode = dataSnapshot.getValue().toString();
+                    }
+                    //firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+                    Log.i("ibrahim_ride", "----------");
+                    Log.i("ibrahim_ride", dataSnapshot.toString());
+//                    onRefresh();
+//                    changeFragment();
+                }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void setupData() {
@@ -508,7 +541,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-                CheckRating(rideJson.getUser_id(),rideJson.getTravel_id(),rideJson.getDriver_id());
+                CheckRating(rideJson.getUser_id(), rideJson.getTravel_id(), rideJson.getDriver_id());
             }
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
@@ -534,10 +567,16 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         }
         SetCustomFont setCustomFont = new SetCustomFont();
         setCustomFont.overrideFonts(getActivity(), view);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(false);
+                Fragment currentFragment = getFragmentManager().findFragmentByTag("Passenger Information");
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.detach(currentFragment);
+                fragmentTransaction.attach(currentFragment);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -579,8 +618,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 Log.i("ibrahim getTravel_id", rideJson.getTravel_id());
                 sendRating(ratingBar.getRating() * 2, fare_rating.getRating() * 2);
                 Log.i("ibrahim", "complete");
-                if (etComments.getText().toString().length() > 0 )
-                {
+                if (etComments.getText().toString().length() > 0) {
                     AddComment(etComments.getText().toString());
                 }
                 dialog.cancel();
@@ -622,6 +660,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -647,7 +686,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getActivity(), getString(R.string.payment_update), Toast.LENGTH_LONG).show();
-                ((HomeActivity) getActivity()).onBackPressed();
+//                ((HomeActivity) getActivity()).onBackPressed();
             }
 
             @Override
@@ -1247,7 +1286,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
     @Override
     public boolean onBackPressed() {
-        this.startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        Log.i("ibrahim","onBackPressedAcceptedDetail");
+        //this.startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         return false;
     }
 

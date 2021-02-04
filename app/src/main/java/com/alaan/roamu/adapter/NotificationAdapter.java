@@ -55,7 +55,6 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     DatabaseReference databaseComments;
 
     public NotificationAdapter(FragmentActivity context, List<Notification> notifications) {
-
         super(context, R.layout.notification_item, notifications);
         this.context = context;
         this.notifications = notifications;
@@ -103,14 +102,8 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     }
 
     public void updateNotificationFirebase(String ride_id, String user_id, String notification_id) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id);
-        Map<String, Object> rideObject = new HashMap<>();
-        rideObject.put("ride_id", ride_id);
-        rideObject.put("text", "Ride Updated");
-        rideObject.put("readStatus", "1");
-        rideObject.put("timestamp", ServerValue.TIMESTAMP);
-        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseRef.setValue(rideObject);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id).child("readStatus");
+        databaseRef.setValue("1");
     }
 
     private void GetRides(String ride_id, String notification_id) {
@@ -131,9 +124,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                     bundle.putSerializable("data", list.get(0));
                     AcceptedDetailFragment detailFragment = new AcceptedDetailFragment();
                     detailFragment.setArguments(bundle);
-
                     ((HomeActivity) getContext()).changeFragment(detailFragment, "Passenger Information");
-
                 } catch (JSONException e) {
                     Log.e("Get Data", e.getMessage());
                 }

@@ -263,7 +263,7 @@
     <string name="carConditon">تقييم الأجرة</string>
     <string name="travels_count">الرحلات المنجزة</string>
     <string name="pickup_point">نقطة التقاط</string>
-    <string name="platform" translatable="false">منصة التواصل الاجتماعي</string>
+    <string name="platform">منصة التواصل الاجتماعي</string>
     <string name="what_is_on_your_mind">ماذا يدور في ذهنك!!</string>
     <string name="add">أضف</string>
     <string name="post">إضافة</string>

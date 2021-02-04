@@ -1,8 +1,12 @@
 package com.alaan.roamu.fragement;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.ListView;
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.adapter.NotificationAdapter;
+import com.alaan.roamu.custom.SetCustomFont;
 import com.alaan.roamu.pojo.Notification;
 import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.pojo.PostList;
@@ -23,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.thebrownarrow.permissionhelper.PermissionResult;
+import com.thebrownarrow.permissionhelper.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,8 +85,8 @@ public class NotificationsFragment extends Fragment {
         Log.i("ibrahim_uid", String.valueOf(SessionManager.getUser()));
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
-        }catch (Exception e){
-            Log.i("ibrahim_e",e.getMessage());
+        } catch (Exception e) {
+            Log.i("ibrahim_e", e.getMessage());
         }
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.notifications));
         view.setBackgroundColor(Color.WHITE);
@@ -108,7 +115,7 @@ public class NotificationsFragment extends Fragment {
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting artist
-                    Log.i("ibrahim_notificatoni",postSnapshot.toString());
+                    Log.i("ibrahim_notificatoni", postSnapshot.toString());
                     Notification notification = postSnapshot.getValue(Notification.class);
                     notification.id = postSnapshot.getKey();
                     notifications.add(notification);
@@ -116,10 +123,19 @@ public class NotificationsFragment extends Fragment {
                 Collections.reverse(notifications);
                 if (!notifications.isEmpty()) {
                     //creating adapter
-                    NotificationAdapter notificationAdapter = new NotificationAdapter(getActivity(), notifications);
-                    //attaching adapter to the listview
-                    notificationAdapter.notifyDataSetChanged();
-                    listViewNotificatoins.setAdapter(notificationAdapter);
+                    try {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                NotificationAdapter notificationAdapter = new NotificationAdapter(getActivity(), notifications);
+                                //attaching adapter to the listview
+                                notificationAdapter.notifyDataSetChanged();
+                                listViewNotificatoins.setAdapter(notificationAdapter);
+                            }
+                        }, 50);
+                    } catch (Exception e) {
+                        Log.e("Exception", e.getMessage());
+                    }
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.alaan.roamu.acitivities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import net.skoumal.fragmentback.BackFragment;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,46 +52,16 @@ import afu.org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
-public class platform extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class platform extends Fragment implements BackFragment {
 
     View view;
     ListView listViewPosts;
     private FirebaseUser fUser;
-
-
-    //a list to store all the artist from firebase database
     List<Post> posts;
     DatabaseReference databasePosts;
 
     public platform() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment platform.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static platform newInstance(String param1, String param2) {
-        platform fragment = new platform();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -200,10 +174,10 @@ public class platform extends Fragment {
                 public void run() {
 //                    drawer_close();
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                    fragmentTransaction.addToBackStack(null);
+                    //fragmentTransaction.addToBackStack(null);
                 }
             }, 50);
         } catch (Exception e) {
@@ -216,7 +190,6 @@ public class platform extends Fragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -240,10 +213,14 @@ public class platform extends Fragment {
                 Collections.reverse(posts);
                 if (!posts.isEmpty()) {
                     //creating adapter
-                    PostList postAdapter = new PostList(getActivity(), posts);
-                    //attaching adapter to the listview
-                    postAdapter.notifyDataSetChanged();
-                    listViewPosts.setAdapter(postAdapter);
+                    Fragment fragment = getFragmentManager().findFragmentByTag(getString(R.string.platform));
+                    if (fragment != null && fragment.isVisible())
+                    {
+                        PostList postAdapter = new PostList(getActivity(), posts);
+                        //attaching adapter to the listview
+                        postAdapter.notifyDataSetChanged();
+                        listViewPosts.setAdapter(postAdapter);
+                    }
                 }
             }
 
@@ -254,5 +231,15 @@ public class platform extends Fragment {
     }
 
     public void getSystemService(String layoutInflaterService) {
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return true;
+    }
+
+    @Override
+    public int getBackPriority() {
+        return 0;
     }
 }

@@ -82,10 +82,6 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.alaan.roamu.fragement.lang.setLocale;
 
-/**
- * Created by android on 7/3/17.
- */
-
 public class HomeActivity extends ActivityManagePermission implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.ProfileUpdateListener, ProfileFragment.UpdateListener {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -176,15 +172,15 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     public void drawer_close() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
+        platform platform = new platform();
         MyAcceptedRequestFragment myAcceptedRequestFragment;
         promo promo = new promo();
 
         Bundle bundle;
-
+//        getVisibleFragment();
         switch (item.getItemId()) {
             case R.id.home:
                 post_notification = false;
@@ -225,7 +221,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 addPost.setBackgroundResource(R.drawable.ronded_button2);
                 addPost.setText(R.string.post);
                 addPost.setVisibility(View.VISIBLE);
-                changeFragment(new platform(), getString(R.string.platform));
+                changeFragment(platform, getString(R.string.platform));
                 break;
 
             case R.id.my_requests:
@@ -283,26 +279,23 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         return true;
     }
 
-
     public void changeFragment(final Fragment fragment, final String fragmenttag) {
-
         try {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+//                    getVisibleFragment();
                     drawer_close();
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(getString(R.string.home));
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
                 }
-            }, 50);
+            }, 30);
         } catch (Exception e) {
-
         }
     }
-
 
     public void getPhotoUri() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -315,37 +308,12 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 String UserName = dataSnapshot.child("username").getValue(String.class);
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Glide.with(getApplicationContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(avatar);
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
             }
         });
     }
-
-    public void changeFragment1() {
-
-        try {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    RequestFragment fragobj = new RequestFragment();
-
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
-                    fragmentTransaction.replace(R.id.frame_list, fragobj, "Request ride");
-                    fragmentTransaction.commit();
-                    fragmentTransaction.addToBackStack(null);
-                }
-            }, 50);
-        } catch (Exception e) {
-
-        }
-
-    }
-
     @Override
     public void update(String url) {
         if (!url.equals("")) {
@@ -353,7 +321,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 //            Glide.with(HomeActivity.this).load(user.getAvatar()).apply(new RequestOptions().error(R.drawable.images)).into(avatar);
         }
     }
-
     @Override
     public void name(String name) {
         if (!name.equals("")) {
@@ -403,7 +370,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
     }
 
-
     private void applyFontToMenuItem(MenuItem mi) {
         Typeface font = Typeface.createFromAsset(getAssets(), "font/AvenirLTStd_Medium.otf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
@@ -427,13 +393,13 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
     }
 
-
     public Fragment getVisibleFragment() {
         FragmentManager fragmentManager = HomeActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         if (fragments != null) {
             for (Fragment fragment : fragments) {
                 if (fragment != null && fragment.isVisible())
+                    Log.i("ibrahim_visible",fragment.toString());
                     return fragment;
             }
         }
@@ -539,7 +505,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
     boolean doubleBackToExitPressedOnce = false;
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         post_notification = false;
         getNotificationsCount();
@@ -552,7 +518,42 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
+//            super.onBackPressed();
+            getSupportFragmentManager().popBackStack();
+        }
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            Log.i("ibrahim","if---");
             super.onBackPressed();
+            //additional code
+        } else {
+            FragmentManager fragmentManager = HomeActivity.this.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            List<Fragment> fragments = fragmentManager.getFragments();
+            Log.i("ibrahim_fragmentss",fragments.toString());
+            if (fragments != null) {
+                for (Fragment fragment : fragments) {
+                    if (fragment != null && fragment.isVisible()){
+                        Log.i("ibrahim_visible",fragment.toString());
+                        fragmentTransaction.detach(fragment).commit();
+
+//                        fragmentTransaction.remove(fragment).commit();
+                        return;
+                    }
+                }
+                Log.i("ibrahim_fragmentss",fragments.toString());
+            }
+//            Log.i("ibrahim","else---");
+//            Fragment x = getVisibleFragment();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.remove(x).commit();
+            getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -566,9 +567,9 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     private void getNotificationsCount(){
+        NotificationsCount = 0;
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
-            NotificationsCount = 0;
             databasePosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -581,13 +582,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                             NotificationsCount ++;
                         }
                     }
-
                     addPost.setText(String.valueOf(NotificationsCount));
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
                 }
             });
         }catch (Exception e){
