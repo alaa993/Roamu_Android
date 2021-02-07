@@ -110,19 +110,16 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
                 pass.setTime(nearbyData.getTravel_time());
                 pass.setAvalibleset(nearbyData.getBooked_set());
                 pass.setTravel_status(nearbyData.getTravel_status());
-                pass.setStatus(nearbyData.getStatus());
+                pass.setStatus("PENDING");
                 pass.setPayment_mode(nearbyData.getPayment_mode());
                 pass.setPayment_status(nearbyData.getPayment_status());
                 pass.avatar = nearbyData.avatar;
                 pass.vehicle_info = nearbyData.vehicle_info;
                 // by ibrahim
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", "success by ibrahim search_d_adapter");
-                log.i("tag", nearbyData.getVehicle_info());
+                log.i("ibrahim", "success by ibrahim search_d_adapter");
+                log.i("ibrahim", pass.getStatus());
+                log.i("ibrahim", nearbyData.getVehicle_info());
+
                 pass.setVehicleName(nearbyData.getVehicle_info());
                 pass.empty_set = nearbyData.empty_set;
                 pass.DriverRate = nearbyData.DriverRate;

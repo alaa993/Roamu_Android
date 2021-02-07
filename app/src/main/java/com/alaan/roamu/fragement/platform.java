@@ -1,56 +1,40 @@
-package com.alaan.roamu.acitivities;
+package com.alaan.roamu.fragement;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.alaan.roamu.R;
-import com.alaan.roamu.fragement.HomeFragment;
+import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.fragement.PostFragment;
-import com.alaan.roamu.fragement.RequestFragment;
-import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.Post;
 
-import com.alaan.roamu.pojo.PostList;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.alaan.roamu.adapter.PostList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import net.skoumal.fragmentback.BackFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import afu.org.checkerframework.checker.nullness.qual.NonNull;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class platform extends Fragment implements BackFragment {
 
@@ -59,6 +43,7 @@ public class platform extends Fragment implements BackFragment {
     private FirebaseUser fUser;
     List<Post> posts;
     DatabaseReference databasePosts;
+    ValueEventListener listener;
 
     public platform() {
         // Required empty public constructor
@@ -147,23 +132,6 @@ public class platform extends Fragment implements BackFragment {
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("posts").child(Post_id).child("text");
         databaseRef.setValue(post_text);
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String uid = user.getUid();
-//        DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
-//
-//        databaseRefID.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-////                log.i("tag","success by ibrahim");
-////                log.i("tag", UserName);
-//                // Firebase code here
-//
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Getting Post failed, log a message
-//            }
-//        });
     }
 
     public void changeFragment(final Fragment fragment, final String fragmenttag) {
@@ -174,10 +142,10 @@ public class platform extends Fragment implements BackFragment {
                 public void run() {
 //                    drawer_close();
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                    //fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.addToBackStack(null);
                 }
             }, 50);
         } catch (Exception e) {
@@ -194,7 +162,7 @@ public class platform extends Fragment implements BackFragment {
     public void onStart() {
         super.onStart();
         //attaching value event listener
-        databasePosts.addValueEventListener(new ValueEventListener() {
+        listener = databasePosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //clearing the previous artist list
@@ -241,5 +209,11 @@ public class platform extends Fragment implements BackFragment {
     @Override
     public int getBackPriority() {
         return 0;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databasePosts.removeEventListener(listener);
     }
 }

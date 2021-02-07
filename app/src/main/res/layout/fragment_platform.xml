@@ -4,7 +4,7 @@
     android:layoutDirection="inherit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".acitivities.platform">
+    tools:context=".fragement.platform">
 
 <!--    android:background="@drawable/bg"-->
 <!--    android:backgroundTint="#40FFFFFF"-->
@@ -15,8 +15,8 @@
         android:id="@+id/listViewPosts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
+        android:dividerHeight="10.0sp"
         android:divider="@null"></ListView>
 
 </android.support.design.circularreveal.CircularRevealRelativeLayout>

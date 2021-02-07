@@ -38,17 +38,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alaan.roamu.BuildConfig;
-import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.about_us;
 import com.alaan.roamu.fragement.Contact_usFragment;
 import com.alaan.roamu.fragement.MyAcceptedRequestFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
-import com.alaan.roamu.fragement.RequestFragment;
 import com.alaan.roamu.fragement.lang;
+import com.alaan.roamu.fragement.platform;
 import com.alaan.roamu.pojo.Notification;
-import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.privcy;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -80,8 +78,6 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.alaan.roamu.fragement.lang.setLocale;
-
 public class HomeActivity extends ActivityManagePermission implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.ProfileUpdateListener, ProfileFragment.UpdateListener {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -94,7 +90,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     private ImageView avatar;
     boolean post_notification = true;
     DatabaseReference databasePosts;
-    int NotificationsCount = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,7 +158,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -287,10 +282,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 //                    getVisibleFragment();
                     drawer_close();
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(getString(R.string.home));
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame, fragment, fragmenttag);
                     fragmentTransaction.commit();
-//                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.addToBackStack(null);
                 }
             }, 30);
         } catch (Exception e) {
@@ -302,7 +297,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
 
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
@@ -505,7 +500,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
     boolean doubleBackToExitPressedOnce = false;
 
-    /*@Override
+    @Override
     public void onBackPressed() {
         post_notification = false;
         getNotificationsCount();
@@ -518,44 +513,44 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            super.onBackPressed();
-            getSupportFragmentManager().popBackStack();
-        }
-    }*/
-
-    @Override
-    public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0) {
-            Log.i("ibrahim","if---");
             super.onBackPressed();
-            //additional code
-        } else {
-            FragmentManager fragmentManager = HomeActivity.this.getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            List<Fragment> fragments = fragmentManager.getFragments();
-            Log.i("ibrahim_fragmentss",fragments.toString());
-            if (fragments != null) {
-                for (Fragment fragment : fragments) {
-                    if (fragment != null && fragment.isVisible()){
-                        Log.i("ibrahim_visible",fragment.toString());
-                        fragmentTransaction.detach(fragment).commit();
-
-//                        fragmentTransaction.remove(fragment).commit();
-                        return;
-                    }
-                }
-                Log.i("ibrahim_fragmentss",fragments.toString());
-            }
-//            Log.i("ibrahim","else---");
-//            Fragment x = getVisibleFragment();
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.remove(x).commit();
             getSupportFragmentManager().popBackStack();
         }
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        int count = getSupportFragmentManager().getBackStackEntryCount();
+//        if (count == 0) {
+//            Log.i("ibrahim","if---");
+//            super.onBackPressed();
+//            //additional code
+//        } else {
+//            FragmentManager fragmentManager = HomeActivity.this.getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//            List<Fragment> fragments = fragmentManager.getFragments();
+//            Log.i("ibrahim_fragmentss",fragments.toString());
+//            if (fragments != null) {
+//                for (Fragment fragment : fragments) {
+//                    if (fragment != null && fragment.isVisible()){
+//                        Log.i("ibrahim_visible",fragment.toString());
+//                        fragmentTransaction.detach(fragment).commit();
+//
+////                        fragmentTransaction.remove(fragment).commit();
+//                        return;
+//                    }
+//                }
+//                Log.i("ibrahim_fragmentss",fragments.toString());
+//            }
+////            Log.i("ibrahim","else---");
+////            Fragment x = getVisibleFragment();
+////            FragmentManager fragmentManager = getSupportFragmentManager();
+////            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+////            fragmentTransaction.remove(x).commit();
+//            getSupportFragmentManager().popBackStack();
+//        }
+//    }
 
     private boolean isInHomeFragment() {
         for (Fragment item : getSupportFragmentManager().getFragments()) {
@@ -567,12 +562,12 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     private void getNotificationsCount(){
-        NotificationsCount = 0;
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
             databasePosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    int NotificationsCount = 0;
                     for (DataSnapshot notificationSnapshot : dataSnapshot.getChildren()) {
                         //getting artist
                         Notification notification = notificationSnapshot.getValue(Notification.class);

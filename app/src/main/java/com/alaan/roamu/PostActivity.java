@@ -2,21 +2,12 @@ package com.alaan.roamu;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,20 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alaan.roamu.Server.Server;
-import com.alaan.roamu.acitivities.AddPostActivity;
-import com.alaan.roamu.acitivities.HomeActivity;
-import com.alaan.roamu.acitivities.List_provider;
 import com.alaan.roamu.acitivities.Requst_ride;
-import com.alaan.roamu.acitivities.platform;
-import com.alaan.roamu.adapter.search_d_adapter;
-import com.alaan.roamu.fragement.HomeFragment;
-import com.alaan.roamu.fragement.RequestFragment;
 import com.alaan.roamu.pojo.Comment;
 import com.alaan.roamu.pojo.CommentList;
 import com.alaan.roamu.pojo.NearbyData;
 import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.Post;
-import com.alaan.roamu.pojo.PostList;
 import com.alaan.roamu.session.SessionManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -84,6 +67,7 @@ public class PostActivity extends Fragment {
     DatabaseReference databasePost;
     DatabaseReference databaseComments;
     RelativeLayout PostRL;
+    ValueEventListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -241,7 +225,7 @@ public class PostActivity extends Fragment {
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
 
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
@@ -295,7 +279,7 @@ public class PostActivity extends Fragment {
     public void onStart() {
         super.onStart();
 //        attaching value event listener
-        databasePost.addValueEventListener(new ValueEventListener() {
+        databasePost.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 //                // Get Post object and use the values to update the UI
@@ -317,7 +301,7 @@ public class PostActivity extends Fragment {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //                String uid = user.getUid();
                 DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(post.author.uid);
-                databaseRefID.addValueEventListener(new ValueEventListener() {
+                databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
@@ -340,7 +324,7 @@ public class PostActivity extends Fragment {
             }
         });
 
-        databaseComments.addValueEventListener(new ValueEventListener() {
+        listener = databaseComments.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -366,5 +350,11 @@ public class PostActivity extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        databaseComments.removeEventListener(listener);
     }
 }

@@ -126,8 +126,7 @@
                 android:textColor="@color/hint"
                 android:textColorHint="@color/md_grey_200"
                 android:textSize="@dimen/QIBus_softui_font_large"
-                tools:ignore="RtlHardcoded"
-                 />
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
 

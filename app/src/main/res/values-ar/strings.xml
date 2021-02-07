@@ -319,5 +319,7 @@
     <string name="my_accepted_travels">رحلاتي المقبولة</string>
     <string name="no_status">لايوجد حالة</string>
     <string name="DetailReqVCEnterRating">الرجاء إدخال تقييم السائق\n تقييم سعر الرحلة\n تعليق (اختياري)</string>
+    <string name="Notification_Request">أرسل اليك طلب</string>
+    <string name="RideUpdated">تم تحديث معلومات الرحلة:</string>
 
 </resources>

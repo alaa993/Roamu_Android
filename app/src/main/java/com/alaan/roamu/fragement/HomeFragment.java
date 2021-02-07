@@ -307,27 +307,27 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                     }
                 }
             });
-            clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
-                        header.startAnimation(animFadeOut);
-                        footer.startAnimation(animFadeOut);
-                        header.setVisibility(View.GONE);
-                        footer.setVisibility(View.GONE);
-                    }
-                }
-            });
-            pickup_location.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-                    Intent intent = new Autocomplete.IntentBuilder(
-                            AutocompleteActivityMode.FULLSCREEN, fields)
-                            .build(getActivity());
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
-                }
-            });
+//            clear.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
+//                        header.startAnimation(animFadeOut);
+//                        footer.startAnimation(animFadeOut);
+//                        header.setVisibility(View.GONE);
+//                        footer.setVisibility(View.GONE);
+//                    }
+//                }
+//            });
+//            pickup_location.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+//                    Intent intent = new Autocomplete.IntentBuilder(
+//                            AutocompleteActivityMode.FULLSCREEN, fields)
+//                            .build(getActivity());
+//                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+//                }
+//            });
             search_drop_location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -377,16 +377,16 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                     }
                 }
             });
-            drop_location.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-                    Intent intent = new Autocomplete.IntentBuilder(
-                            AutocompleteActivityMode.FULLSCREEN, fields)
-                            .build(getActivity());
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                }
-            });
+//            drop_location.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+//                    Intent intent = new Autocomplete.IntentBuilder(
+//                            AutocompleteActivityMode.FULLSCREEN, fields)
+//                            .build(getActivity());
+//                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//                }
+//            });
 
         } catch (InflateException e) {
         }
@@ -615,20 +615,20 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         animFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
         animFadeIn.setAnimationListener(this);
         animFadeOut.setAnimationListener(this);
-        applyfonts();
+//        applyfonts();
         placesClient = Places.createClient(getActivity());
-        clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drop_location.setText("");
-                if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
-                    header.startAnimation(animFadeOut);
-                    footer.startAnimation(animFadeOut);
-                    header.setVisibility(View.GONE);
-                    footer.setVisibility(View.GONE);
-                }
-            }
-        });
+//        clear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                drop_location.setText("");
+//                if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
+//                    header.startAnimation(animFadeOut);
+//                    footer.startAnimation(animFadeOut);
+//                    header.setVisibility(View.GONE);
+//                    footer.setVisibility(View.GONE);
+//                }
+//            }
+//        });
         smoke_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -701,45 +701,45 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
             }
         });
-        current_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    askCompactPermissions(permissionAsk, new PermissionResult() {
-                        @Override
-                        public void permissionGranted() {
-                            if (pickup_location.getText().toString().trim().equals("")) {
-                                setCurrentLocation();
-                            } else {
-                                pickup_location.setText("");
-                                current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
-                            }
-                        }
-
-                        @Override
-                        public void permissionDenied() {
-                        }
-
-                        @Override
-                        public void permissionForeverDenied() {
-                            Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
-                            openSettingsApp(getActivity());
-                        }
-                    });
-                } else {
-                    if (!GPSEnable()) {
-                        tunonGps();
-                    } else {
-                        if (pickup_location.getText().toString().trim().equals("")) {
-                            setCurrentLocation();
-                        } else {
-                            pickup_location.setText("");
-                            current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
-                        }
-                    }
-                }
-            }
-        });
+//        current_location.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    askCompactPermissions(permissionAsk, new PermissionResult() {
+//                        @Override
+//                        public void permissionGranted() {
+//                            if (pickup_location.getText().toString().trim().equals("")) {
+//                                setCurrentLocation();
+//                            } else {
+//                                pickup_location.setText("");
+//                                current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void permissionDenied() {
+//                        }
+//
+//                        @Override
+//                        public void permissionForeverDenied() {
+//                            Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
+//                            openSettingsApp(getActivity());
+//                        }
+//                    });
+//                } else {
+//                    if (!GPSEnable()) {
+//                        tunonGps();
+//                    } else {
+//                        if (pickup_location.getText().toString().trim().equals("")) {
+//                            setCurrentLocation();
+//                        } else {
+//                            pickup_location.setText("");
+//                            current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.black));
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -1401,7 +1401,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);

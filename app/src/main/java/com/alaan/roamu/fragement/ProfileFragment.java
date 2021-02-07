@@ -366,20 +366,12 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
 
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Glide.with(getActivity()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(profile_pic);
-//                log.i("tag","success by ibrahim");
-//                log.i("tag", UserName);
-                // Firebase code here
-                // User user = SessionManager.getUser();
-                //user.setAvatar(photoURL);
-                // profile_pic.setImageURI(photoURL);
-                // profileUpdateListener.update(photoURL);
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

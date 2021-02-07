@@ -1,12 +1,9 @@
 package com.alaan.roamu.fragement;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +13,7 @@ import android.widget.ListView;
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.adapter.NotificationAdapter;
-import com.alaan.roamu.custom.SetCustomFont;
 import com.alaan.roamu.pojo.Notification;
-import com.alaan.roamu.pojo.Post;
-import com.alaan.roamu.pojo.PostList;
 import com.alaan.roamu.session.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,8 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.thebrownarrow.permissionhelper.PermissionResult;
-import com.thebrownarrow.permissionhelper.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +44,7 @@ public class NotificationsFragment extends Fragment {
     //a list to store all the artist from firebase database
     List<Notification> notifications;
     DatabaseReference databasePosts;
+    ValueEventListener listener;
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -100,12 +93,11 @@ public class NotificationsFragment extends Fragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
     }
-
     @Override
     public void onStart() {
         super.onStart();
         //attaching value event listener
-        databasePosts.addValueEventListener(new ValueEventListener() {
+        listener = databasePosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -144,5 +136,10 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        databasePosts.removeEventListener(listener);
     }
 }

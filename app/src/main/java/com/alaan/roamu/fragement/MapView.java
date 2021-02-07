@@ -102,6 +102,9 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
     PendingRequestPojo pojo;
     private Marker marker;
 
+    DatabaseReference reference;
+    ValueEventListener listener;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -192,6 +195,7 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
     @Override
     public void onPause() {
         super.onPause();
+        reference.removeEventListener(listener);
         mMapView.onPause();
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
@@ -303,8 +307,8 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
             }
         });
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + pojo.getRide_id());
-        reference.addValueEventListener(new ValueEventListener() {
+        reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + pojo.getRide_id());
+        listener = reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Tracking tracking = dataSnapshot.getValue(Tracking.class);

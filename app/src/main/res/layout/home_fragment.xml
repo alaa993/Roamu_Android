@@ -23,29 +23,21 @@
 
     <RelativeLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="20dip"
-        android:visibility="gone">
-
-        <include
-            layout="@layout/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        tools:layout_centerHorizontal="true"
-        tools:layout_center="true"
-        tools:layout_centerVertical="false"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/roamu_user_transparent" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dip"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            app:srcCompat="@drawable/roamu_user_transparent" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/search_box_rel"

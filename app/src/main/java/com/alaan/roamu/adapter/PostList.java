@@ -1,31 +1,21 @@
-package com.alaan.roamu.pojo;
+package com.alaan.roamu.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.R;
 import com.alaan.roamu.Server.Server;
-import com.alaan.roamu.acitivities.HomeActivity;
-import com.alaan.roamu.acitivities.platform;
 import com.alaan.roamu.fragement.RequestFragment;
+import com.alaan.roamu.pojo.NearbyData;
+import com.alaan.roamu.pojo.Pass;
+import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.session.SessionManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -36,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.collection.LLRBNode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -47,15 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.sql.Timestamp;
 
 import cz.msebera.android.httpclient.Header;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class PostList extends ArrayAdapter<Post> {
     private FragmentActivity context;
@@ -102,7 +86,7 @@ public class PostList extends ArrayAdapter<Post> {
             TripDetail.setVisibility(View.GONE);
         }
         databaseComments = FirebaseDatabase.getInstance().getReference("posts").child(post.id).child("Comments");
-        databaseComments.addValueEventListener(new ValueEventListener() {
+        databaseComments.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 textViewCommentsNo.setText(context.getResources().getString(R.string.CommentsNoSt) + " (" + dataSnapshot.getChildrenCount() + ")");
@@ -123,7 +107,7 @@ public class PostList extends ArrayAdapter<Post> {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(post.author.uid);
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);

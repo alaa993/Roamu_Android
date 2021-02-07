@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -29,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,11 +36,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alaan.roamu.adapter.MyAcceptedRequestAdapter;
-import com.alaan.roamu.pojo.Post;
-import com.alaan.roamu.pojo.PostList;
 import com.alaan.roamu.pojo.firebaseRide;
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -78,7 +72,6 @@ import com.alaan.roamu.pojo.Tracking;
 import com.alaan.roamu.session.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -104,9 +97,7 @@ import net.skoumal.fragmentback.BackFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
@@ -114,9 +105,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.loopj.android.http.AsyncHttpClient.log;
-
-public class AcceptedDetailFragment extends FragmentManagePermission implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BackFragment {
+public class AcceptedDetailFragment extends FragmentManagePermission implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private View view;
     AppCompatButton trackRide;
     private String mobile = "";
@@ -174,20 +163,21 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private String ride_status;
     private String payment_status;
     private String payment_mode;
-    boolean isActive = false;
+
+    ValueEventListener listener;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("ibrahim","onCreateView");
+        Log.i("ibrahim", "onCreateView");
         view = inflater.inflate(R.layout.accepted_detail_fragmnet, container, false);
-        isActive = true;
         bundle = getArguments();
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.passenger_info));
         BindView();
         configPaypal();
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -195,16 +185,33 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             mGoogleApiClient.connect();
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("ibrahim","onStart");
+        listener = databaseRides.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+                Log.i("ibrahim ride", "----------");
+                travel_status = fbRide.travel_status;
+                ride_status = fbRide.ride_status;
+                payment_status = fbRide.payment_status;
+                payment_mode = fbRide.payment_mode;
+                setupData();
+                changeFragment();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        isActive = false;
-        Log.i("ibrahim","onPause");
+        databaseRides.removeEventListener(listener);
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
@@ -214,7 +221,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void onRefresh() {
-        Log.i("ibrahim","onRefresh");
+        Log.i("ibrahim", "onRefresh");
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
@@ -330,14 +337,12 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 btn_cancel.setVisibility(View.GONE);
                 btn_payment.setVisibility(View.GONE);
                 trackRide.setVisibility(View.GONE);
-
             }
             if (ride_status.equalsIgnoreCase("COMPLETED")) {
                 btn_payment.setVisibility(View.GONE);
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-
             }
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
@@ -382,7 +387,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         super.onSuccess(statusCode, headers, response);
                                         updateRideFirebase(travel_status, ride_status, payment_status, "OFFLINE");
-                                        updateNotificationFirebase();
+                                        updateNotificationFirebase(getString(R.string.notification_5));
                                         rideJson.setPayment_mode("OFFLINE");
                                         btn_payment.setVisibility(View.GONE);
                                         Toast.makeText(getActivity(), getString(R.string.payment_update), Toast.LENGTH_LONG).show();
@@ -433,51 +438,50 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             }
         });
-        if (isActive)
-        {
-            databaseRides.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    if (dataSnapshot.getKey().contains("travel_status"))
-                    {
-                        travel_status = dataSnapshot.getValue().toString();
-                    }
-                    else if (dataSnapshot.getKey().contains("ride_status"))
-                    {
-                        ride_status = dataSnapshot.getValue().toString();
-                    }
-                    else if (dataSnapshot.getKey().contains("payment_status"))
-                    {
-                        payment_status = dataSnapshot.getValue().toString();
-                    }
-                    else if (dataSnapshot.getKey().contains("payment_mode"))
-                    {
-                        payment_mode = dataSnapshot.getValue().toString();
-                    }
-                    //firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-                    Log.i("ibrahim_ride", "----------");
-                    Log.i("ibrahim_ride", dataSnapshot.toString());
-//                    onRefresh();
-//                    changeFragment();
-                }
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
+        //        {
+//            databaseRides.addChildEventListener(new ChildEventListener() {
+//                @Override
+//                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                }
+//                @Override
+//                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                    if (dataSnapshot.getKey().contains("travel_status"))
+//                    {
+//                        travel_status = dataSnapshot.getValue().toString();
+//                    }
+//                    else if (dataSnapshot.getKey().contains("ride_status"))
+//                    {
+//                        ride_status = dataSnapshot.getValue().toString();
+//                    }
+//                    else if (dataSnapshot.getKey().contains("payment_status"))
+//                    {
+//                        payment_status = dataSnapshot.getValue().toString();
+//                    }
+//                    else if (dataSnapshot.getKey().contains("payment_mode"))
+//                    {
+//                        payment_mode = dataSnapshot.getValue().toString();
+//                    }
+//                    //firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+//                    Log.i("ibrahim_ride", "----------");
+//                    Log.i("ibrahim_ride", dataSnapshot.toString());
+////                    onRefresh();
+////                    changeFragment();
+//                }
+//                @Override
+//                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                }
+//                @Override
+//                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                }
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
+//        }
     }
 
     public void setupData() {
@@ -498,7 +502,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
-
                             if (mobile != null && !mobile.equals("")) {
                                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                                 callIntent.setData(Uri.parse("tel:" + mobile));
@@ -591,7 +594,11 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             bundle.putSerializable("data", rideJson);
             MyAcceptedDetailFragment detailFragment = new MyAcceptedDetailFragment();
             detailFragment.setArguments(bundle);
-            ((HomeActivity) getContext()).changeFragment(detailFragment, "Passenger Information");
+
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame, detailFragment, "Passenger Information");
+            fragmentTransaction.commit();
         }
     }
 
@@ -638,7 +645,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
-        databaseRefID.addValueEventListener(new ValueEventListener() {
+        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
@@ -712,7 +719,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             }
         });
-
     }
 
     public void AlertDialogCreate(String title, String message, final String status) {
@@ -791,7 +797,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     Bundle bundle = null;
                     if (response.has("status") && response.getString("status").equals("success")) {
                         updateRideFirebase(travel_status, status, payment_status, payment_mode);
-                        updateNotificationFirebase();
+                        updateNotificationFirebase(status);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -875,11 +881,11 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         databaseRef.setValue(rideObject);
     }
 
-    public void updateNotificationFirebase() {
+    public void updateNotificationFirebase(String notificationText) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
         Map<String, Object> rideObject = new HashMap<>();
         rideObject.put("ride_id", rideJson.getRide_id());
-        rideObject.put("text", "Ride Updated");
+        rideObject.put("text", getString(R.string.RideUpdated) + " " + notificationText);
         rideObject.put("readStatus", "0");
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -1282,17 +1288,5 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         navigationLauncherOptions.snapToRoute(true);
         navigationLauncherOptions.directionsRoute(directionsRoute);
         NavigationLauncher.startNavigation(getActivity(), navigationLauncherOptions.build());
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        Log.i("ibrahim","onBackPressedAcceptedDetail");
-        //this.startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-        return false;
-    }
-
-    @Override
-    public int getBackPriority() {
-        return 0;
     }
 }
