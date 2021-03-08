@@ -5,10 +5,21 @@
     android:layout_height="match_parent"
     tools:context=".fragement.MyAcceptedDetailFragment">
 
+    <Button
+        android:id="@+id/my_acc_d_f_home_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ic_home_button"
+        />
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/MyADF_mapview"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_width"></com.google.android.gms.maps.MapView>
+        android:layout_below="@+id/my_acc_d_f_home_button"
+        android:layout_height="300dp">
+    </com.google.android.gms.maps.MapView>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/MyADF_swipe_refresh"
@@ -49,6 +60,7 @@
                                 android:id="@+id/MyADF_customer"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/DRIVERNAME"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -73,21 +85,42 @@
                                 android:id="@+id/MyADF_mobilenumber_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/driver_phone"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                            <android.support.v7.widget.AppCompatButton
-                                android:id="@+id/MyADF_mobilenumber"
+<!--                            <android.support.v7.widget.AppCompatButton-->
+<!--                                android:id="@+id/MyADF_mobilenumber"-->
 
-                                android:layout_width="match_parent"
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_below="@+id/linear_child1"-->
+<!--                                android:layout_margin="@dimen/margin_10"-->
+<!--                                android:layout_marginTop="@dimen/detail_bottom_margin"-->
+<!--                                android:layout_marginBottom="@dimen/detail_bottom_margin"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:text="+964999000000" />-->
+
+                            <TextView
+                                android:id="@+id/MyADF_txt_mobilenumber"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/linear_child1"
-                                android:layout_margin="@dimen/margin_10"
-                                android:layout_marginTop="@dimen/detail_bottom_margin"
-                                android:layout_marginBottom="@dimen/detail_bottom_margin"
-                                android:layout_weight="1"
+                                android:ellipsize="marquee"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:maxLines="2"
+                                android:scrollHorizontally="true"
+                                android:text="00963988088320"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                                android:text="+964999000000" />
+                            <ImageView
+                                android:id="@+id/MyADF_img_call"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@mipmap/ic_call_white_24dp"
+                                android:tint="@color/green" />
 
 
                         </TableRow>
@@ -104,6 +137,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/from"
+                                android:layout_marginRight="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
                             <TextView
@@ -133,6 +167,7 @@
                                 android:id="@+id/MyADF_droplocation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/to"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -162,6 +197,7 @@
                                 android:id="@+id/MyADF_textView9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/pickup_point"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -190,6 +226,7 @@
                                 android:id="@+id/MyADF_Dateandtimefled"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/date"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -219,6 +256,7 @@
                                 android:id="@+id/MyADF_timefled"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
                                 android:text="@string/travel_time"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 

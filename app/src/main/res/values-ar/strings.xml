@@ -321,5 +321,10 @@
     <string name="DetailReqVCEnterRating">الرجاء إدخال تقييم السائق\n تقييم سعر الرحلة\n تعليق (اختياري)</string>
     <string name="Notification_Request">أرسل اليك طلب</string>
     <string name="RideUpdated">تم تحديث معلومات الرحلة:</string>
+    <string name="network_not_available">"الشبكة غير متوفرة"</string>
+    <string name="map">الخرائط</string>
+    <string name="travel_info">معلومات الرحلة</string>
+    <string name="direct_requesting">"طلب الاتجاه ..."</string>
+
 
 </resources>

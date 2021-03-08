@@ -20,6 +20,7 @@ public class Server {
     public static final String ENVIRONMENT= PayPalConfiguration.ENVIRONMENT_SANDBOX;    //PayPalConfiguration.ENVIRONMENT_PRODUCTION     for production
     public static final String PAYPAL_KEY="AYi2W29-PSkOI0-utUCLVEuPL1qP8BjYCEOAz3OlnDomdc8yXl10QbGJVX3yc7QgZwM2AEgGn-3K-aoM";     //This quiz is required for place auto complete
     public static final String GET_SPECIFIC_RIDE = BASE_URL + "api/user/ride_specific" + FORMAT;
+    public static final String UPDATE = BASE_URL + "api/user/update" + FORMAT;
 
     private static final String TAG = "server";
     private static AsyncHttpClient client = new AsyncHttpClient();

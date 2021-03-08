@@ -7,9 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,6 +37,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.alaan.roamu.R;
 import com.alaan.roamu.Server.Server;
 import com.alaan.roamu.acitivities.HomeActivity;
@@ -42,7 +50,9 @@ import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.custom.SetCustomFont;
 import com.alaan.roamu.pojo.PendingRequestPojo;
 import com.alaan.roamu.pojo.Tracking;
+import com.alaan.roamu.pojo.firebaseClients;
 import com.alaan.roamu.pojo.firebaseRide;
+import com.alaan.roamu.pojo.firebaseTravel;
 import com.alaan.roamu.session.SessionManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,8 +66,14 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -94,6 +110,8 @@ import net.skoumal.fragmentback.BackFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,12 +120,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyAcceptedDetailFragment extends FragmentManagePermission implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, BackFragment {
+public class MyAcceptedDetailFragment extends FragmentManagePermission
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, BackFragment, OnMapReadyCallback, DirectionCallback,
+        Animation.AnimationListener{
+
     private View view;
     AppCompatButton trackRide;
     private String mobile = "";
     AppCompatButton btn_cancel, btn_payment, btn_complete;
-    TextView drivername, pickup_location, drop_location;
+    TextView drivername, pickup_location, drop_location, mobilenumber;
     private AlertDialog alert;
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -116,21 +138,26 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
     PayPalPayment thingToBuy;
     PendingRequestPojo rideJson;
     String permissions[] = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Dialog dialog;
-    AppCompatButton cancel, mobilenumber;
+    AppCompatButton cancel;
     com.google.android.gms.maps.MapView mapView;
     TextView dateandtime, TimeVal;
 
     TextView txt_Driver_name, txt_PickupPoint;
-    String distance;
     TextView calculateFare;
     Snackbar snackbar;
 
     DatabaseReference databaseRides;
+
+    ValueEventListener listener;
+
+    DatabaseReference databaseTravelRef;
+    DatabaseReference databaseClientsLocation;
+    DatabaseReference databaseDriverLocation;
+
     Bundle bundle;
 
     private String travel_status;
@@ -138,15 +165,38 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
     private String payment_status;
     private String payment_mode;
 
-    ValueEventListener listener;
+    Button my_acc_d_f_home_button;
+
+    com.google.android.gms.maps.MapView mMapView;
+    GoogleMap myMap;
+
+    GPSTracker gpsTracker;
+
+    private LatLng origin;
+    private LatLng destination;
+    private String pickup_address;
+    private String drop_address;
+
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private Double currentLatitude;
+    private Double currentLongitude;
+    private Marker my_marker;
+    String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
+    String distance;
+    private Double fare = 50.00;
+    Double finalfare;
+    firebaseTravel fbTravel;
 
     public MyAcceptedDetailFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,20 +212,44 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
 
             Log.i("ibrahim", rideJson.getRide_id());
             databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
+            databaseTravelRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
         }
         view = inflater.inflate(R.layout.fragment_my_accepted_detail, container, false);
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.passenger_info));
-        BindView();
+        BindView(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            askCompactPermissions(permissionAsk, new PermissionResult() {
+                @Override
+                public void permissionGranted() {
+                    if (!GPSEnable()) {
+                        tunonGps();
+                    } else {
+                        getCurrentlOcation();
+                    }
+                }
+
+                @Override
+                public void permissionDenied() {
+
+                }
+
+                @Override
+                public void permissionForeverDenied() {
+                    openSettingsApp(getActivity());
+                }
+            });
+
+        } else {
+            if (!GPSEnable()) {
+                tunonGps();
+            } else {
+                getCurrentlOcation();
+            }
+        }
         configPaypal();
         return view;
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -197,6 +271,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
             }
         });
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -209,10 +284,17 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
         }
     }
 
-    public void BindView() {
+    public void BindView(Bundle savedInstanceState) {
+        gpsTracker = new GPSTracker(getActivity());
+
+        mMapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.MyADF_mapview);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.getMapAsync(this);
+
+        my_acc_d_f_home_button = (Button) view.findViewById(R.id.my_acc_d_f_home_button);
         mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.MyADF_mapview);
         cancel = (AppCompatButton) view.findViewById(R.id.MyADF_btn_cancel);
-        mobilenumber = (AppCompatButton) view.findViewById(R.id.MyADF_mobilenumber);
+        mobilenumber = (TextView) view.findViewById(R.id.MyADF_txt_mobilenumber);
         pickup_location = (TextView) view.findViewById(R.id.MyADF_txt_pickuplocation);
         drop_location = (TextView) view.findViewById(R.id.MyADF_txt_droplocation);
         dateandtime = (TextView) view.findViewById(R.id.MyADF_dateTimeVal);
@@ -236,6 +318,26 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
             mobile = rideJson.getDriver_mobile();
             TimeVal.setText(rideJson.getTime());
             dateandtime.setText(rideJson.getDate());
+
+            if (rideJson.getpickup_location() != null && rideJson.getdrop_location() != null) {
+                Log.i("ibrahim", "inside");
+                Log.i("ibrahim", rideJson.getpickup_location());
+                Log.i("ibrahim", rideJson.getdrop_location());
+
+                String[] pickuplatlong = rideJson.getpickup_location().split(",");
+                double pickuplatitude = Double.parseDouble(pickuplatlong[0]);
+                double pickuplongitude = Double.parseDouble(pickuplatlong[1]);
+                origin = new LatLng(pickuplatitude, pickuplongitude);
+
+                Log.i("ibrahim", origin.toString());
+
+                String[] droplatlong = rideJson.getdrop_location().split(",");
+                double droplatitude = Double.parseDouble(droplatlong[0]);
+                double droplongitude = Double.parseDouble(droplatlong[1]);
+                destination = new LatLng(droplatitude, droplongitude);
+                Log.i("ibrahim", destination.toString());
+            }
+
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -379,6 +481,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
                 }
             }
         });
+        my_acc_d_f_home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            }
+        });
     }
 
     public void setupData() {
@@ -439,7 +547,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-                CheckRating(rideJson.getUser_id(),rideJson.getTravel_id(),rideJson.getDriver_id());
+                CheckRating(rideJson.getUser_id(), rideJson.getTravel_id(), rideJson.getDriver_id());
             }
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
@@ -495,8 +603,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
                 Log.i("ibrahim getTravel_id", rideJson.getTravel_id());
                 sendRating(ratingBar.getRating() * 2, fare_rating.getRating() * 2);
                 Log.i("ibrahim", "complete");
-                if (etComments.getText().toString().length() > 0 )
-                {
+                if (etComments.getText().toString().length() > 0) {
                     AddComment(etComments.getText().toString());
                 }
                 dialog.cancel();
@@ -538,6 +645,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -855,6 +963,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
 
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PAYMENT) {
@@ -925,6 +1034,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
             return true;
 
         } else {
+            gpsTracker.showSettingsAlert();
             return false;
         }
 
@@ -987,19 +1097,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
         }
 
     }
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-    }
     @Override
     public void onConnectionSuspended(int i) {
 
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
@@ -1021,13 +1124,28 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
              */
         }
     }
+
     @Override
     public void onLocationChanged(Location location) {
+        databaseTravelRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                fbTravel = dataSnapshot.getValue(firebaseTravel.class);
+                Log.i("ibrahim", fbTravel.toString());
+                Log.i("ibrahim_travel", fbTravel.driver_id);
+                Log.i("ibrahim_travel", fbTravel.clients.toString());
+                drawMap(fbTravel);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
     }
 
     void isStarted() {
-        Log.i("ibrahim","isStarted");
+        Log.i("ibrahim", "isStarted");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + rideJson.getRide_id());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1133,6 +1251,31 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
         });
     }
 
+    private void launchNavigation() {
+
+
+        if (GPSEnable()) {
+
+            try {
+                String[] latlong = rideJson.getpickup_location().split(",");
+                double latitude = Double.parseDouble(latlong[0]);
+                double longitude = Double.parseDouble(latlong[1]);
+                String[] latlong1 = rideJson.getdrop_location().split(",");
+                double latitude1 = Double.parseDouble(latlong1[0]);
+                double longitude1 = Double.parseDouble(latlong1[1]);
+
+                Point origin = Point.fromLngLat(longitude, latitude);
+                Point destination = Point.fromLngLat(longitude1, latitude1);
+
+                fetchRoute(origin, destination);
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), e.toString() + " ", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            gpsTracker.showSettingsAlert();
+        }
+    }
+
     private void fetchRoute(Point origin, Point destination) {
         NavigationRoute.builder(getActivity())
                 .accessToken(Mapbox.getAccessToken())
@@ -1161,13 +1304,404 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission implement
         navigationLauncherOptions.directionsRoute(directionsRoute);
         NavigationLauncher.startNavigation(getActivity(), navigationLauncherOptions.build());
     }
+
     @Override
     public boolean onBackPressed() {
         this.startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         return false;
     }
+
     @Override
     public int getBackPriority() {
         return 0;
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
+
+    @Override
+    public void onDirectionFailure(Throwable t) {
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        try {
+            if (mMapView != null) {
+                mMapView.onSaveInstanceState(outState);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        try {
+            if (mMapView != null) {
+                mMapView.onLowMemory();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            if (mMapView != null) {
+                mMapView.onStop();
+            }
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.disconnect();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if (mMapView != null) {
+                mMapView.onResume();
+            }
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.connect();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        myMap = googleMap;
+        myMap.setMaxZoomPreference(80);
+        requestDirection();
+        //by ibrahim
+        myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(final Marker marker) {
+                View v = null;
+                if (getActivity() != null) {
+                    v = getActivity().getLayoutInflater().inflate(R.layout.view_custom_marker, null);
+                    TextView title = (TextView) v.findViewById(R.id.t);
+                    TextView t1 = (TextView) v.findViewById(R.id.t1);
+                    TextView t2 = (TextView) v.findViewById(R.id.t2);
+                    Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
+                    t1.setTypeface(font);
+                    t2.setTypeface(font);
+                    String name = marker.getTitle();
+                    title.setText(name);
+                    String info = marker.getSnippet();
+                    t1.setText(info);
+//                    driver_id = (String) marker.getTag();
+//                    drivername = marker.getTitle();
+                }
+                return v;
+            }
+        });
+        if (myMap != null) {
+            tunonGps();
+        }
+    }
+
+    public void requestDirection() {
+
+        try {
+            Snackbar.make(view, getString(R.string.direct_requesting), Snackbar.LENGTH_SHORT).show();
+        } catch (Exception e) {
+
+        }
+        GoogleDirection.withServerKey(getString(R.string.google_android_map_api_key))
+                .from(origin)
+                .to(destination)
+                .transportMode(TransportMode.DRIVING)
+                .execute(this);
+    }
+
+    @Override
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        if (getActivity() != null) {
+            if (direction.isOK()) {
+                ArrayList<LatLng> directionPositionList = direction.getRouteList().get(0).getLegList().get(0).getDirectionPoint();
+                myMap.addPolyline(DirectionConverter.createPolyline(getActivity(), directionPositionList, 5, Color.RED));
+                myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title(getString(R.string.pick_up_location)).snippet(rideJson.getpickup_address()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                myMap.addMarker(new MarkerOptions().position(new LatLng(destination.latitude, destination.longitude)).title(getString(R.string.drop_up_location)).snippet(rideJson.getDrop_address()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 10));
+                calculateDistance(Double.valueOf(direction.getRouteList().get(0).getLegList().get(0).getDistance().getValue()) / 1000);
+            } else {
+//                distanceAlert(direction.getErrorMessage());
+                //calculateFare.setVisibility(View.GONE);
+//                dismiss();
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void onConnected(@Nullable Bundle bundle) {
+        try {
+            @SuppressLint("MissingPermission") android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            if (location == null) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            } else {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
+
+                if (myMap != null) {
+                    myMap.clear();
+                    my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("You are here.").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
+                    my_marker.showInfoWindow();
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 15);
+                    myMap.animateCamera(cameraUpdate);
+                    myMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                        }
+                    });
+                    databaseTravelRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            fbTravel = dataSnapshot.getValue(firebaseTravel.class);
+                            Log.i("ibrahim", fbTravel.toString());
+                            Log.i("ibrahim_travel1", fbTravel.driver_id);
+                            Log.i("ibrahim_travel1", fbTravel.clients.toString());
+                            drawMap(fbTravel);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Getting Post failed, log a message
+                        }
+                    });
+                }
+                setCurrentLocation(currentLatitude, currentLongitude);
+            }
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public void drawMap(firebaseTravel fbTravel) {
+        try {
+            @SuppressLint("MissingPermission") android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Log.i("ibrahim", "drawRoute-1");
+            if (location == null) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            } else {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
+                Log.i("ibrahim", "drawRoute0");
+                if (myMap != null) {
+                    myMap.clear();
+                    my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("You are here.").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
+                    my_marker.showInfoWindow();
+                    Log.i("ibrahim", "drawRoute");
+                    for (Map.Entry<String, String> entry : fbTravel.clients.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        databaseClientsLocation = FirebaseDatabase.getInstance().getReference("Location").child(value);
+                        databaseClientsLocation.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null) {
+                                    firebaseClients clients = dataSnapshot.getValue(firebaseClients.class);
+//                                    firebaseUsers.put(dataSnapshot.getKey(),clients);
+                                    if (clients != null) {
+                                        my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(clients.latitude, clients.longitude)).title("User").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                        Log.i("ibrahim", value.toString());
+                    }
+
+                    databaseDriverLocation = FirebaseDatabase.getInstance().getReference("Location").child("390");
+                    databaseDriverLocation.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.i("ibrahim","inside_dataSnapshot");
+                            if (dataSnapshot != null) {
+                                Log.i("ibrahim","dataSnapshot");
+                                Log.i("ibrahim",dataSnapshot.toString());
+                                firebaseClients Driver = dataSnapshot.getValue(firebaseClients.class);
+                                Log.i("ibrahim","dataSnapshot");
+                                Log.i("ibrahim",Driver.latitude.toString() + Driver.longitude.toString());
+
+                                my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(Driver.latitude, Driver.longitude)).title("Driver").icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }
+                setCurrentLocation(currentLatitude, currentLongitude);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void setCurrentLocation(final Double lat, final Double log) {
+        try {
+            my_marker.setPosition(new LatLng(lat, log));
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 15);
+            myMap.animateCamera(cameraUpdate);
+            RequestParams par = new RequestParams();
+            Server.setHeader(SessionManager.getKEY());
+            par.put("user_id", SessionManager.getUserId());
+            par.add("latitude", String.valueOf(currentLatitude));
+            par.add("longitude", String.valueOf(currentLongitude));
+            Server.post(Server.UPDATE, par, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                }
+
+            });
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void tunonGps() {
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addApi(LocationServices.API).addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this).build();
+            mGoogleApiClient.connect();
+            mLocationRequest = LocationRequest.create();
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(30 * 1000);
+            mLocationRequest.setFastestInterval(5 * 1000);
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest);
+
+            // **************************
+            builder.setAlwaysShow(true); // this is the key ingredient
+            // **************************
+
+            PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi
+                    .checkLocationSettings(mGoogleApiClient, builder.build());
+            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+                @Override
+                public void onResult(LocationSettingsResult result) {
+                    final Status status = result.getStatus();
+                    final LocationSettingsStates state = result
+                            .getLocationSettingsStates();
+                    switch (status.getStatusCode()) {
+                        case LocationSettingsStatusCodes.SUCCESS:
+                            // All location settings are satisfied. The client can
+                            // initialize location
+                            // requests here.
+                            getCurrentlOcation();
+                            break;
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            // Location settings are not satisfied. But could be
+                            // fixed by showing the user
+                            // a dialog.
+                            try {
+                                // Show the dialog by calling
+                                // startResolutionForResult(),
+                                // and checkky the result in onActivityResult().
+                                status.startResolutionForResult(getActivity(), 1000);
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            // Location settings are not satisfied. However, we have
+                            // no way to fix the
+                            // settings so we won't show the dialog.
+                            break;
+                    }
+                }
+            });
+        }
+    }
+
+    public void getCurrentlOcation() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(30 * 1000);
+        mLocationRequest.setFastestInterval(5 * 1000);
+    }
+
+    public void calculateDistance(Double aDouble) {
+
+        distance = String.valueOf(aDouble);
+//        confirm.setEnabled(true);
+
+        if (aDouble != null) {
+            if (fare != null && fare != 0.0) {
+                DecimalFormat dtime = new DecimalFormat("##.##");
+                Double ff = aDouble * fare;
+
+                try {
+
+                    if (dtime.format(ff).contains(",")) {
+                        String value = dtime.format(ff).replaceAll(",", ".");
+                        finalfare = Double.valueOf(value);
+                    } else {
+
+                        finalfare = Double.valueOf(dtime.format(ff));
+                    }
+//                    dismiss();
+
+                } catch (Exception e) {
+
+                }
+
+                // txt_fare.setText(finalfare + " " + SessionManager.getUnit());
+                //  txt_fare.setText(finalfare + " $ ");
+
+            } else {
+                //txt_fare.setText(SessionManager.getUnit());
+            }
+        }
     }
 }

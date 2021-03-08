@@ -164,6 +164,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private String payment_status;
     private String payment_mode;
 
+    Button acc_d_f_home_button;
+
     ValueEventListener listener;
 
     @Nullable
@@ -199,7 +201,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 payment_status = fbRide.payment_status;
                 payment_mode = fbRide.payment_mode;
                 setupData();
-                changeFragment();
+//                changeFragment();
             }
 
             @Override
@@ -227,6 +229,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void BindView() {
+        acc_d_f_home_button = (Button) view.findViewById(R.id.acc_d_f_home_button);
         mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.mapview);
         calculateFare = (TextView) view.findViewById(R.id.txt_calfare);
         confirm = (AppCompatButton) view.findViewById(R.id.btn_confirm);
@@ -438,6 +441,13 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             }
         });
+        acc_d_f_home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            }
+        });
+
         //        {
 //            databaseRides.addChildEventListener(new ChildEventListener() {
 //                @Override

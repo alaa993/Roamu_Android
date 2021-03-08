@@ -17,7 +17,6 @@
         app:contentPadding="0dp">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
@@ -26,6 +25,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:padding="2dp">
 
                 <TextView
@@ -52,6 +52,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:padding="2dp">
 
                 <TextView
@@ -92,6 +93,7 @@
                 android:visibility="gone" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -119,11 +121,13 @@
 
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:orientation="horizontal"
+
                 android:padding="1dp">
 
                 <ImageView
@@ -146,6 +150,7 @@
 
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -173,6 +178,7 @@
 
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -204,6 +210,7 @@
                 android:id="@+id/linear_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@drawable/one">
 
                 <TextView
@@ -237,7 +244,7 @@
                     android:background="@drawable/one"
                     android:gravity="center"
                     android:padding="0dp"
-                    android:text="@string/exit"
+                    android:text="@string/find_travel"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
             </LinearLayout>

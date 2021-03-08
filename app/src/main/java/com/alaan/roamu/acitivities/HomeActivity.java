@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -39,7 +41,9 @@ import android.widget.Toast;
 
 import com.alaan.roamu.BuildConfig;
 import com.alaan.roamu.about_us;
+import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.fragement.Contact_usFragment;
+import com.alaan.roamu.fragement.MapFragment;
 import com.alaan.roamu.fragement.MyAcceptedRequestFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
@@ -70,15 +74,23 @@ import com.alaan.roamu.pojo.User;
 import com.alaan.roamu.session.SessionManager;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.mapbox.android.core.location.LocationEngine;
+import com.mapbox.android.core.location.LocationEngineListener;
+import com.mapbox.android.core.location.LocationEnginePriority;
+import com.mapbox.android.core.location.LocationEngineProvider;
 import com.thebrownarrow.permissionhelper.ActivityManagePermission;
+import com.thebrownarrow.permissionhelper.PermissionResult;
+import com.thebrownarrow.permissionhelper.PermissionUtils;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-public class HomeActivity extends ActivityManagePermission implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.ProfileUpdateListener, ProfileFragment.UpdateListener {
+public class HomeActivity extends ActivityManagePermission implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.ProfileUpdateListener, ProfileFragment.UpdateListener, LocationEngineListener {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     public Toolbar toolbar;
@@ -91,6 +103,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     boolean post_notification = true;
     DatabaseReference databasePosts;
 
+    LocationEngine locationEngine;
+    double latitude; // latitude
+    double longitude; // longitude
+    String[] permissions = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +142,32 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             applyFontToMenuItem(mi);
         }
 
+        callLocationEngine();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            askCompactPermissions(permissions, new PermissionResult() {
+                @Override
+                public void permissionGranted() {
+//                    getLocation();
+                    setListener();
+                }
+
+                @Override
+                public void permissionDenied() {
+                }
+
+                @Override
+                public void permissionForeverDenied() {
+                    openSettingsApp(getApplicationContext());
+                }
+            });
+        } else {
+            setListener();
+            // getLocation();
+        }
+        //by ibrahim
+        GPSTracker tracker = new GPSTracker(this);
+        setLocaiton(tracker.getLocation());
 
     }
 
@@ -151,7 +193,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
 
     }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -184,6 +225,11 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 addPost.setText("");
                 addPost.setVisibility(View.VISIBLE);
                 changeFragment(new HomeFragment(), getString(R.string.home));
+                break;
+
+            case R.id.home_map:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new MapFragment(), getString(R.string.home));
                 break;
 
             case R.id.about_us:
@@ -304,6 +350,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Glide.with(getApplicationContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(avatar);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -321,6 +368,53 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         if (!name.equals("")) {
             username.setText(name);
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onConnected() {
+        locationEngine.requestLocationUpdates();
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            setLocaiton(location);
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (locationEngine != null) {
+            locationEngine.activate();
+        }
+    }
+
+    private void callLocationEngine() {
+        locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
+        locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
+        locationEngine.setFastestInterval(5);
+        locationEngine.setInterval(10);
+        locationEngine.setSmallestDisplacement(5);
+        locationEngine.activate();
+    }
+
+    public void setLocaiton(Location location) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Location").child(SessionManager.getUserId());
+        Map<String, Object> rideObject = new HashMap<>();
+        rideObject.put("latitude", location.getLatitude());
+        rideObject.put("longitude", location.getLongitude());
+        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseRef.setValue(rideObject);
+    }
+
+    private void setListener() {
+        locationEngine.addLocationEngineListener(this);
     }
 
     @SuppressLint("ParcelCreator")
@@ -394,8 +488,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         if (fragments != null) {
             for (Fragment fragment : fragments) {
                 if (fragment != null && fragment.isVisible())
-                    Log.i("ibrahim_visible",fragment.toString());
-                    return fragment;
+                    Log.i("ibrahim_visible", fragment.toString());
+                return fragment;
             }
         }
         return null;
@@ -410,12 +504,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         addPost.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //creating an intent
-                if (post_notification == true)
-                {
+                if (post_notification == true) {
                     Intent intent = new Intent(HomeActivity.this, AddPostActivity.class);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     addPost.setVisibility(View.GONE);
                     changeFragment(new NotificationsFragment(), getString(R.string.notifications));
                 }
@@ -499,7 +591,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         post_notification = false;
@@ -518,40 +609,6 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        int count = getSupportFragmentManager().getBackStackEntryCount();
-//        if (count == 0) {
-//            Log.i("ibrahim","if---");
-//            super.onBackPressed();
-//            //additional code
-//        } else {
-//            FragmentManager fragmentManager = HomeActivity.this.getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//            List<Fragment> fragments = fragmentManager.getFragments();
-//            Log.i("ibrahim_fragmentss",fragments.toString());
-//            if (fragments != null) {
-//                for (Fragment fragment : fragments) {
-//                    if (fragment != null && fragment.isVisible()){
-//                        Log.i("ibrahim_visible",fragment.toString());
-//                        fragmentTransaction.detach(fragment).commit();
-//
-////                        fragmentTransaction.remove(fragment).commit();
-//                        return;
-//                    }
-//                }
-//                Log.i("ibrahim_fragmentss",fragments.toString());
-//            }
-////            Log.i("ibrahim","else---");
-////            Fragment x = getVisibleFragment();
-////            FragmentManager fragmentManager = getSupportFragmentManager();
-////            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-////            fragmentTransaction.remove(x).commit();
-//            getSupportFragmentManager().popBackStack();
-//        }
-//    }
-
     private boolean isInHomeFragment() {
         for (Fragment item : getSupportFragmentManager().getFragments()) {
             if (item.isVisible() && "HomeFragment".equals(item.getClass().getSimpleName())) {
@@ -561,7 +618,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         return false;
     }
 
-    private void getNotificationsCount(){
+    private void getNotificationsCount() {
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
             databasePosts.addValueEventListener(new ValueEventListener() {
@@ -574,17 +631,18 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                         notification.id = notificationSnapshot.getKey();
 
                         if (notification.readStatus.contains("0")) {
-                            NotificationsCount ++;
+                            NotificationsCount++;
                         }
                     }
                     addPost.setText(String.valueOf(NotificationsCount));
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
-        }catch (Exception e){
-            Log.i("ibrahim_e",e.getMessage());
+        } catch (Exception e) {
+            Log.i("ibrahim_e", e.getMessage());
         }
     }
 }

@@ -272,11 +272,9 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                                 public void onClick(View view) {
                                     if (!mPassengers.getText().toString().isEmpty()) {
                                         dialog.dismiss();
-
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
-
-                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(mPrice), "0", String.valueOf(mPassengers.getText()));
+                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(mPrice.getText()), "0", String.valueOf(mPassengers.getText()));
                                     } else {
                                         Toast.makeText(HomeFragment.this.getContext(),
                                                 "Failed",
