@@ -325,6 +325,11 @@
     <string name="map">الخرائط</string>
     <string name="travel_info">معلومات الرحلة</string>
     <string name="direct_requesting">"طلب الاتجاه ..."</string>
+    <string name="car_type">نوع المركبة</string>
+    <string name="car_type1">سيارة</string>
+    <string name="car_type2">حافلة صغيرة</string>
+    <string name="car_type3">حافلة كبيرة</string>
+    <string name="status">الحالة</string>
 
 
 </resources>

@@ -254,5 +254,10 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="map">Map</string>
     <string name="travel_info">Travel Information</string>
     <string name="direct_requesting">Direction Requesting...</string>
+    <string name="car_type">Car Type</string>
+    <string name="car_type1">Car</string>
+    <string name="car_type2">MiniBus</string>
+    <string name="car_type3">Bus</string>
+    <string name="status">Status</string>
 
 </resources>

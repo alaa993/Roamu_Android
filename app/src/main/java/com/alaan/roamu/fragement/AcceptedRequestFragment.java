@@ -111,6 +111,7 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
     }
 
     public void getAcceptedRequest(String id, String status, String key) {
+        Log.i("ibrahim","getAcceptedRequest");
         final RequestParams params = new RequestParams();
         params.put("id", id);
         params.put("status", status);

@@ -39,6 +39,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         holder.time.setText(pojo.getTime());
         holder.date.setText(pojo.getDate());
         holder.status.setText(pojo.getStatus());
+        holder.txt_car_type.setText(pojo.getCarType());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +67,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView drivername, from_add, to_add, date, time, status;
+        TextView drivername, from_add, to_add, date, time, status, txt_car_type;
         TextView f, t, dn, dt;
         public Holder(View itemView) {
             super(itemView);
@@ -80,6 +81,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
             date = (TextView) itemView.findViewById(R.id.date);
             time = (TextView) itemView.findViewById(R.id.time);
             status = (TextView) itemView.findViewById(R.id.Statuss);
+            txt_car_type = (TextView) itemView.findViewById(R.id.txt_car_type);
         }
     }
 

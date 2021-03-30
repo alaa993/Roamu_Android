@@ -34,6 +34,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -43,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -131,9 +134,7 @@ import static com.alaan.roamu.fragement.lang.setLocale;
 import static com.loopj.android.http.AsyncHttpClient.log;
 import static com.mapbox.mapboxsdk.Mapbox.getApplicationContext;
 
-public class HomeFragment extends FragmentManagePermission implements OnMapReadyCallback, DirectionCallback, Animation.AnimationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, BackFragment,
-        LocationListener {
+public class HomeFragment extends Fragment implements BackFragment, AdapterView.OnItemSelectedListener {
     private static final String TAG = "HomeFragment";
     private String driver_id, passanger_value, bag_value, smoke_value, date_time_value, time_value;
     private String cost;
@@ -145,8 +146,8 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private Double currentLatitude;
-    private Double currentLongitude;
+    //    private Double currentLatitude;
+//    private Double currentLongitude;
     private View rootView;
     Calendar date;
     String date_time = "";
@@ -169,7 +170,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     LinearLayout liner_close;
     String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     private String drivername;
-    MapView mMapView;
+//    MapView mMapView;
     Pass pass;
     Place pickup, drop, s_drop, s_pic;
     ProgressBar progressBar;
@@ -177,15 +178,12 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
     RecyclerView recyclerView;
     private CheckBox Checkbox;
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+    TextView NS_car_type;
+    Spinner droplist;
+    String[] status_arr;
+    String[] status_Content_arr={"car","minibus","bus"};
+    String carType = "car";
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -193,41 +191,40 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             rootView = inflater.inflate(R.layout.home_fragment, container, false);
             ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.home));
             bindView(savedInstanceState);
-            if (!CheckConnection.haveNetworkConnection(getActivity())) {
-                Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
-            }
-            search_box.setVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                askCompactPermissions(permissionAsk, new PermissionResult() {
-                    @Override
-                    public void permissionGranted() {
-                        if (!GPSEnable()) {
-                            tunonGps();
-                        } else {
-                            getcurrentlocation();
-                        }
-                    }
 
-                    @Override
-                    public void permissionDenied() {
-                    }
-
-                    @Override
-                    public void permissionForeverDenied() {
-                        openSettingsApp(getActivity());
-                    }
-                });
-            } else {
-                if (!GPSEnable()) {
-                    tunonGps();
-                } else {
-                    getcurrentlocation();
-                }
-            }
+//            search_box.setVisibility(View.VISIBLE);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                askCompactPermissions(permissionAsk, new PermissionResult() {
+//                    @Override
+//                    public void permissionGranted() {
+//                        if (!GPSEnable()) {
+////                            tunonGps();
+//                        } else {
+////                            getcurrentlocation();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void permissionDenied() {
+//                    }
+//
+//                    @Override
+//                    public void permissionForeverDenied() {
+//                        openSettingsApp(getActivity());
+//                    }
+//                });
+//            } else {
+//                if (!GPSEnable()) {
+//                    tunonGps();
+//                } else {
+//                    getcurrentlocation();
+//                }
+//            }
 
             linear_request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.i("ibrahim","linear_request");
                     if (CheckConnection.haveNetworkConnection(getActivity())) {
                         if (pickup_location == null || drop == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_location), Toast.LENGTH_LONG).show();
@@ -350,29 +347,32 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
             search_box_custom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onRefresh();
-                    if (currentLatitude != null && !currentLatitude.equals(0.0) && currentLongitude != null && !currentLongitude.equals(0.0)) {
-                        Intent intent = new Intent(getActivity(), List_provider.class);
-                        intent.putExtra("cureentlatitude", String.valueOf(currentLatitude));
-                        intent.putExtra("currentLongitude", String.valueOf(currentLongitude));
-                        intent.putExtra("search_pich_location", String.valueOf(search_pich_location.getText().toString()));
-                        intent.putExtra("search_drop_location", String.valueOf(search_drop_location.getText().toString()));
-                        if (smoke_value != null) {
-                            intent.putExtra("smoke_value", String.valueOf(smoke_value));
-                        }
-                        if (smoke_value != null) {
-                            intent.putExtra("date_time_value", String.valueOf(date_time_value));
-                        }
-                        if (passanger_value != null) {
-                            intent.putExtra("passanger_value", String.valueOf(passanger_value));
-                        }
-                        if (bag_value != null) {
-                            intent.putExtra("bag_value", String.valueOf(bag_value));
-                        }
-                        startActivity(intent);
-                        s_pic = null;
-                        s_drop = null;
+                    Log.i("ibrahim","search_box_custom");
+//                    onRefresh();
+//                    if (currentLatitude != null && !currentLatitude.equals(0.0) && currentLongitude != null && !currentLongitude.equals(0.0)) {
+                    Intent intent = new Intent(getActivity(), List_provider.class);
+//                        intent.putExtra("cureentlatitude", String.valueOf(currentLatitude));
+//                        intent.putExtra("currentLongitude", String.valueOf(currentLongitude));
+                    intent.putExtra("search_pich_location", String.valueOf(search_pich_location.getText().toString()));
+                    intent.putExtra("search_drop_location", String.valueOf(search_drop_location.getText().toString()));
+                    intent.putExtra("car_type", carType);
+
+                    if (smoke_value != null) {
+                        intent.putExtra("smoke_value", String.valueOf(smoke_value));
                     }
+                    if (smoke_value != null) {
+                        intent.putExtra("date_time_value", String.valueOf(date_time_value));
+                    }
+                    if (passanger_value != null) {
+                        intent.putExtra("passanger_value", String.valueOf(passanger_value));
+                    }
+                    if (bag_value != null) {
+                        intent.putExtra("bag_value", String.valueOf(bag_value));
+                    }
+                    startActivity(intent);
+                    s_pic = null;
+                    s_drop = null;
+//                    }
                 }
             });
 //            drop_location.setOnClickListener(new View.OnClickListener() {
@@ -396,7 +396,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         if (requestCode == 1000) {
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("result");
-                getcurrentlocation();
+//                getcurrentlocation();
             }
             if (resultCode == RESULT_CANCELED) {
             }
@@ -437,139 +437,76 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mMapView != null) {
-            mMapView.onPause();
-        }
-        if (mGoogleApiClient != null) {
-            if (mGoogleApiClient.isConnected()) {
-                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-                mGoogleApiClient.disconnect();
-            }
-        }
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (mMapView != null) {
+//            mMapView.onPause();
+//        }
+//        if (mGoogleApiClient != null) {
+//            if (mGoogleApiClient.isConnected()) {
+//                LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+//                mGoogleApiClient.disconnect();
+//            }
+//        }
+//    }
 
-    public void onRefresh() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mMapView != null) {
-            mMapView.onPause();
-        }
-    }
+//    public void multipleMarker(List<NearbyData> list) {
+//        if (list != null) {
+//            for (NearbyData location : list) {
+//                Double latitude = null;
+//                Double longitude = null;
+//                try {
+//                    String[] parts = location.getPickup_location().split(",");
+//                    latitude = Double.valueOf(parts[0]);
+//                    longitude = Double.valueOf(parts[1]);
+//                    Marker marker = myMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(latitude, longitude))
+//                            .title(location.getName())
+//                            .snippet(location.getVehicle_info()));
+//                    marker.setTag(location);
+//                } catch (NumberFormatException e) {
+//                }
+//                CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
+//                myMap.animateCamera(camera);
+//            }
+//        }
+//    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mMapView != null) {
-            mMapView.onDestroy();
-        }
-    }
+//    public void Search(List<NearbyData> list) {
+//        String[] da = new String[]{};
+//        if (list != null) {
+//            for (NearbyData search : list) {
+//                try {
+//                    da = new String[]{search.getPickup_address().toString()};
+//                } catch (NumberFormatException e) {
+//                }
+//                CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
+//                myMap.animateCamera(camera);
+//            }
+//        }
+//    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mMapView != null) {
-            mMapView.onSaveInstanceState(outState);
-        }
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (mMapView != null) {
-            mMapView.onLowMemory();
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (mMapView != null) {
-            mMapView.onStart();
-        }
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mMapView != null) {
-            mMapView.onResume();
-        }
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    public void multipleMarker(List<NearbyData> list) {
-        if (list != null) {
-            for (NearbyData location : list) {
-                Double latitude = null;
-                Double longitude = null;
-                try {
-                    String[] parts = location.getPickup_location().split(",");
-                    latitude = Double.valueOf(parts[0]);
-                    longitude = Double.valueOf(parts[1]);
-                    Marker marker = myMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latitude, longitude))
-                            .title(location.getName())
-                            .snippet(location.getVehicle_info()));
-                    marker.setTag(location);
-                } catch (NumberFormatException e) {
-                }
-                CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
-                myMap.animateCamera(camera);
-            }
-        }
-    }
-
-    public void Search(List<NearbyData> list) {
-        String[] da = new String[]{};
-        if (list != null) {
-            for (NearbyData search : list) {
-                try {
-                    da = new String[]{search.getPickup_address().toString()};
-                } catch (NumberFormatException e) {
-                }
-                CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 14);
-                myMap.animateCamera(camera);
-            }
-        }
-    }
-
-    @Override
-    public void onDirectionSuccess(Direction direction, String rawBody) {
-    }
-
-    @Override
-    public void onDirectionFailure(Throwable t) {
-    }
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-    }
+//    @Override
+//    public void onDirectionSuccess(Direction direction, String rawBody) {
+//    }
+//
+//    @Override
+//    public void onDirectionFailure(Throwable t) {
+//    }
+//
+//    @Override
+//    public void onAnimationStart(Animation animation) {
+//    }
+//
+//    @Override
+//    public void onAnimationEnd(Animation animation) {
+//    }
+//
+//    @Override
+//    public void onAnimationRepeat(Animation animation) {
+//    }
 
     public void bindView(Bundle savedInstanceState) {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
@@ -591,7 +528,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         txt_smoke = (TextView) rootView.findViewById(R.id.Smoke);
         txt_color = (TextView) rootView.findViewById(R.id.txt_color);
         txt_cost = (TextView) rootView.findViewById(R.id.txt_cost);
-        mMapView = (MapView) rootView.findViewById(R.id.mapview);
         linear_request = (LinearLayout) rootView.findViewById(R.id.linear_request);
         liner_close = (LinearLayout) rootView.findViewById(R.id.linear_clear);
         custom_request = (Button) rootView.findViewById(R.id.ride_add_btn);
@@ -605,14 +541,20 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         drop_location = (TextView) rootView.findViewById(R.id.drop_location);
         linear_pickup = (RelativeLayout) rootView.findViewById(R.id.linear_pickup);
         relative_drop = (RelativeLayout) rootView.findViewById(R.id.relative_drop);
-        mMapView.getMapAsync(this);
-        mMapView.onCreate(savedInstanceState);
+
+        NS_car_type = (TextView) rootView.findViewById(R.id.NS_car_type);
+        droplist = (Spinner) rootView.findViewById(R.id.carTypeSpinner);
+        droplist.setOnItemSelectedListener(this);
+        status_arr = new String[]{getString(R.string.car_type1), getString(R.string.car_type2), getString(R.string.car_type3)};
+        ArrayAdapter data = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,status_arr);
+        droplist.setAdapter(data);
+
         Places.initialize(getApplicationContext(), getString(R.string.google_android_map_api_key));
         pass = new Pass();
         animFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-        animFadeIn.setAnimationListener(this);
-        animFadeOut.setAnimationListener(this);
+//        animFadeIn.setAnimationListener(this);
+//        animFadeOut.setAnimationListener(this);
 //        applyfonts();
         placesClient = Places.createClient(getActivity());
 //        clear.setOnClickListener(new View.OnClickListener() {
@@ -740,41 +682,42 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 //        });
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        int result = ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (location == null) {
-                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            } else {
-                currentLatitude = location.getLatitude();
-                currentLongitude = location.getLongitude();
-                if (!currentLatitude.equals(0.0) && !currentLongitude.equals(0.0)) {
-                    if (!flag) {
-                    }
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.couldnt_get_location), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else {
-            askCompactPermissions(permissionAsk, new PermissionResult() {
-                @Override
-                public void permissionGranted() {
-                }
-
-                @Override
-                public void permissionDenied() {
-                }
-
-                @Override
-                public void permissionForeverDenied() {
-                    Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
-                    openSettingsApp(getActivity());
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onConnected(@Nullable Bundle bundle) {
+//        // error by ibrahim
+//        int result = ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION);
+//        if (result == PackageManager.PERMISSION_GRANTED) {
+//            android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//            if (location == null) {
+//                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+//            } else {
+//                currentLatitude = location.getLatitude();
+//                currentLongitude = location.getLongitude();
+//                if (!currentLatitude.equals(0.0) && !currentLongitude.equals(0.0)) {
+//                    if (!flag) {
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity(), getString(R.string.couldnt_get_location), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        } else {
+//            askCompactPermissions(permissionAsk, new PermissionResult() {
+//                @Override
+//                public void permissionGranted() {
+//                }
+//
+//                @Override
+//                public void permissionDenied() {
+//                }
+//
+//                @Override
+//                public void permissionForeverDenied() {
+//                    Snackbar.make(rootView, getString(R.string.allow_permission), Snackbar.LENGTH_LONG).show();
+//                    openSettingsApp(getActivity());
+//                }
+//            });
+//        }
+//    }
 
     private void datePicker() {
         setLocale("en", getActivity());
@@ -823,477 +766,477 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         timePickerDialog.show();
     }
 
-    private void setCurrentLocation() {
-        if (!GPSEnable()) {
-            tunonGps();
-
-        } else {
-            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                try {
-                    List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
-                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
-                    if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
-                        placeResponse.addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                FindCurrentPlaceResponse response = task.getResult();
-                                if (response != null && response.getPlaceLikelihoods() != null) {
-                                    PlaceLikelihood placeLikelihood = response.getPlaceLikelihoods().get(0);
-                                    pickup = placeLikelihood.getPlace();
-                                    pickup_location.setText(placeLikelihood.getPlace().getAddress());
-                                    current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
-                                }
-                            } else {
-                                Exception exception = task.getException();
-                                if (exception instanceof ApiException) {
-                                    ApiException apiException = (ApiException) exception;
-                                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-                                }
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(getActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
-
-                e.printStackTrace();
-            }
-        } else {
-        }
-    }
-
-    @Override
-    public void onLocationChanged(android.location.Location location) {
-        if (location != null) {
-            currentLatitude = location.getLatitude();
-            currentLongitude = location.getLongitude();
-        }
-    }
-
-    public void applyfonts() {
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
-        Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Book.otf");
-        pickup_location.setTypeface(font);
-        drop_location.setTypeface(font);
-        txt_vehicleinfo.setTypeface(font1);
-        rate.setTypeface(font1);
-        txt_color.setTypeface(font);
-        txt_address.setTypeface(font);
-        request_ride.setTypeface(font1);
-    }
-
-    public void getcurrentlocation() {
-
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        // Create the LocationRequest object
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(30 * 1000);
-        mLocationRequest.setFastestInterval(5 * 1000);
-    }
-
-    public void tunonGps() {
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addApi(LocationServices.API).addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this).build();
-            mGoogleApiClient.connect();
-            mLocationRequest = LocationRequest.create();
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            mLocationRequest.setInterval(30 * 1000);
-            mLocationRequest.setFastestInterval(5 * 1000);
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(mLocationRequest);
-
-            // **************************
-            builder.setAlwaysShow(true); // this is the key ingredient
-            // **************************
-
-            PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi
-                    .checkLocationSettings(mGoogleApiClient, builder.build());
-            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-                @Override
-                public void onResult(LocationSettingsResult result) {
-                    final Status status = result.getStatus();
-                    final LocationSettingsStates state = result
-                            .getLocationSettingsStates();
-                    switch (status.getStatusCode()) {
-                        case LocationSettingsStatusCodes.SUCCESS:
-                            getcurrentlocation();
-                            break;
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                // Show the dialog by calling
-                                // startResolutionForResult(),
-                                // and setting the result in onActivityResult().
-                                status.startResolutionForResult(getActivity(), 1000);
-                            } catch (IntentSender.SendIntentException e) {
-                                // Ignore the error.
-                            }
-                            break;
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            // Location settings are not satisfied. However, we have
-                            // no way to fix the
-                            // settings so we won't show the dialog.
-                            break;
-                    }
-                }
-            });
-        }
-
-    }
-
-    public Boolean GPSEnable() {
-        GPSTracker gpsTracker = new GPSTracker(getActivity());
-        if (gpsTracker.canGetLocation()) {
-            return true;
-
-        } else {
-            return false;
-        }
-
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        myMap = googleMap;
-        myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(final Marker marker) {
-
-                View v = getActivity().getLayoutInflater().inflate(R.layout.view_custom_marker, null);
-
-                LatLng latLng = marker.getPosition();
-                TextView title = (TextView) v.findViewById(R.id.t);
-                TextView t1 = (TextView) v.findViewById(R.id.t1);
-                TextView t2 = (TextView) v.findViewById(R.id.t2);
-                ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
-                Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
-                t1.setTypeface(font);
-                t2.setTypeface(font);
-                String name = marker.getTitle();
-                title.setText(name);
-                String info = marker.getSnippet();
-                t1.setText(info);
-
-                NearbyData nearbyData = (NearbyData) marker.getTag();
-
-
-                if (nearbyData != null) {
-                    pass.setVehicleName(nearbyData.getVehicle_info());
-                    txt_info.setText(nearbyData.getVehicle_info());
-                    txt_address.setText("");
-                    driver_id = nearbyData.getUser_id();
-                    pickup = new Place() {
-                        @Nullable
-                        @Override
-                        public String getAddress() {
-                            return nearbyData.getPickup_address();
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<String> getAttributions() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getId() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public LatLng getLatLng() {
-                            String[] parts = nearbyData.getPickup_location().split(",");
-                            LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
-
-                            return location;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getName() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public OpeningHours getOpeningHours() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getPhoneNumber() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<PhotoMetadata> getPhotoMetadatas() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public PlusCode getPlusCode() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Integer getPriceLevel() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Double getRating() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<Type> getTypes() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Integer getUserRatingsTotal() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public LatLngBounds getViewport() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Uri getWebsiteUri() {
-                            return null;
-                        }
-
-                        @Override
-                        public int describeContents() {
-                            return 0;
-                        }
-
-                        @Override
-                        public void writeToParcel(Parcel dest, int flags) {
-
-                        }
-                    };
-                    drop = new Place() {
-                        @Nullable
-                        @Override
-                        public String getAddress() {
-                            return nearbyData.getDrop_address();
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<String> getAttributions() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getId() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public LatLng getLatLng() {
-                            String[] parts = nearbyData.getDrop_location().split(",");
-                            LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
-
-                            return location;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getName() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public OpeningHours getOpeningHours() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public String getPhoneNumber() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<PhotoMetadata> getPhotoMetadatas() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public PlusCode getPlusCode() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Integer getPriceLevel() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Double getRating() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public List<Type> getTypes() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Integer getUserRatingsTotal() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public LatLngBounds getViewport() {
-                            return null;
-                        }
-
-                        @Nullable
-                        @Override
-                        public Uri getWebsiteUri() {
-                            return null;
-                        }
-
-                        @Override
-                        public int describeContents() {
-                            return 0;
-                        }
-
-                        @Override
-                        public void writeToParcel(Parcel dest, int flags) {
-
-                        }
-                    };
-                    pickup_location.setText(pickup.getAddress());
-                    drop_location.setText(drop.getAddress());
-                    drivername = marker.getTitle();
-                    t2.setVisibility(View.VISIBLE);
-                } else {
-                    t2.setVisibility(View.GONE);
-                }
-                unit = nearbyData.getAmount();
-                txt_cost.setText(unit);
-                SessionManager.setUnit(unit);
-
-                txt_address.setText(getAdd(Double.valueOf(nearbyData.getLatitude()), Double.valueOf(nearbyData.getLongitude())) + " " + "PickUp Location");
-                txt_smoke.setText(nearbyData.getsmoked());
-                txt_date.setText("Date: " + nearbyData.getTravel_date() + " Time: " + nearbyData.getTravel_time());
-                txt_fee.setText(nearbyData.getAmount());
-
-
-                return v;
-
-            }
-        });
-
-        myMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                NearbyData nearbyData = (NearbyData) marker.getTag();
-                if (nearbyData != null) {
-                    driver_id = nearbyData.getUser_id();
-                    drivername = marker.getTitle();
-                }
-
-
-                if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
-                    header.startAnimation(animFadeOut);
-                    footer.startAnimation(animFadeOut);
-                    header.setVisibility(View.GONE);
-                    footer.setVisibility(View.GONE);
-                } else {
-
-                    header.setVisibility(View.VISIBLE);
-                    footer.setVisibility(View.VISIBLE);
-                    header.startAnimation(animFadeIn);
-                    footer.startAnimation(animFadeIn);
-                }
-
-            }
-        });
-
-        if (myMap != null) {
-            tunonGps();
-        }
-
-    }
-
-    private String getAdd(double latitude, double longitude) {
-        String finalAddress = null;
-        try {
-
-            Geocoder geocoder;
-            List<Address> addresses;
-            geocoder = new Geocoder(getActivity(), Locale.getDefault());
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            finalAddress = address + ", " + city + "," + state + "," + country;
-
-
-        } catch (Exception e) {
-
-        }
-        return finalAddress;
-    }
+//    private void setCurrentLocation() {
+//        if (!GPSEnable()) {
+//            tunonGps();
+//
+//        } else {
+//            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+//                try {
+//                    List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
+//                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
+//                    if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//                        Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
+//                        placeResponse.addOnCompleteListener(task -> {
+//                            if (task.isSuccessful()) {
+//                                FindCurrentPlaceResponse response = task.getResult();
+//                                if (response != null && response.getPlaceLikelihoods() != null) {
+//                                    PlaceLikelihood placeLikelihood = response.getPlaceLikelihoods().get(0);
+//                                    pickup = placeLikelihood.getPlace();
+//                                    pickup_location.setText(placeLikelihood.getPlace().getAddress());
+//                                    current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
+//                                }
+//                            } else {
+//                                Exception exception = task.getException();
+//                                if (exception instanceof ApiException) {
+//                                    ApiException apiException = (ApiException) exception;
+//                                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+//                                }
+//                            }
+//                        });
+//                    }
+//                } catch (Exception e) {
+//                }
+//            }
+//        }
+//    }
+
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        if (connectionResult.hasResolution()) {
+//            try {
+//                // Start an Activity that tries to resolve the error
+//                connectionResult.startResolutionForResult(getActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST);
+//            } catch (IntentSender.SendIntentException e) {
+//
+//                e.printStackTrace();
+//            }
+//        } else {
+//        }
+//    }
+
+//    @Override
+//    public void onLocationChanged(android.location.Location location) {
+//        if (location != null) {
+//            currentLatitude = location.getLatitude();
+//            currentLongitude = location.getLongitude();
+//        }
+//    }
+
+//    public void applyfonts() {
+//        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
+//        Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Book.otf");
+//        pickup_location.setTypeface(font);
+//        drop_location.setTypeface(font);
+//        txt_vehicleinfo.setTypeface(font1);
+//        rate.setTypeface(font1);
+//        txt_color.setTypeface(font);
+//        txt_address.setTypeface(font);
+//        request_ride.setTypeface(font1);
+//    }
+
+//    public void getcurrentlocation() {
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//
+//        // Create the LocationRequest object
+//        mLocationRequest = LocationRequest.create();
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        mLocationRequest.setInterval(30 * 1000);
+//        mLocationRequest.setFastestInterval(5 * 1000);
+//    }
+
+//    public void tunonGps() {
+//        if (mGoogleApiClient == null) {
+//            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+//                    .addApi(LocationServices.API).addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this).build();
+//            mGoogleApiClient.connect();
+//            mLocationRequest = LocationRequest.create();
+//            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//            mLocationRequest.setInterval(30 * 1000);
+//            mLocationRequest.setFastestInterval(5 * 1000);
+//            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+//                    .addLocationRequest(mLocationRequest);
+//
+//            // **************************
+//            builder.setAlwaysShow(true); // this is the key ingredient
+//            // **************************
+//
+//            PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi
+//                    .checkLocationSettings(mGoogleApiClient, builder.build());
+//            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+//                @Override
+//                public void onResult(LocationSettingsResult result) {
+//                    final Status status = result.getStatus();
+//                    final LocationSettingsStates state = result
+//                            .getLocationSettingsStates();
+//                    switch (status.getStatusCode()) {
+//                        case LocationSettingsStatusCodes.SUCCESS:
+//                            getcurrentlocation();
+//                            break;
+//                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//                            try {
+//                                // Show the dialog by calling
+//                                // startResolutionForResult(),
+//                                // and setting the result in onActivityResult().
+//                                status.startResolutionForResult(getActivity(), 1000);
+//                            } catch (IntentSender.SendIntentException e) {
+//                                // Ignore the error.
+//                            }
+//                            break;
+//                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//                            // Location settings are not satisfied. However, we have
+//                            // no way to fix the
+//                            // settings so we won't show the dialog.
+//                            break;
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
+
+//    public Boolean GPSEnable() {
+//        GPSTracker gpsTracker = new GPSTracker(getActivity());
+//        if (gpsTracker.canGetLocation()) {
+//            return true;
+//
+//        } else {
+//            return false;
+//        }
+//
+//
+//    }
+
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        myMap = googleMap;
+//        myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//            @Override
+//            public View getInfoWindow(Marker marker) {
+//
+//                return null;
+//            }
+//
+//            @Override
+//            public View getInfoContents(final Marker marker) {
+//
+//                View v = getActivity().getLayoutInflater().inflate(R.layout.view_custom_marker, null);
+//
+//                LatLng latLng = marker.getPosition();
+//                TextView title = (TextView) v.findViewById(R.id.t);
+//                TextView t1 = (TextView) v.findViewById(R.id.t1);
+//                TextView t2 = (TextView) v.findViewById(R.id.t2);
+//                ImageView imageView = (ImageView) v.findViewById(R.id.profile_image);
+//                Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
+//                t1.setTypeface(font);
+//                t2.setTypeface(font);
+//                String name = marker.getTitle();
+//                title.setText(name);
+//                String info = marker.getSnippet();
+//                t1.setText(info);
+//
+//                NearbyData nearbyData = (NearbyData) marker.getTag();
+//
+//
+//                if (nearbyData != null) {
+//                    pass.setVehicleName(nearbyData.getVehicle_info());
+//                    txt_info.setText(nearbyData.getVehicle_info());
+//                    txt_address.setText("");
+//                    driver_id = nearbyData.getUser_id();
+//                    pickup = new Place() {
+//                        @Nullable
+//                        @Override
+//                        public String getAddress() {
+//                            return nearbyData.getPickup_address();
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<String> getAttributions() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getId() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public LatLng getLatLng() {
+//                            String[] parts = nearbyData.getPickup_location().split(",");
+//                            LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
+//
+//                            return location;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getName() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public OpeningHours getOpeningHours() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getPhoneNumber() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<PhotoMetadata> getPhotoMetadatas() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public PlusCode getPlusCode() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Integer getPriceLevel() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Double getRating() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<Type> getTypes() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Integer getUserRatingsTotal() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public LatLngBounds getViewport() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Uri getWebsiteUri() {
+//                            return null;
+//                        }
+//
+//                        @Override
+//                        public int describeContents() {
+//                            return 0;
+//                        }
+//
+//                        @Override
+//                        public void writeToParcel(Parcel dest, int flags) {
+//
+//                        }
+//                    };
+//                    drop = new Place() {
+//                        @Nullable
+//                        @Override
+//                        public String getAddress() {
+//                            return nearbyData.getDrop_address();
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<String> getAttributions() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getId() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public LatLng getLatLng() {
+//                            String[] parts = nearbyData.getDrop_location().split(",");
+//                            LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
+//
+//                            return location;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getName() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public OpeningHours getOpeningHours() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public String getPhoneNumber() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<PhotoMetadata> getPhotoMetadatas() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public PlusCode getPlusCode() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Integer getPriceLevel() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Double getRating() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public List<Type> getTypes() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Integer getUserRatingsTotal() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public LatLngBounds getViewport() {
+//                            return null;
+//                        }
+//
+//                        @Nullable
+//                        @Override
+//                        public Uri getWebsiteUri() {
+//                            return null;
+//                        }
+//
+//                        @Override
+//                        public int describeContents() {
+//                            return 0;
+//                        }
+//
+//                        @Override
+//                        public void writeToParcel(Parcel dest, int flags) {
+//
+//                        }
+//                    };
+//                    pickup_location.setText(pickup.getAddress());
+//                    drop_location.setText(drop.getAddress());
+//                    drivername = marker.getTitle();
+//                    t2.setVisibility(View.VISIBLE);
+//                } else {
+//                    t2.setVisibility(View.GONE);
+//                }
+//                unit = nearbyData.getAmount();
+//                txt_cost.setText(unit);
+//                SessionManager.setUnit(unit);
+//
+//                txt_address.setText(getAdd(Double.valueOf(nearbyData.getLatitude()), Double.valueOf(nearbyData.getLongitude())) + " " + "PickUp Location");
+//                txt_smoke.setText(nearbyData.getsmoked());
+//                txt_date.setText("Date: " + nearbyData.getTravel_date() + " Time: " + nearbyData.getTravel_time());
+//                txt_fee.setText(nearbyData.getAmount());
+//
+//
+//                return v;
+//
+//            }
+//        });
+//
+//        myMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                NearbyData nearbyData = (NearbyData) marker.getTag();
+//                if (nearbyData != null) {
+//                    driver_id = nearbyData.getUser_id();
+//                    drivername = marker.getTitle();
+//                }
+//
+//
+//                if (header.getVisibility() == View.VISIBLE && footer.getVisibility() == View.VISIBLE) {
+//                    header.startAnimation(animFadeOut);
+//                    footer.startAnimation(animFadeOut);
+//                    header.setVisibility(View.GONE);
+//                    footer.setVisibility(View.GONE);
+//                } else {
+//
+//                    header.setVisibility(View.VISIBLE);
+//                    footer.setVisibility(View.VISIBLE);
+//                    header.startAnimation(animFadeIn);
+//                    footer.startAnimation(animFadeIn);
+//                }
+//
+//            }
+//        });
+//
+//        if (myMap != null) {
+//            tunonGps();
+//        }
+//
+//    }
+
+//    private String getAdd(double latitude, double longitude) {
+//        String finalAddress = null;
+//        try {
+//
+//            Geocoder geocoder;
+//            List<Address> addresses;
+//            geocoder = new Geocoder(getActivity(), Locale.getDefault());
+//            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//
+//            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//            String city = addresses.get(0).getLocality();
+//            String state = addresses.get(0).getAdminArea();
+//            String country = addresses.get(0).getCountryName();
+//            String postalCode = addresses.get(0).getPostalCode();
+//            finalAddress = address + ", " + city + "," + state + "," + country;
+//
+//
+//        } catch (Exception e) {
+//
+//        }
+//        return finalAddress;
+//    }
 
     public void changeFragment(final Fragment fragment, final String fragmenttag) {
 
@@ -1316,8 +1259,6 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
 
     @Override
     public boolean onBackPressed() {
-        Log.d("app fargment", "onBackPressed: homeprovider ");
-
         return false;
     }
 
@@ -1344,6 +1285,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         params.put("distance", distance);
         params.put("status", "REQUESTED");
         params.put("booked_set", booked_set);
+        params.put("car_type", carType);
         Server.setHeader(key);
         Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
             @Override
@@ -1363,7 +1305,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                             if (Checkbox.isChecked()) {
                                 SavePost(pickup_address, drop_address, date_time_value, time_value, ride_id);
                             }
-                            addRideFirebase(ride_id, "","REQUESTED", "", "");
+                            addRideFirebase(ride_id, "", "REQUESTED", "", "");
                             search_drop_location.setText("");
                             search_pich_location.setText("");
                             date_time_search.setText("");
@@ -1426,6 +1368,7 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -1443,5 +1386,16 @@ public class HomeFragment extends FragmentManagePermission implements OnMapReady
         rideObject.put("payment_mode", payment_mode);
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         databaseRef.setValue(rideObject);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.i("ibrahim", status_arr[i]);
+        carType = status_Content_arr[i];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

@@ -140,7 +140,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     String permissions[] = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private SwipeRefreshLayout swipeRefreshLayout;
+//    private SwipeRefreshLayout swipeRefreshLayout;
     private Dialog dialog;
     AppCompatButton cancel;
     com.google.android.gms.maps.MapView mapView;
@@ -302,7 +302,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         txt_Driver_name = (TextView) view.findViewById(R.id.MyADF_Driver_name);
         txt_PickupPoint = (TextView) view.findViewById(R.id.MyADF_txt_PickupPoint);
         btn_complete = (AppCompatButton) view.findViewById(R.id.MyADF_btn_complete);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.MyADF_swipe_refresh);
+//        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.MyADF_swipe_refresh);
         drivername = (TextView) view.findViewById(R.id.MyADF_Driver_name);
         trackRide = (AppCompatButton) view.findViewById(R.id.MyADF_btn_trackride);
         btn_payment = (AppCompatButton) view.findViewById(R.id.MyADF_btn_payment);
@@ -425,7 +425,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                 Server.post("api/user/rides", params, new JsonHttpResponseHandler() {
                                     @Override
                                     public void onStart() {
-                                        swipeRefreshLayout.setRefreshing(true);
+//                                        swipeRefreshLayout.setRefreshing(true);
                                     }
 
                                     @Override
@@ -447,7 +447,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                     public void onFinish() {
                                         super.onFinish();
                                         if (getActivity() != null) {
-                                            swipeRefreshLayout.setRefreshing(false);
+//                                            swipeRefreshLayout.setRefreshing(false);
                                         }
                                     }
                                 });
@@ -572,12 +572,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         }
         SetCustomFont setCustomFont = new SetCustomFont();
         setCustomFont.overrideFonts(getActivity(), view);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
     }
 
     public void completeTask() {
@@ -664,7 +664,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         Server.post("api/user/rides", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -692,7 +692,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onFinish() {
                 super.onFinish();
                 if (getActivity() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setRefreshing(false);
 
                 }
             }
@@ -765,7 +765,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onStart() {
                 super.onStart();
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -801,7 +801,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onFinish() {
                 super.onFinish();
                 if (getActivity() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -818,7 +818,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onStart() {
                 super.onStart();
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -844,7 +844,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onFinish() {
                 super.onFinish();
                 if (getActivity() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -889,7 +889,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onStart() {
                 super.onStart();
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -929,7 +929,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 Log.i("ibrahim", "onFinish");
                 sendStatus(rideJson.getRide_id(), "COMPLETED");
                 if (getActivity() != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+//                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -1133,7 +1133,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 fbTravel = dataSnapshot.getValue(firebaseTravel.class);
                 Log.i("ibrahim", fbTravel.toString());
                 Log.i("ibrahim_travel", fbTravel.driver_id);
-                Log.i("ibrahim_travel", fbTravel.clients.toString());
+                Log.i("ibrahim_travel", fbTravel.Clients.toString());
                 drawMap(fbTravel);
             }
 
@@ -1487,9 +1487,11 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             fbTravel = dataSnapshot.getValue(firebaseTravel.class);
+
+                            Log.i("ibrahim", dataSnapshot.toString());
                             Log.i("ibrahim", fbTravel.toString());
                             Log.i("ibrahim_travel1", fbTravel.driver_id);
-                            Log.i("ibrahim_travel1", fbTravel.clients.toString());
+//                            Log.i("ibrahim_travel1", fbTravel.clients.toString());
                             drawMap(fbTravel);
                         }
 
@@ -1523,7 +1525,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("You are here.").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
                     my_marker.showInfoWindow();
                     Log.i("ibrahim", "drawRoute");
-                    for (Map.Entry<String, String> entry : fbTravel.clients.entrySet()) {
+                    for (Map.Entry<String, String> entry : fbTravel.Clients.entrySet()) {
                         String key = entry.getKey();
                         String value = entry.getValue();
                         databaseClientsLocation = FirebaseDatabase.getInstance().getReference("Location").child(value);
@@ -1547,7 +1549,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         Log.i("ibrahim", value.toString());
                     }
 
-                    databaseDriverLocation = FirebaseDatabase.getInstance().getReference("Location").child("390");
+                    databaseDriverLocation = FirebaseDatabase.getInstance().getReference("Location").child(fbTravel.driver_id);
                     databaseDriverLocation.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {

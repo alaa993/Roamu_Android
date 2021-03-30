@@ -599,13 +599,22 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         addPost.setText("");
         addPost.setVisibility(View.VISIBLE);
 
+//        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawer_close();
+//        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+//            finish();
+//        } else {
+//            super.onBackPressed();
+//            getSupportFragmentManager().popBackStack();
+//        }
+
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawer_close();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
+
             super.onBackPressed();
-            getSupportFragmentManager().popBackStack();
         }
     }
 

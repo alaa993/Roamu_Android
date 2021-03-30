@@ -948,20 +948,20 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                         Log.e("success", String.valueOf(list.size()));
 
                         for (int i = 0; i < list.size(); i++) {
-                            Log.e("success", String.valueOf(i));
+                            Log.i("success", String.valueOf(i));
 
                             String[] pickuplatlong = list.get(i).getPickup_location().split(",");
                             double pickuplatitude = Double.parseDouble(pickuplatlong[0]);
                             double pickuplongitude = Double.parseDouble(pickuplatlong[1]);
                             origin = new LatLng(pickuplatitude, pickuplongitude);
-                            Log.e("origin", origin.toString());
+                            Log.i("origin", origin.toString());
 
 
                             String[] droplatlong = list.get(i).getDrop_location().split(",");
                             double droplatitude = Double.parseDouble(droplatlong[0]);
                             double droplongitude = Double.parseDouble(droplatlong[1]);
                             destination = new LatLng(droplatitude, droplongitude);
-                            Log.e("destination", destination.toString());
+                            Log.i("destination", destination.toString());
 
                             Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title("Travel").snippet(list.get(i).getPickup_address()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                             markers.add(myMarker);

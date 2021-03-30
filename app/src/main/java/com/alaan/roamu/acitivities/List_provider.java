@@ -62,46 +62,51 @@ public class List_provider extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_provider);
         Bundle bundle = getIntent().getExtras();
-        recyclerView = (RecyclerView)findViewById(R.id.search_drivers);
+        recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
 
         if (bundle != null) {
-           // Toast.makeText(this, "" + bundle.getString("cureentlatitude"), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "" + bundle.getString("cureentlatitude"), Toast.LENGTH_SHORT).show();
 
 
-            if (bundle.getString("cureentlatitude") != null && !bundle.getString("cureentlatitude").equals(0.0) && bundle.getString("currentLongitude") != null && !bundle.getString("currentLongitude").equals(0.0)) {
+//            if (bundle.getString("cureentlatitude") != null && !bundle.getString("cureentlatitude").equals(0.0) && bundle.getString("currentLongitude") != null && !bundle.getString("currentLongitude").equals(0.0)) {
 
-                String currentLatitude = bundle.getString("cureentlatitude");
-                String currentLongitude = bundle.getString("currentLongitude");
-                String search_pich_location = bundle.getString("search_pich_location");
-                String search_drop_location = bundle.getString("search_drop_location");
-                String smoke_value = bundle.getString("smoke_value");
-                String date_time_value = bundle.getString("date_time_value");
-                String passanger_value = bundle.getString("passanger_value");
-                String bag_value = bundle.getString("bag_value");
-                NeaBy(String.valueOf(currentLatitude), String.valueOf(currentLongitude), search_pich_location, search_drop_location, smoke_value, date_time_value, passanger_value, bag_value);
+            String currentLatitude = bundle.getString("cureentlatitude");
+            String currentLongitude = bundle.getString("currentLongitude");
+            String search_pich_location = bundle.getString("search_pich_location");
+            String search_drop_location = bundle.getString("search_drop_location");
+            String smoke_value = bundle.getString("smoke_value");
+            String date_time_value = bundle.getString("date_time_value");
+            String passanger_value = bundle.getString("passanger_value");
+            String bag_value = bundle.getString("bag_value");
+            String car_type = bundle.getString("car_type");
+
+            NeaBy(String.valueOf(currentLatitude), String.valueOf(currentLongitude), search_pich_location, search_drop_location, smoke_value, date_time_value, passanger_value, bag_value, car_type);
 
 
-            }
+//            }
 
-            log.d("tag",bundle.getString("currentLongitude"));
+            log.d("tag", bundle.getString("currentLongitude"));
         }
     }
-    public void NeaBy(String latitude, String longitude , String pick,String drop, String Smoke , String date,String passn,String bag) {
+
+    public void NeaBy(String latitude, String longitude, String pick, String drop, String Smoke, String date, String passn, String bag, String car_type) {
+        log.i("ibrahim", "NeaBy");
 
         flag = true;
         RequestParams params = new RequestParams();
-        params.put("pickup_address",pick);
-        params.put("drop_address",drop);
+        params.put("pickup_address", pick);
+        params.put("drop_address", drop);
         params.put("lat", latitude);
         params.put("long", longitude);
-        params.put("travel_date",date);
+        params.put("travel_date", date);
+        params.put("car_type", car_type);
 
         if (Smoke == "No") smoke_int = 0;
         else if (Smoke == "Yes") smoke_int = 1;
-        params.put("smoked",smoke_int);
+        params.put("smoked", smoke_int);
 
-        params.put("bag",bag);
-        params.put("booked_set",passn);
+        params.put("bag", bag);
+        params.put("booked_set", passn);
         Server.setHeader(SessionManager.getKEY());
         Server.get("api/user/travels2/format/json", params, new JsonHttpResponseHandler() {
             @Override
@@ -117,14 +122,16 @@ public class List_provider extends AppCompatActivity {
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         Gson gson = new GsonBuilder().create();
-                        log.i("tag","success by ibrahim");
+                        log.i("ibrahim", "success by ibrahim");
+                        log.i("ibrahim", response.toString());
+
                         List<NearbyData> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
 
                         }.getType());
-                        log.i("tag","inside by ibrahim");
-                        log.i("tag", response.getJSONArray("data").toString());
+                        log.i("ibrahim", "inside by ibrahim");
+                        log.i("ibrahim", response.getJSONArray("data").toString());
 
-                        recyclerView = (RecyclerView)findViewById(R.id.search_drivers);
+                        recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -165,6 +172,7 @@ public class List_provider extends AppCompatActivity {
             }
         });
     }
+
     public void changeFragment(final Fragment fragment, final String fragmenttag) {
 
         try {
@@ -172,12 +180,12 @@ public class List_provider extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                   // recyclerView.setVisibility(View.GONE);
+                    // recyclerView.setVisibility(View.GONE);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();//.addToBackStack(null);
                     fragmentTransaction.replace(R.id.frame_list, fragment, fragmenttag);
                     fragmentTransaction.commit();
-                  //  fragmentTransaction.addToBackStack(null);
+                    //  fragmentTransaction.addToBackStack(null);
                 }
             }, 50);
         } catch (Exception e) {
@@ -185,17 +193,18 @@ public class List_provider extends AppCompatActivity {
         }
 
     }
+
     public void showframe(int stauts) {
 
         try {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(stauts == 0) {
-                      recyclerView.setVisibility(View.GONE);
-                    }else if(stauts == 1){
+                    if (stauts == 0) {
+                        recyclerView.setVisibility(View.GONE);
+                    } else if (stauts == 1) {
                         recyclerView.setVisibility(View.VISIBLE);
-}
+                    }
                 }
             }, 50);
         } catch (Exception e) {
@@ -203,12 +212,14 @@ public class List_provider extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onBackPressed() {
         recyclerView.setVisibility(View.VISIBLE);
-            super.onBackPressed();
+        super.onBackPressed();
 
     }
+
     public void onResume() {
         super.onResume();
 

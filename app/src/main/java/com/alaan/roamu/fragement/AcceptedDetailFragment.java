@@ -51,6 +51,7 @@ import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -201,7 +202,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 payment_status = fbRide.payment_status;
                 payment_mode = fbRide.payment_mode;
                 setupData();
-//                changeFragment();
+                changeFragment();
             }
 
             @Override
@@ -434,6 +435,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 if (ride_status.equalsIgnoreCase("WAITED")) {
                     Log.i("ibrahim_waited", "--------------");
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
+                    updateTravelFirebase();
+
                 }
                 if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
                     Log.i("ibrahim_completed", "--------------");
@@ -803,8 +806,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
-                    Bundle bundle = null;
+//                    AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
+//                    Bundle bundle = null;
                     if (response.has("status") && response.getString("status").equals("success")) {
                         updateRideFirebase(travel_status, status, payment_status, payment_mode);
                         updateNotificationFirebase(status);
@@ -832,6 +835,29 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 if (getActivity() != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
+            }
+        });
+
+    }
+
+    public void updateTravelFirebase() {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
+        Map<String, Object> travelObject = new HashMap<>();
+        travelObject.put("driver_id", rideJson.getDriver_id());
+
+//        Map<String, String> Client = new HashMap<>();
+//        Client.put(rideJson.getUser_id(),rideJson.getUser_id());
+
+//        travelObject.put("Clients", Client);
+
+        databaseRef.updateChildren(travelObject).addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Clients").child(rideJson.getUser_id());
+//                Map<String, String> Client = new HashMap<>();
+//                Client.put(rideJson.getUser_id(),rideJson.getUser_id());Map<String, String> Client = new HashMap<>();
+////                Client.put(rideJson.getUser_id(),rideJson.getUser_id());
+                databaseRef.setValue(rideJson.getUser_id());
             }
         });
 

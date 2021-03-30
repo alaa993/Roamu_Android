@@ -55,7 +55,7 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
     public class Holder extends RecyclerView.ViewHolder {
 
 
-        TextView from, to, drivername, time, date, tvPrice, tvTypeCoach;
+        TextView from, to, drivername, time, date, tvPrice, tvTypeCoach, txt_car_type;
 
         ImageButton btn_req;
 
@@ -72,6 +72,7 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
             //tvTypeCoach = (TextView) itemView.findViewById(R.id.tvTypeCoach);
 
             drivername = (TextView) itemView.findViewById(R.id.txt_drivername);
+            txt_car_type = (TextView) itemView.findViewById(R.id.txt_car_type);
         }
     }
 
@@ -85,6 +86,8 @@ public class search_d_adapter extends RecyclerView.Adapter<search_d_adapter.Hold
         holder.from.setText(nearbyData.getPickup_address());
         holder.to.setText(nearbyData.getDrop_address());
         holder.time.setText(nearbyData.getTravel_date());
+        holder.txt_car_type.setText(nearbyData.getCarType());
+
         //  holder.date.setText(nearbyData.getTravel_date());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

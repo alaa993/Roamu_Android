@@ -23,6 +23,7 @@ public class NearbyData implements Serializable {
     public String color;
     public String avatar;
     public String vehicle_info;
+    public String car_type;
     public String Travels_Count;
     public String DriverRate;
     public String empty_set;
@@ -179,6 +180,14 @@ public class NearbyData implements Serializable {
 
     public void setVehicle_info(String model) {
         this.model = model;
+    }
+
+    public String getCarType() {
+        return car_type;
+    }
+
+    public void setCarType(String car_type) {
+        this.car_type = car_type;
     }
 
     public String getDistance() {

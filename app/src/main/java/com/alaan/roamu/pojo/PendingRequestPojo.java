@@ -33,6 +33,7 @@ public class PendingRequestPojo implements Serializable {
     private String smoked;
     private String booked_set;
     private String empty_set;
+    public String car_type;
 
     public PendingRequestPojo() {
     }
@@ -245,5 +246,13 @@ public class PendingRequestPojo implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getCarType() {
+        return car_type;
+    }
+
+    public void setCarType(String car_type) {
+        this.car_type = car_type;
     }
 }
