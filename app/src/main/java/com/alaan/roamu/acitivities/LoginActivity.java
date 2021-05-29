@@ -107,6 +107,7 @@ public class LoginActivity extends ActivityManagePermission {
                 }
             }
         });
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {

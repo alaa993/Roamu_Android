@@ -86,39 +86,39 @@ public class platform extends Fragment implements BackFragment {
         });
 
         listViewPosts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Post post = posts.get(i);
-                        //getting the selected artist
-                        if (post.author.uid.endsWith(fUser.getUid())) {
-                            android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(getActivity());
-                            View mView = getLayoutInflater().inflate(R.layout.dialog_update_post_layout, null);
-                            final EditText ET_DUOL = (EditText) mView.findViewById(R.id.ET_DUOL);
-                            ET_DUOL.setText(post.text);
-                            Button btnSubmit_DUOL = (Button) mView.findViewById(R.id.btnSubmit_DUOL);
-                            Button btnCancel_DUOL = (Button) mView.findViewById(R.id.btnCancel_DUOL);
-                            mBuilder.setView(mView);
-                            final AlertDialog dialog = mBuilder.create();
-                            dialog.show();
-                            btnSubmit_DUOL.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Log.i("ibrahim",post.id);
-                                    Log.i("ibrahim",ET_DUOL.getText().toString());
-                                    SavePost(ET_DUOL.getText().toString(), post.id);
-                                    dialog.dismiss();
-                                }
-                            });
-                            btnCancel_DUOL.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-                        return true;
-                    }
-                }
+                                                     @Override
+                                                     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                         Post post = posts.get(i);
+                                                         //getting the selected artist
+                                                         if (post.author.uid.endsWith(fUser.getUid())) {
+                                                             android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(getActivity());
+                                                             View mView = getLayoutInflater().inflate(R.layout.dialog_update_post_layout, null);
+                                                             final EditText ET_DUOL = (EditText) mView.findViewById(R.id.ET_DUOL);
+                                                             ET_DUOL.setText(post.text);
+                                                             Button btnSubmit_DUOL = (Button) mView.findViewById(R.id.btnSubmit_DUOL);
+                                                             Button btnCancel_DUOL = (Button) mView.findViewById(R.id.btnCancel_DUOL);
+                                                             mBuilder.setView(mView);
+                                                             final AlertDialog dialog = mBuilder.create();
+                                                             dialog.show();
+                                                             btnSubmit_DUOL.setOnClickListener(new View.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(View view) {
+                                                                     Log.i("ibrahim", post.id);
+                                                                     Log.i("ibrahim", ET_DUOL.getText().toString());
+                                                                     SavePost(ET_DUOL.getText().toString(), post.id);
+                                                                     dialog.dismiss();
+                                                                 }
+                                                             });
+                                                             btnCancel_DUOL.setOnClickListener(new View.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(View view) {
+                                                                     dialog.dismiss();
+                                                                 }
+                                                             });
+                                                         }
+                                                         return true;
+                                                     }
+                                                 }
         );
 
 
@@ -127,8 +127,8 @@ public class platform extends Fragment implements BackFragment {
 
     public void SavePost(String post_text, String Post_id) {
 
-        Log.i("ibrahim",Post_id);
-        Log.i("ibrahim",post_text);
+        Log.i("ibrahim", Post_id);
+        Log.i("ibrahim", post_text);
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("posts").child(Post_id).child("text");
         databaseRef.setValue(post_text);
@@ -158,6 +158,7 @@ public class platform extends Fragment implements BackFragment {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -182,8 +183,7 @@ public class platform extends Fragment implements BackFragment {
                 if (!posts.isEmpty()) {
                     //creating adapter
                     Fragment fragment = getFragmentManager().findFragmentByTag(getString(R.string.platform));
-                    if (fragment != null && fragment.isVisible())
-                    {
+                    if (fragment != null && fragment.isVisible()) {
                         PostList postAdapter = new PostList(getActivity(), posts);
                         //attaching adapter to the listview
                         postAdapter.notifyDataSetChanged();
