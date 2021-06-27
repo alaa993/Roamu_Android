@@ -3,6 +3,7 @@ package com.alaan.roamu.adapter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,18 @@ import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.fragement.AcceptedDetailFragment;
 import com.alaan.roamu.pojo.PendingRequestPojo;
+import com.alaan.roamu.pojo.firebaseRide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequestAdapter.Holder> {
     List<PendingRequestPojo> list;
+    ValueEventListener listener;
+    DatabaseReference databaseRides;
 
     public AcceptedRequestAdapter(List<PendingRequestPojo> list) {
         this.list = list;
@@ -40,6 +49,20 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         holder.date.setText(pojo.getDate());
         holder.status.setText(pojo.getStatus());
         holder.txt_car_type.setText(pojo.getCarType());
+
+        databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(pojo.getRide_id());
+        listener = databaseRides.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+                Log.i("ibrahim ride", "----------");
+                holder.status.setText(fbRide.ride_status);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

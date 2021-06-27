@@ -257,7 +257,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                             AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeFragment.this.getContext());
                             View mView = getLayoutInflater().inflate(R.layout.dialog_addtravel_layout, null);
                             final EditText mPassengers = (EditText) mView.findViewById(R.id.etPassengers);
-                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
+//                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
                             Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
@@ -271,7 +271,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                                         dialog.dismiss();
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
-                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(mPrice.getText()), "0", String.valueOf(mPassengers.getText()));
+                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(0), "0", String.valueOf(mPassengers.getText()));
                                     } else {
                                         Toast.makeText(HomeFragment.this.getContext(),
                                                 "Failed",

@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/roamu_user" />
+        android:src="@drawable/roamu" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"

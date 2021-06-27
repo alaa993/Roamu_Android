@@ -14,6 +14,9 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
  */
 
 public class Server {
+    //https://www.roamu.net/api/user/testpostman/format/json
+    //X-API-KEY => SVl4G3Tj720764356r8LeCvy98080006
+    //Content-Type => application/x-www-form-urlencoded
 
     public static final String FORMAT = "/format/json";
     public static final String BASE_URL = "https://roamu.net/";            // Your admin panel URL

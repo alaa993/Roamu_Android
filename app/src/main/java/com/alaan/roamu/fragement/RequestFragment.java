@@ -163,6 +163,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
             //1234
         } else {
             txt_fare.setText(pass.getFare());
+            fianl_fare.setText(pass.getFare());
             car.setVisibility(View.VISIBLE);
             rating.setVisibility(View.VISIBLE);
             fare_rating.setVisibility(View.VISIBLE);
@@ -293,6 +294,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         car_name = (TextView) view.findViewById(R.id.car_name);
         textView4 = (TextView) view.findViewById(R.id.textView4);
         num_set = (ElegantNumberButton) view.findViewById(R.id.num_set);
+        num_set.setNumber("1");
+//        num_set.setRange(1,10);
         txt_fare = (TextView) view.findViewById(R.id.txt_fare);
         btn_cobo = (Button) view.findViewById(R.id.btn_cobo);
         cobun_num = (EditText) view.findViewById(R.id.cobun_num);
@@ -586,7 +589,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 txt_DriverRate.setText(pass.DriverRate);
                 txt_TravelsCount.setText(pass.Travels_Count);
                 txt_PickupPoint.setText(pass.getPickupPoint());
-                num_set.setNumber(String.valueOf(pass.NoPassengers));
+//                num_set.setNumber(String.valueOf(pass.NoPassengers));
                 pickup_location.setText(pickup_address);
                 drop_location.setText(drop_address);
                 txt_bag.setText(pass.getAvalibleset());
@@ -613,7 +616,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     }
                 });
                 if (pass.f == Pass.fragment_type.GET) {
-                    num_set.setRange(0, Integer.parseInt(pass.empty_set));
+                    num_set.setRange(1, Integer.parseInt(pass.empty_set));
                 }
                 num_set.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
                     @Override

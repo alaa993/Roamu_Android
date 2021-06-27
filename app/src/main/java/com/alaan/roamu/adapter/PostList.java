@@ -3,6 +3,7 @@ package com.alaan.roamu.adapter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +125,7 @@ public class PostList extends ArrayAdapter<Post> {
 
         TripDetail.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.i("success", String.valueOf(post.travel_id));
                 NeaBy(String.valueOf(post.travel_id));
             }
         });
@@ -134,8 +136,9 @@ public class PostList extends ArrayAdapter<Post> {
     public void NeaBy(String travel_id) {
         RequestParams params = new RequestParams();
         params.put("travel_id", travel_id);
+        Log.i("success", String.valueOf(travel_id));
         Server.setHeader(SessionManager.getKEY());
-        Server.get("api/user/travels2/format/json", params, new JsonHttpResponseHandler() {
+        Server.get("api/user/travels3/format/json", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -146,6 +149,7 @@ public class PostList extends ArrayAdapter<Post> {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        Log.e("success", response.toString());
                         Gson gson = new GsonBuilder().create();
                         List<NearbyData> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
                         }.getType());

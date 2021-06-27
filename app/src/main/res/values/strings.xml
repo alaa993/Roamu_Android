@@ -212,11 +212,11 @@
 
     <string name="notification_0">Choose you to travel with you</string>
     <string name="notification_1">You have a new ride</string>
-    <string name="notification_2">Glad to accept your request to travel with him</string>
+    <string name="notification_2">Travel Started!</string>
     <string name="notification_3">Apologizes for accepting your request</string>
-    <string name="notification_4">Thank you for your trust in us. Successful Arrivals</string>
+    <string name="notification_4">Successful Arrivals</string>
     <string name="notification_5">requested offline payment</string>
-    <string name="notification_6">User just paid for your ride</string>
+    <string name="notification_6">Payment completed successfully</string>
     <string name="notification_7">Choose you to travel with you</string>
     <string name="notification_8">The request has been sent and you will receive confirmation as soon as possible</string>
     <string name="trip_detail">Trip Detail</string>
@@ -259,5 +259,6 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="car_type2">MiniBus</string>
     <string name="car_type3">Bus</string>
     <string name="status">Status</string>
+    <string name="full_travel">We are sorry to let you know that the travel you requested is fulled by passengers, your request is renewed!</string>
 
 </resources>

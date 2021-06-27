@@ -13,10 +13,20 @@ import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.fragement.MyAcceptedDetailFragment;
 import com.alaan.roamu.pojo.PendingRequestPojo;
+import com.alaan.roamu.pojo.firebaseRide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 public class MyAcceptedRequestAdapter extends RecyclerView.Adapter<MyAcceptedRequestAdapter.Holder> {
     private List<PendingRequestPojo> list;
+
+    ValueEventListener listener;
+    DatabaseReference databaseRides;
 
     public MyAcceptedRequestAdapter(List<PendingRequestPojo> list) {
         this.list = list;
@@ -40,6 +50,20 @@ public class MyAcceptedRequestAdapter extends RecyclerView.Adapter<MyAcceptedReq
         holder.date.setText(pojo.getDate());
         holder.status.setText(pojo.getStatus());
         holder.txt_car_type.setText(pojo.getCarType());
+
+        databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(pojo.getRide_id());
+        listener = databaseRides.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
+                Log.i("ibrahim ride", "----------");
+                holder.status.setText(fbRide.ride_status);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
 
 

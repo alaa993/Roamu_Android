@@ -73,6 +73,7 @@ import com.alaan.roamu.pojo.Tracking;
 import com.alaan.roamu.session.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -99,6 +100,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
@@ -162,8 +164,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     Bundle bundle;
     private String travel_status;
     private String ride_status;
-    private String payment_status;
-    private String payment_mode;
+    private String payment_status = "";
+    private String payment_mode = "";
 
     Button acc_d_f_home_button;
 
@@ -298,10 +300,12 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             TimeVal.setText(rideJson.getTime());
             dateandtime.setText(rideJson.getDate());
             txt_Empty_Seats.setText(rideJson.getempty_set());
+//            txt_city.setText(rideJson.);
             num_set.setText(rideJson.getBooked_set());
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.i("ibrahim", "mobile call function");
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
@@ -334,6 +338,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             }
             if (ride_status.equalsIgnoreCase("PENDING")) {
                 btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setVisibility(View.GONE);
                 isStarted();
             }
             if (ride_status.equalsIgnoreCase("CANCELLED")) {
@@ -357,7 +362,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
 //                    mobilenumber_row.setVisibility(View.VISIBLE);
                 }
                 if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
@@ -543,6 +548,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             }
             if (ride_status.equalsIgnoreCase("PENDING")) {
                 btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setVisibility(View.GONE);
                 isStarted();
             }
             if (ride_status.equalsIgnoreCase("CANCELLED")) {
@@ -567,12 +573,12 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     btn_payment.setVisibility(View.VISIBLE);
                 } else if (payment_status.equals("") && payment_mode.equals("OFFLINE")) {
                     btn_cancel.setVisibility(View.GONE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.GONE);
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
 //                    mobilenumber_row.setVisibility(View.VISIBLE);
                 }
                 if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
@@ -793,6 +799,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         RequestParams params = new RequestParams();
         params.put("ride_id", ride_id);
         params.put("status", status);
+        params.put("by", "user");
         Server.setHeader(SessionManager.getKEY());
         Server.setContetntType();
         Server.post("api/user/rides", params, new JsonHttpResponseHandler() {
@@ -805,16 +812,36 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.i("ibrahim", "response.toString()");
+                Log.i("ibrahim", response.toString());
                 try {
-//                    AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
-//                    Bundle bundle = null;
-                    if (response.has("status") && response.getString("status").equals("success")) {
-                        updateRideFirebase(travel_status, status, payment_status, payment_mode);
-                        updateNotificationFirebase(status);
+                    Gson gson = new GsonBuilder().create();
+                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
+                        }.getType());
+                        if (response.has("data") && response.getJSONArray("data").length() > 0) {
+                            if (list.size() > 0) {
+                                if (list.get(0).getStatus().contains("REQUESTED")){
+                                    updateRideFirebase(travel_status, list.get(0).getStatus(), payment_status, payment_mode);
+                                    Toast.makeText(getActivity(), getString(R.string.full_travel), Toast.LENGTH_LONG).show();
+                                    //HIDDEN
+                                    btn_complete.setVisibility(View.GONE);
+                                    btn_cancel.setVisibility(View.GONE);
+                                    btn_payment.setVisibility(View.GONE);
+                                    trackRide.setVisibility(View.GONE);
+                                }
+                                else{
+                                    Log.i("ibrahim","waited");
+                                    updateRideFirebase(travel_status, list.get(0).getStatus(), payment_status, payment_mode);
+                                    updateNotificationFirebase(list.get(0).getStatus());
+                                }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -885,7 +912,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                         if (response.has("data") && response.getString("status").equalsIgnoreCase("true")) {
                             btn_payment.setVisibility(View.GONE);
                         } else {
-                            btn_complete.setVisibility(View.VISIBLE);
+//                            btn_complete.setVisibility(View.VISIBLE);
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
@@ -1239,6 +1266,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                 break;
                             case "started":
                                 trackRide.setText(getString(R.string.Track_Ride));
+//                                trackRide.setVisibility(View.INVISIBLE);
 
                                 trackRide.setOnClickListener(new View.OnClickListener() {
                                     @Override

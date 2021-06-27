@@ -16,7 +16,7 @@ tools:context=".fragement.MyAcceptedRequestFragment">
     android:text="No Data Found"
     android:textColor="@color/black"
     android:textSize="30sp"
-    android:visibility="gone" />
+    android:visibility="visible" />
 
 <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/MyAR_swipe_refresh"
@@ -27,6 +27,7 @@ tools:context=".fragement.MyAcceptedRequestFragment">
         android:id="@+id/MyAR_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:scrollbarThumbVertical="@android:color/transparent" />
 </android.support.v4.widget.SwipeRefreshLayout>
 

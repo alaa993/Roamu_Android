@@ -209,8 +209,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             ride_status = rideJson.getStatus();
             payment_status = rideJson.getPayment_status();
             payment_mode = rideJson.getPayment_mode();
+//            Log.i("ibrahim", "payment_status");
+//            Log.i("ibrahim", "rideJson.getPayment_status()");
+//            Log.i("ibrahim", payment_status);
+//            Log.i("ibrahim", payment_mode);
 
-            Log.i("ibrahim", rideJson.getRide_id());
+//            Log.i("ibrahim", rideJson.getRide_id());
             databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
             databaseTravelRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
         }
@@ -258,11 +262,15 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-                Log.i("ibrahim ride", "----------");
+//                Log.i("ibrahim ride", "----------");
                 travel_status = fbRide.travel_status;
                 ride_status = fbRide.ride_status;
                 payment_status = fbRide.payment_status;
                 payment_mode = fbRide.payment_mode;
+//                Log.i("ibrahim", "payment_status");
+//                Log.i("ibrahim", "databaseRides");
+//                Log.i("ibrahim", payment_status);
+//                Log.i("ibrahim", payment_mode);
                 setupData();
             }
 
@@ -293,7 +301,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
         my_acc_d_f_home_button = (Button) view.findViewById(R.id.my_acc_d_f_home_button);
         mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.MyADF_mapview);
-        cancel = (AppCompatButton) view.findViewById(R.id.MyADF_btn_cancel);
+//        cancel = (AppCompatButton) view.findViewById(R.id.MyADF_btn_cancel);
         mobilenumber = (TextView) view.findViewById(R.id.MyADF_txt_mobilenumber);
         pickup_location = (TextView) view.findViewById(R.id.MyADF_txt_pickuplocation);
         drop_location = (TextView) view.findViewById(R.id.MyADF_txt_droplocation);
@@ -320,27 +328,28 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             dateandtime.setText(rideJson.getDate());
 
             if (rideJson.getpickup_location() != null && rideJson.getdrop_location() != null) {
-                Log.i("ibrahim", "inside");
-                Log.i("ibrahim", rideJson.getpickup_location());
-                Log.i("ibrahim", rideJson.getdrop_location());
+//                Log.i("ibrahim", "inside");
+//                Log.i("ibrahim", rideJson.getpickup_location());
+//                Log.i("ibrahim", rideJson.getdrop_location());
 
                 String[] pickuplatlong = rideJson.getpickup_location().split(",");
                 double pickuplatitude = Double.parseDouble(pickuplatlong[0]);
                 double pickuplongitude = Double.parseDouble(pickuplatlong[1]);
                 origin = new LatLng(pickuplatitude, pickuplongitude);
 
-                Log.i("ibrahim", origin.toString());
+//                Log.i("ibrahim", origin.toString());
 
                 String[] droplatlong = rideJson.getdrop_location().split(",");
                 double droplatitude = Double.parseDouble(droplatlong[0]);
                 double droplongitude = Double.parseDouble(droplatlong[1]);
                 destination = new LatLng(droplatitude, droplongitude);
-                Log.i("ibrahim", destination.toString());
+//                Log.i("ibrahim", destination.toString());
             }
 
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    Log.i("ibrahim", "mobile call function");
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
@@ -373,6 +382,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             }
             if (ride_status.equalsIgnoreCase("PENDING")) {
                 btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setVisibility(View.GONE);
                 isStarted();
             }
             if (ride_status.equalsIgnoreCase("CANCELLED")) {
@@ -392,13 +402,14 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
                 if (payment_status.equals("") && payment_mode.equals("")) {
+                    btn_complete.setVisibility(View.GONE);
                     btn_cancel.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.VISIBLE);
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
 //                    mobilenumber_row.setVisibility(View.VISIBLE);
                 }
                 if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
@@ -501,6 +512,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    Log.i("ibrahim", "mobile call function");
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
@@ -533,6 +545,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             }
             if (ride_status.equalsIgnoreCase("PENDING")) {
                 btn_cancel.setVisibility(View.VISIBLE);
+                btn_complete.setVisibility(View.GONE);
                 isStarted();
             }
             if (ride_status.equalsIgnoreCase("CANCELLED")) {
@@ -552,17 +565,18 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
                 if (payment_status.equals("") && payment_mode.equals("")) {
+                    btn_complete.setVisibility(View.GONE);
                     btn_cancel.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.VISIBLE);
                 } else if (payment_status.equals("") && payment_mode.equals("OFFLINE")) {
                     btn_cancel.setVisibility(View.GONE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.GONE);
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
-                    trackRide.setVisibility(View.VISIBLE);
+                    trackRide.setVisibility(View.GONE);
                 }
                 if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
                     btn_complete.setVisibility(View.GONE);
@@ -596,13 +610,13 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
-                Log.i("ibrahim", String.valueOf(fare_rating.getRating()));
-                Log.i("ibrahim getDriver_id", rideJson.getDriver_id());
-                Log.i("ibrahim getUser_id", rideJson.getUser_id());
-                Log.i("ibrahim getTravel_id", rideJson.getTravel_id());
+//                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
+//                Log.i("ibrahim", String.valueOf(fare_rating.getRating()));
+//                Log.i("ibrahim getDriver_id", rideJson.getDriver_id());
+//                Log.i("ibrahim getUser_id", rideJson.getUser_id());
+//                Log.i("ibrahim getTravel_id", rideJson.getTravel_id());
                 sendRating(ratingBar.getRating() * 2, fare_rating.getRating() * 2);
-                Log.i("ibrahim", "complete");
+//                Log.i("ibrahim", "complete");
                 if (etComments.getText().toString().length() > 0) {
                     AddComment(etComments.getText().toString());
                 }
@@ -612,7 +626,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("ibrahim", "cancel");
+//                Log.i("ibrahim", "cancel");
                 dialog.cancel();
             }
         });
@@ -830,7 +844,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         if (response.has("data") && response.getString("status").equalsIgnoreCase("true")) {
                             btn_payment.setVisibility(View.GONE);
                         } else {
-                            btn_complete.setVisibility(View.VISIBLE);
+//                            btn_complete.setVisibility(View.VISIBLE);
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
@@ -920,13 +934,13 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 //                Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
-                Log.i("ibrahim", "Failure");
+//                Log.i("ibrahim", "Failure");
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Log.i("ibrahim", "onFinish");
+//                Log.i("ibrahim", "onFinish");
                 sendStatus(rideJson.getRide_id(), "COMPLETED");
                 if (getActivity() != null) {
 //                    swipeRefreshLayout.setRefreshing(false);
@@ -994,35 +1008,33 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 PayPalAuthorization auth = data
                         .getParcelableExtra(PayPalFuturePaymentActivity.EXTRA_RESULT_AUTHORIZATION);
                 if (auth != null) {
-                    try {
-                        Log.i("FuturePaymentExample", auth.toJSONObject()
-                                .toString(4));
-
-                        String authorization_code = auth.getAuthorizationCode();
-                        Log.d("FuturePaymentExample", authorization_code);
-
-                        /*sendAuthorizationToServer(auth);
-                        Toast.makeText(getActivity(),
-                                "Future Payment code received from PayPal",
-                                Toast.LENGTH_LONG).show();*/
-                        Log.e("paypal", "future Payment code received from PayPal  :" + authorization_code);
-
-                    } catch (JSONException e) {
-                        Toast.makeText(getActivity(), "failure Occurred", Toast.LENGTH_LONG).show();
-                        Log.e("FuturePaymentExample",
-                                "an extremely unlikely failure occurred: ", e);
-                    }
+//                    try {
+////                        Log.i("FuturePaymentExample", auth.toJSONObject().toString(4));
+//
+//                        String authorization_code = auth.getAuthorizationCode();
+////                        Log.d("FuturePaymentExample", authorization_code);
+//
+//                        /*sendAuthorizationToServer(auth);
+//                        Toast.makeText(getActivity(),
+//                                "Future Payment code received from PayPal",
+//                                Toast.LENGTH_LONG).show();*/
+////                        Log.e("paypal", "future Payment code received from PayPal  :" + authorization_code);
+//
+//                    }
+//                    catch (JSONException e) {
+//                        Toast.makeText(getActivity(), "failure Occurred", Toast.LENGTH_LONG).show();
+//                        Log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
+//                    }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getActivity(), getString(R.string.payment_hbeen_cancelled), Toast.LENGTH_LONG).show();
 
-                Log.d("FuturePaymentExample", "The user canceled.");
+//                Log.d("FuturePaymentExample", "The user canceled.");
             } else if (resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID) {
 
                 Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
-                Log.d("FuturePaymentExample",
-                        "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs.");
+//                Log.d("FuturePaymentExample","Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs.");
             }
         }
 
@@ -1131,9 +1143,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 fbTravel = dataSnapshot.getValue(firebaseTravel.class);
-                Log.i("ibrahim", fbTravel.toString());
-                Log.i("ibrahim_travel", fbTravel.driver_id);
-                Log.i("ibrahim_travel", fbTravel.Clients.toString());
+//                Log.i("ibrahim", fbTravel.toString());
+//                Log.i("ibrahim_travel", fbTravel.driver_id);
+//                Log.i("ibrahim_travel", fbTravel.Clients.toString());
                 drawMap(fbTravel);
             }
 
@@ -1145,7 +1157,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     }
 
     void isStarted() {
-        Log.i("ibrahim", "isStarted");
+//        Log.i("ibrahim", "isStarted");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + rideJson.getRide_id());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1488,9 +1500,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             fbTravel = dataSnapshot.getValue(firebaseTravel.class);
 
-                            Log.i("ibrahim", dataSnapshot.toString());
-                            Log.i("ibrahim", fbTravel.toString());
-                            Log.i("ibrahim_travel1", fbTravel.driver_id);
+//                            Log.i("ibrahim", dataSnapshot.toString());
+//                            Log.i("ibrahim", fbTravel.toString());
+//                            Log.i("ibrahim_travel1", fbTravel.driver_id);
 //                            Log.i("ibrahim_travel1", fbTravel.clients.toString());
                             drawMap(fbTravel);
                         }
@@ -1513,18 +1525,18 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     public void drawMap(firebaseTravel fbTravel) {
         try {
             @SuppressLint("MissingPermission") android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            Log.i("ibrahim", "drawRoute-1");
+//            Log.i("ibrahim", "drawRoute-1");
             if (location == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             } else {
                 currentLatitude = location.getLatitude();
                 currentLongitude = location.getLongitude();
-                Log.i("ibrahim", "drawRoute0");
+//                Log.i("ibrahim", "drawRoute0");
                 if (myMap != null) {
                     myMap.clear();
                     my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("You are here.").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
                     my_marker.showInfoWindow();
-                    Log.i("ibrahim", "drawRoute");
+//                    Log.i("ibrahim", "drawRoute");
                     for (Map.Entry<String, String> entry : fbTravel.Clients.entrySet()) {
                         String key = entry.getKey();
                         String value = entry.getValue();
@@ -1546,20 +1558,20 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
                             }
                         });
-                        Log.i("ibrahim", value.toString());
+//                        Log.i("ibrahim", value.toString());
                     }
 
                     databaseDriverLocation = FirebaseDatabase.getInstance().getReference("Location").child(fbTravel.driver_id);
                     databaseDriverLocation.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.i("ibrahim","inside_dataSnapshot");
+//                            Log.i("ibrahim","inside_dataSnapshot");
                             if (dataSnapshot != null) {
-                                Log.i("ibrahim","dataSnapshot");
-                                Log.i("ibrahim",dataSnapshot.toString());
+//                                Log.i("ibrahim","dataSnapshot");
+//                                Log.i("ibrahim",dataSnapshot.toString());
                                 firebaseClients Driver = dataSnapshot.getValue(firebaseClients.class);
-                                Log.i("ibrahim","dataSnapshot");
-                                Log.i("ibrahim",Driver.latitude.toString() + Driver.longitude.toString());
+//                                Log.i("ibrahim","dataSnapshot");
+//                                Log.i("ibrahim",Driver.latitude.toString() + Driver.longitude.toString());
 
                                 my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(Driver.latitude, Driver.longitude)).title("Driver").icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));
 

@@ -107,6 +107,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     double latitude; // latitude
     double longitude; // longitude
     String[] permissions = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
+    ValueEventListener listener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -193,12 +194,14 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
 
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -208,6 +211,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     public void drawer_close() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
@@ -220,10 +224,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         switch (item.getItemId()) {
             case R.id.home:
                 post_notification = false;
-                getNotificationsCount();
                 addPost.setBackgroundResource(R.drawable.ic_notification);
-                addPost.setText("");
+                addPost.setText("0");
                 addPost.setVisibility(View.VISIBLE);
+                getNotificationsCount();
                 changeFragment(new HomeFragment(), getString(R.string.home));
                 break;
 
@@ -259,6 +263,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
             case R.id.platform:
                 post_notification = true;
+                databasePosts.removeEventListener(listener);
                 addPost.setBackgroundResource(R.drawable.ronded_button2);
                 addPost.setText(R.string.post);
                 addPost.setVisibility(View.VISIBLE);
@@ -356,6 +361,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             }
         });
     }
+
     @Override
     public void update(String url) {
         if (!url.equals("")) {
@@ -363,6 +369,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 //            Glide.with(HomeActivity.this).load(user.getAvatar()).apply(new RequestOptions().error(R.drawable.images)).into(avatar);
         }
     }
+
     @Override
     public void name(String name) {
         if (!name.equals("")) {
@@ -375,6 +382,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     public void onConnected() {
         locationEngine.requestLocationUpdates();
     }
+
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
@@ -383,10 +391,12 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             setLocaiton(location);
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -508,7 +518,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                     Intent intent = new Intent(HomeActivity.this, AddPostActivity.class);
                     startActivity(intent);
                 } else {
-                    addPost.setVisibility(View.GONE);
+                    updateNotificationFirebase(SessionManager.getUserId()); // my id is user id
+//                    addPost.setVisibility(View.GONE);
                     changeFragment(new NotificationsFragment(), getString(R.string.notifications));
                 }
             }
@@ -555,6 +566,31 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         }
     }
 
+    public void updateNotificationFirebase(String user_id) {
+        Log.i("ibrahim", "updateNotificationFirebase");
+        Log.i("ibrahim", user_id);
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id).child("readStatus");
+//        databaseRef.setValue("1");
+
+        // update all notificaitons read_status to be 1
+        FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Notification notification = postSnapshot.getValue(Notification.class);
+                    notification.id = postSnapshot.getKey();
+                    Log.i("ibrahim", notification.id);
+                    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification.id).child("readStatus");
+                    databaseRef.setValue("1");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
     public void getUserInfo() {
         String uid = SessionManager.getUserId();
         RequestParams params = new RequestParams();
@@ -591,12 +627,13 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         post_notification = false;
         getNotificationsCount();
         addPost.setBackgroundResource(R.drawable.ic_notification);
-        addPost.setText("");
+        addPost.setText("0");
         addPost.setVisibility(View.VISIBLE);
 
 //        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -630,7 +667,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     private void getNotificationsCount() {
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
-            databasePosts.addValueEventListener(new ValueEventListener() {
+            listener = databasePosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     int NotificationsCount = 0;

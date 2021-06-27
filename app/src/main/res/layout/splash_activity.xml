@@ -12,6 +12,6 @@
         android:layout_height="@dimen/height"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:src="@drawable/roamu_user" />
+        android:src="@drawable/roamu" />
 
 </RelativeLayout>

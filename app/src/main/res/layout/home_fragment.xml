@@ -36,7 +36,7 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            app:srcCompat="@drawable/roamu_user_transparent" />
+            app:srcCompat="@drawable/roamu_transparent" />
     </RelativeLayout>
 
     <RelativeLayout

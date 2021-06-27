@@ -1,6 +1,7 @@
 package com.alaan.roamu.adapter;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import com.alaan.roamu.fragement.AcceptedDetailFragment;
 import com.alaan.roamu.pojo.Notification;
 import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.PendingRequestPojo;
+import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.session.SessionManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -38,6 +40,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -95,8 +98,25 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     }
 
     public void updateNotificationFirebase(String ride_id, String user_id, String notification_id) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id).child("readStatus");
-        databaseRef.setValue("1");
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id).child("readStatus");
+//        databaseRef.setValue("1");
+
+        // update all notificaitons read_status to be 1
+        FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Notification notification = postSnapshot.getValue(Notification.class);
+                    notification.id = postSnapshot.getKey();
+                    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification.id).child("readStatus");
+                    databaseRef.setValue("1");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     private void GetRides(String ride_id, String notification_id) {
@@ -112,7 +132,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                     Gson gson = new GsonBuilder().create();
                     List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
                     }.getType());
-                    updateNotificationFirebase(ride_id, list.get(0).getUser_id(), notification_id); // my id is user id
+//                    updateNotificationFirebase(ride_id, list.get(0).getUser_id(), notification_id); // my id is user id
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("data", list.get(0));
                     AcceptedDetailFragment detailFragment = new AcceptedDetailFragment();

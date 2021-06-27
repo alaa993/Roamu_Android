@@ -14,11 +14,13 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 
 import com.alaan.roamu.R;
 import com.alaan.roamu.Server.Server;
+import com.alaan.roamu.adapter.MyAcceptedRequestAdapter;
 import com.alaan.roamu.adapter.search_d_adapter;
 import com.alaan.roamu.fragement.RequestFragment;
 import com.alaan.roamu.pojo.NearbyData;
@@ -40,6 +42,7 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class List_provider extends AppCompatActivity {
     RecyclerView recyclerView;
+    TextView txt_error;
     private String cost;
     private String unit;
     Boolean flag = false;
@@ -63,6 +66,7 @@ public class List_provider extends AppCompatActivity {
         setContentView(R.layout.activity_list_provider);
         Bundle bundle = getIntent().getExtras();
         recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
+        txt_error = (TextView) findViewById(R.id.MyAR_txt_error);
 
         if (bundle != null) {
             // Toast.makeText(this, "" + bundle.getString("cureentlatitude"), Toast.LENGTH_SHORT).show();
@@ -128,8 +132,25 @@ public class List_provider extends AppCompatActivity {
                         List<NearbyData> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
 
                         }.getType());
-                        log.i("ibrahim", "inside by ibrahim");
-                        log.i("ibrahim", response.getJSONArray("data").toString());
+
+//                        if (response.has("data") && response.getJSONArray("data").length() == 0) {
+//                            txt_error.setVisibility(View.VISIBLE);
+//                            recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
+//                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false);
+//                            recyclerView.setLayoutManager(linearLayoutManager);
+//                            search_d_adapter search_d_adapter = new search_d_adapter(list);
+//                            recyclerView.setAdapter(search_d_adapter);
+//                            search_d_adapter.notifyDataSetChanged();
+//                        } else {
+//                            txt_error.setVisibility(View.GONE);
+//                            recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
+//                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false);
+//                            recyclerView.setLayoutManager(linearLayoutManager);
+//                            search_d_adapter search_d_adapter = new search_d_adapter(list);
+//                            recyclerView.setAdapter(search_d_adapter);
+//                            search_d_adapter.notifyDataSetChanged();
+//                        }
+
 
                         recyclerView = (RecyclerView) findViewById(R.id.search_drivers);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplication(), LinearLayoutManager.VERTICAL, false);
@@ -138,12 +159,6 @@ public class List_provider extends AppCompatActivity {
                         search_d_adapter search_d_adapter = new search_d_adapter(list);
                         recyclerView.setAdapter(search_d_adapter);
                         search_d_adapter.notifyDataSetChanged();
-//                        cost = response.getJSONObject("fair").getString("cost");
-//                        unit = response.getJSONObject("fair").getString("unit");
-
-//                        SessionManager.setUnit(unit);
-//                        SessionManager.setCost(cost);
-                        // Inflate the layout for this fragment
                     }
                 } catch (JSONException e) {
 
