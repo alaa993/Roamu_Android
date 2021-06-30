@@ -30,41 +30,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/List_provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/List_provider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/AcceptedRequestAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/AcceptedRequestAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyAcceptedRequestAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyAcceptedRequestAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/NotificationAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/NotificationAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PostList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PostList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/roamu_user.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/roamu_user.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/accepted_detail_fragmnet.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/accepted_detail_fragmnet.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_provider.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_provider.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_detail.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_request.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_request.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/register.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/splash_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/splash_activity.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/request_ride.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/request_ride.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,30 +276,34 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1398" height="272" key="GridCell.Tab.0.bottom" timestamp="1624814536844">
+    <state x="245" y="200" key="#PSD" timestamp="1625004975217">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="272" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1624814536844" />
-    <state width="1398" height="272" key="GridCell.Tab.0.center" timestamp="1624814536838">
+    <state x="245" y="200" key="#PSD/0.23.1440.877@0.23.1440.877" timestamp="1625004975217" />
+    <state width="1398" height="422" key="GridCell.Tab.0.bottom" timestamp="1625010073573">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="272" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1624814536838" />
-    <state width="1398" height="272" key="GridCell.Tab.0.left" timestamp="1624814536836">
+    <state width="1398" height="422" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1625010073573" />
+    <state width="1398" height="422" key="GridCell.Tab.0.center" timestamp="1625010073571">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="272" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1624814536836" />
-    <state width="1398" height="272" key="GridCell.Tab.0.right" timestamp="1624814536843">
+    <state width="1398" height="422" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1625010073571" />
+    <state width="1398" height="422" key="GridCell.Tab.0.left" timestamp="1625010073571">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="272" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1624814536843" />
+    <state width="1398" height="422" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1625010073571" />
+    <state width="1398" height="422" key="GridCell.Tab.0.right" timestamp="1625010073572">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1398" height="422" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1625010073572" />
     <state x="221" y="100" key="SettingsEditor" timestamp="1624205687754">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="221" y="100" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1624205687754" />
-    <state x="105" y="96" width="1144" height="734" key="find.popup" timestamp="1624815539024">
+    <state x="98" y="137" width="1144" height="734" key="find.popup" timestamp="1625009926891">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="105" y="96" width="1144" height="734" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1624815539024" />
+    <state x="98" y="137" width="1144" height="734" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1625009926891" />
   </component>
   <component name="masterDetails">
     <states>

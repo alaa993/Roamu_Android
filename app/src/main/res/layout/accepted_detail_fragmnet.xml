@@ -1,785 +1,806 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:clickable="true"
-    android:layoutDirection="inherit"
-    android:padding="5dp">
+    android:layoutDirection="inherit">
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbarThumbVertical="@android:color/transparent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/linear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/acc_d_f_home_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/ic_home_button"
-                        />
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="@dimen/margin_m10"
-                        android:text="@string/taxigo"
-                        android:textColor="@color/black"
-                        tools:ignore="HardcodedText" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|bottom"
-                        android:layout_weight="1"
-                        android:text="Affordable,everyday rides"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:id="@+id/linear_chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/margin_m10"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:adjustViewBounds="true"
-                            android:src="@mipmap/ic_chat_bubble_black_24dp" />
-
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text=" chat"
-                            android:textSize="20sp"
-                            android:visibility="visible" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/liner" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linear_child1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linear"
-                android:layout_marginTop="5dp"
-
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/textView1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/name"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/txt_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/mobile_numberr"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="+000000000000"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/Driver_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:gravity="center_vertical"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/Driver_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ibrahim Driver"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <ImageView
-                            android:id="@+id/DriverImage"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:maxLines="5"
-                            android:src="@drawable/user_default" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/car_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:gravity="center_vertical"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/car_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Black_Sany"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <ImageView
-                            android:id="@+id/carImage"
-                            android:layout_width="169dp"
-                            android:layout_height="70dp"
-                            android:maxLines="5"
-                            android:src="@drawable/car" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/phone_row"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/mobilenumbertext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/phone"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <android.support.v7.widget.AppCompatButton
-                            android:id="@+id/mobilenumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/linear_child1"
-                            android:layout_margin="@dimen/margin_10"
-                            android:layout_marginTop="@dimen/detail_bottom_margin"
-                            android:layout_marginBottom="@dimen/detail_bottom_margin"
-                            android:layout_weight="1"
-                            android:text="+964999000000" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/city_row"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:visibility="gone"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/city"
-                            android:visibility="gone"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_city"
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="بغداد، العراق" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="0dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/from"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_pickup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="بغداد، العراق" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/to"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_drop"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="بغداد، العراق" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pickup_point"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_PickupPoint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="Mazzeh" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/Dateandtimefled"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_and_time"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/dateTimeVal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/timefled"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/travel_time"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/TimeVal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/empty_seats"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/PostTitle"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_Empty_Seats"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="5"
-                            android:textColor="@color/PostTitle"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/number_of_sets"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:text="@string/Howmanyseatsyouwant"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/num_set"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="5"
-                            android:textColor="@color/PostTitle"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/fare"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_fare"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:digits="1234567890"
-                            android:enabled="false"
-                            android:inputType="number"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/txt_fare_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/QIBus_softui_lbl_total_fare"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/fianl_fare"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:enabled="false"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/fare_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/ratingcar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/fare"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                        <RatingBar
-                            android:id="@+id/ratincar1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:maxLines="2"
-                            android:scaleX="0.5"
-                            android:scaleY="0.5"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:theme="@style/RatingBar"
-                            android:visibility="gone" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/car_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/carConditon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/carConditon"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/carConditonrating"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="8.5" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/driver_rate"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_DriverRate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="8.5" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/travels_count"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_TravelsCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp"
-                            android:text="4" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Comments"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/mapbox_blue" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/vehicle_name"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/txt_vehiclename"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/cubbon_code"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/enter_coubbon_number"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                        <EditText
-                            android:id="@+id/cobun_num"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text="BYTO20"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/smokedfled"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Smoke"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/smoke_val"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/txt_bag"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="bag"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/bag_val"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:visibility="gone" />
-                    </TableRow>
-                </TableLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#DDE4E8" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_trackride"
-                    style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/detail_bottom_margin"
-                    android:layout_marginEnd="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_margin="@dimen/margin_10"
-                    android:layout_marginBottom="@dimen/detail_bottom_margin"
-                    android:background="@drawable/ripple_effect"
-                    android:text="@string/track_ride"
-                    android:visibility="gone" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_payment"
-                    style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/detail_bottom_margin"
-                    android:layout_marginTop="@dimen/detail_bottom_margin"
-                    android:layout_marginBottom="@dimen/detail_bottom_margin"
-                    android:background="@drawable/ripple_effect"
-                    android:text="@string/make_payment"
-                    android:visibility="gone"
-                    tools:ignore="HardcodedText" />
+            android:layout_height="wrap_content"
+            android:scrollbarThumbVertical="@android:color/transparent">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/acc_d_f_home_button"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_home_button" />
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="@dimen/margin_m10"
+                            android:text="@string/taxigo"
+                            android:textColor="@color/black"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|bottom"
+                            android:layout_weight="1"
+                            android:text="Affordable,everyday rides"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/linear_chat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/margin_m10"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_5"
+                                android:adjustViewBounds="true"
+                                android:src="@mipmap/ic_chat_bubble_black_24dp" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text=" chat"
+                                android:textSize="20sp"
+                                android:visibility="visible" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/liner" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linear_child1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linear"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    tools:ignore="NotSibling">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/name"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/txt_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/mobile_numberr"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="+000000000000"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_Driver1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/Driver_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ibrahim Driver"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <ImageView
+                                android:id="@+id/DriverImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:maxLines="5"
+                                android:src="@drawable/user_default" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_Driver2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/car_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <ImageView
+                                android:id="@+id/carImage"
+                                android:layout_width="169dp"
+                                android:layout_height="70dp"
+                                android:maxLines="5"
+                                android:src="@drawable/car" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/phone_row"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/mobilenumbertext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/phone"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <android.support.v7.widget.AppCompatButton
+                                android:id="@+id/mobilenumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linear_child1"
+                                android:layout_margin="@dimen/margin_10"
+                                android:layout_marginTop="@dimen/detail_bottom_margin"
+                                android:layout_marginBottom="@dimen/detail_bottom_margin"
+                                android:layout_weight="1"
+                                android:text="+964999000000" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/city_row"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/city"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/txt_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="بغداد، العراق"
+                                android:visibility="gone" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="0dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginRight="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/from"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_pickup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="بغداد، العراق" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_drop"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="بغداد، العراق" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_pickup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pickup_point"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_PickupPoint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="Mazzeh" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/Dateandtimefled"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_and_time"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/dateTimeVal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/timefled"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/travel_time"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/TimeVal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_empty_set"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/empty_seats"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/PostTitle"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txt_Empty_Seats"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="5"
+                                android:textColor="@color/PostTitle"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/number_of_sets"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="@string/Howmanyseatsyouwant"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/num_set"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="5"
+                                android:textColor="@color/PostTitle"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_fare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fare"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_fare"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:digits="1234567890"
+                                android:enabled="false"
+                                android:inputType="number"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_total_fare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/txt_fare_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/QIBus_softui_lbl_total_fare"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/fianl_fare"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:enabled="false"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/fare_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/ratingcar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fare"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <RatingBar
+                                android:id="@+id/ratincar1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:maxLines="2"
+                                android:scaleX="0.5"
+                                android:scaleY="0.5"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:theme="@style/RatingBar"
+                                android:visibility="gone" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_fare_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/carConditon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/carConditon"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/carConditonrating"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="8.5" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_driver_rate"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/driver_rate"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_DriverRate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="8.5" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_travel_count"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/travels_count"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_TravelsCount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:maxLines="1"
+                                android:padding="1dp"
+                                android:text="4" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tr_comment"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Comments"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/mapbox_blue" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/vehicle_name"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                            <TextView
+                                android:id="@+id/txt_vehiclename"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/cubbon_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/enter_coubbon_number"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <EditText
+                                android:id="@+id/cobun_num"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="BYTO20"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/smokedfled"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Smoke"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/smoke_val"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp"
+                            android:padding="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/txt_bag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="bag"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/bag_val"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:visibility="gone" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#DDE4E8" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_child2"
+                    android:layout_below="@+id/linear_child1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_trackride"
+                        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/detail_bottom_margin"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_marginBottom="@dimen/detail_bottom_margin"
+                        android:background="@drawable/ripple_effect"
+                        android:text="@string/track_ride"
+                        android:visibility="gone" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_payment"
+                        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/detail_bottom_margin"
+                        android:layout_marginTop="@dimen/detail_bottom_margin"
+                        android:layout_marginBottom="@dimen/detail_bottom_margin"
+                        android:background="@drawable/ripple_effect"
+                        android:text="@string/make_payment"
+                        android:visibility="gone"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_child3"
+                    android:layout_below="@+id/linear_child2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -814,8 +835,9 @@
                         android:visibility="gone" />
 
                 </LinearLayout>
-            </LinearLayout>
-        </RelativeLayout>
+            </RelativeLayout>
 
-    </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

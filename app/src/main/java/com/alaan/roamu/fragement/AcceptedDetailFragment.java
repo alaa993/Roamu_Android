@@ -101,6 +101,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
@@ -122,7 +123,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private static final String CONFIG_ENVIRONMENT = Server.ENVIRONMENT;
     private static PayPalConfiguration config;
     PayPalPayment thingToBuy;
-    TableRow mobilenumber_row;
+    TableRow tr_Driver1, tr_Driver2, phone_row, tr_pickup, tr_empty_set, tr_fare, tr_total_fare, tr_fare_rate, tr_driver_rate, tr_travel_count, tr_comment;
     PendingRequestPojo rideJson;
     String permissions[] = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     private GoogleApiClient mGoogleApiClient;
@@ -143,7 +144,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     TextView textView1, textView2, textView3, textView4, textView5,
             textView6, textView7, textView8, textView9, textView10,
             txt_fare_view, txt_name, txt_number, txt_vehiclename,
-            dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+            dateandtime, TimeVal, txt_bag, txt_smoke, car_name, mobilenumbertext, carConditon, carConditonrating;
 
     TextView txt_Driver_name, txt_city, txt_Empty_Seats,
             txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare, num_set;
@@ -234,6 +235,27 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     public void BindView() {
         acc_d_f_home_button = (Button) view.findViewById(R.id.acc_d_f_home_button);
         mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.mapview);
+
+        //ibrahim
+//        if (Locale.getDefault().getLanguage().equals("ar")) {
+//            LinearLayout linrtl=(LinearLayout)findViewById(R.id.linrtl);
+//            linrtl.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        } else {
+//
+//        }
+
+        tr_Driver1 = (TableRow) view.findViewById(R.id.tr_Driver1);
+        tr_Driver2 = (TableRow) view.findViewById(R.id.tr_Driver2);
+        phone_row = (TableRow) view.findViewById(R.id.phone_row);
+        tr_pickup = (TableRow) view.findViewById(R.id.tr_pickup);
+        tr_empty_set = (TableRow) view.findViewById(R.id.tr_empty_set);
+        tr_fare = (TableRow) view.findViewById(R.id.tr_fare);
+        tr_total_fare = (TableRow) view.findViewById(R.id.tr_total_fare);
+        tr_fare_rate = (TableRow) view.findViewById(R.id.tr_fare_rate);
+        tr_driver_rate = (TableRow) view.findViewById(R.id.tr_driver_rate);
+        tr_travel_count = (TableRow) view.findViewById(R.id.tr_travel_count);
+        tr_comment = (TableRow) view.findViewById(R.id.tr_comment);
+
         calculateFare = (TextView) view.findViewById(R.id.txt_calfare);
         confirm = (AppCompatButton) view.findViewById(R.id.btn_confirm);
         cancel = (AppCompatButton) view.findViewById(R.id.btn_cancel);
@@ -247,6 +269,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         fare_rating = (TableRow) view.findViewById(R.id.fare_rating);
         textView3 = (TextView) view.findViewById(R.id.textView3);
         car_name = (TextView) view.findViewById(R.id.car_name);
+        mobilenumbertext = (TextView) view.findViewById(R.id.mobilenumbertext);
         textView4 = (TextView) view.findViewById(R.id.textView4);
         num_set = (TextView) view.findViewById(R.id.num_set);
         txt_fare = (TextView) view.findViewById(R.id.txt_fare);
@@ -263,6 +286,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         textView8 = (TextView) view.findViewById(R.id.textView8);
         textView9 = (TextView) view.findViewById(R.id.textView9);
         textView10 = (TextView) view.findViewById(R.id.textView10);
+        carConditon = (TextView) view.findViewById(R.id.carConditon);
+        carConditonrating = (TextView) view.findViewById(R.id.carConditonrating);
         txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
         txt_name = (TextView) view.findViewById(R.id.txt_name);
         txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
@@ -286,6 +311,76 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         drop_location.setSelected(true);
         if (bundle != null) {
             rideJson = (PendingRequestPojo) bundle.getSerializable("data");
+
+            if (rideJson.getStatus().contains("REQUESTED")) {
+                Log.i("ibrahim", "REQUESTED");
+                drivername.setVisibility(View.GONE);
+                DriverAvatar.setVisibility(View.GONE);
+                car_name.setVisibility(View.GONE);
+                DriverCar.setVisibility(View.GONE);
+                mobilenumber.setVisibility(View.GONE);
+                mobilenumbertext.setVisibility(View.GONE);
+                textView9.setVisibility(View.GONE);
+                txt_PickupPoint.setVisibility(View.GONE);
+                textView6.setVisibility(View.GONE);
+                txt_Empty_Seats.setVisibility(View.GONE);
+                txt_fare_view.setVisibility(View.GONE);
+                fianl_fare.setVisibility(View.GONE);
+                textView7.setVisibility(View.GONE);
+                txt_DriverRate.setVisibility(View.GONE);
+                textView8.setVisibility(View.GONE);
+                textView5.setVisibility(View.GONE);
+                carConditon.setVisibility(View.GONE);
+                carConditonrating.setVisibility(View.GONE);
+                txt_TravelsCount.setVisibility(View.GONE);
+
+
+                tr_Driver1.setVisibility(View.GONE);
+                tr_Driver2.setVisibility(View.GONE);
+                phone_row.setVisibility(View.GONE);
+                tr_pickup.setVisibility(View.GONE);
+                tr_empty_set.setVisibility(View.GONE);
+                tr_fare.setVisibility(View.GONE);
+                tr_total_fare.setVisibility(View.GONE);
+                tr_fare_rate.setVisibility(View.GONE);
+                tr_driver_rate.setVisibility(View.GONE);
+                tr_travel_count.setVisibility(View.GONE);
+                tr_comment.setVisibility(View.GONE);
+            } else {
+                Log.i("ibrahim", "not REQUESTED");
+                drivername.setVisibility(View.VISIBLE);
+                DriverAvatar.setVisibility(View.VISIBLE);
+                car_name.setVisibility(View.VISIBLE);
+                DriverCar.setVisibility(View.VISIBLE);
+                mobilenumber.setVisibility(View.VISIBLE);
+                mobilenumbertext.setVisibility(View.VISIBLE);
+                textView9.setVisibility(View.VISIBLE);
+                txt_PickupPoint.setVisibility(View.VISIBLE);
+                textView6.setVisibility(View.VISIBLE);
+                txt_Empty_Seats.setVisibility(View.VISIBLE);
+                txt_fare_view.setVisibility(View.VISIBLE);
+                fianl_fare.setVisibility(View.VISIBLE);
+                textView7.setVisibility(View.VISIBLE);
+                txt_DriverRate.setVisibility(View.VISIBLE);
+                textView8.setVisibility(View.VISIBLE);
+                textView5.setVisibility(View.VISIBLE);
+                carConditon.setVisibility(View.VISIBLE);
+                carConditonrating.setVisibility(View.VISIBLE);
+                txt_TravelsCount.setVisibility(View.VISIBLE);
+
+                tr_Driver1.setVisibility(View.VISIBLE);
+                tr_Driver2.setVisibility(View.VISIBLE);
+                phone_row.setVisibility(View.VISIBLE);
+                tr_pickup.setVisibility(View.VISIBLE);
+                tr_empty_set.setVisibility(View.VISIBLE);
+                tr_fare.setVisibility(View.VISIBLE);
+                tr_total_fare.setVisibility(View.VISIBLE);
+                tr_fare_rate.setVisibility(View.VISIBLE);
+                tr_driver_rate.setVisibility(View.VISIBLE);
+                tr_travel_count.setVisibility(View.VISIBLE);
+                tr_comment.setVisibility(View.VISIBLE);
+            }
+
             databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
             travel_status = rideJson.getTravel_status();
             ride_status = rideJson.getStatus();
@@ -301,6 +396,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             dateandtime.setText(rideJson.getDate());
             txt_Empty_Seats.setText(rideJson.getempty_set());
 //            txt_city.setText(rideJson.);
+            car_name.setText(rideJson.getDriver_name());
+            txt_Driver_name.setText(rideJson.getDriver_name());
             num_set.setText(rideJson.getBooked_set());
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -352,6 +449,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
+                CheckRating(rideJson.getUser_id(), rideJson.getTravel_id(), rideJson.getDriver_id());
             }
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
@@ -359,6 +457,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     btn_cancel.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.VISIBLE);
+                    btn_complete.setVisibility(View.GONE);
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
@@ -571,6 +670,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     btn_cancel.setVisibility(View.VISIBLE);
                     trackRide.setVisibility(View.GONE);
                     btn_payment.setVisibility(View.VISIBLE);
+                    btn_complete.setVisibility(View.GONE);
                 } else if (payment_status.equals("") && payment_mode.equals("OFFLINE")) {
                     btn_cancel.setVisibility(View.GONE);
                     trackRide.setVisibility(View.GONE);
@@ -796,6 +896,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void sendStatus(String ride_id, final String status) {
+        Log.i("ibrahim","sendStatus");
         RequestParams params = new RequestParams();
         params.put("ride_id", ride_id);
         params.put("status", status);
@@ -821,7 +922,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                         }.getType());
                         if (response.has("data") && response.getJSONArray("data").length() > 0) {
                             if (list.size() > 0) {
-                                if (list.get(0).getStatus().contains("REQUESTED")){
+                                if (list.get(0).getStatus().contains("REQUESTED")) {
                                     updateRideFirebase(travel_status, list.get(0).getStatus(), payment_status, payment_mode);
                                     Toast.makeText(getActivity(), getString(R.string.full_travel), Toast.LENGTH_LONG).show();
                                     //HIDDEN
@@ -829,9 +930,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                     btn_cancel.setVisibility(View.GONE);
                                     btn_payment.setVisibility(View.GONE);
                                     trackRide.setVisibility(View.GONE);
-                                }
-                                else{
-                                    Log.i("ibrahim","waited");
+                                } else {
+                                    Log.i("ibrahim", "waited");
                                     updateRideFirebase(travel_status, list.get(0).getStatus(), payment_status, payment_mode);
                                     updateNotificationFirebase(list.get(0).getStatus());
                                 }
@@ -896,7 +996,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         params.put("travel_id", travel_id);
         params.put("driver_id", driver_id);
         Server.setHeader(SessionManager.getKEY());
-        Server.get("api/user/rating/format/json", params, new JsonHttpResponseHandler() {
+        Server.get("api/user/rating_android/format/json", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -906,13 +1006,18 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.i("ibrahim", response.toString());
                 try {
                     Gson gson = new GsonBuilder().create();
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
-                        if (response.has("data") && response.getString("status").equalsIgnoreCase("true")) {
+                        if (response.has("data") && response.getString("data").equalsIgnoreCase("true")) {
                             btn_payment.setVisibility(View.GONE);
+                            Log.i("ibrahim", "GONE");
+
                         } else {
-//                            btn_complete.setVisibility(View.VISIBLE);
+                            btn_complete.setVisibility(View.VISIBLE);
+                            Log.i("ibrahim", "VISIBLE");
+
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();

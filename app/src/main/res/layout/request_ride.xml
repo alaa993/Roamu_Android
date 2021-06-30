@@ -7,7 +7,6 @@
     android:clickable="true"
     android:layoutDirection="inherit">
 
-
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
@@ -20,13 +19,12 @@
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mapview"
         android:layout_marginTop="10dp">
 
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
             android:scrollbarThumbVertical="@android:color/transparent">
 
@@ -144,7 +142,7 @@
                                 android:id="@+id/car_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Black_Sany"
+                                android:text=""
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
                             <ImageView
@@ -329,10 +327,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/empty_seats"
-                                android:textStyle="bold"
-                                android:textSize="18sp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/PostTitle"
-                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/txt_Empty_Seats"
@@ -344,9 +342,9 @@
                                 android:maxLines="1"
                                 android:padding="1dp"
                                 android:text="5"
-                                android:textStyle="bold"
+                                android:textColor="@color/PostTitle"
                                 android:textSize="18sp"
-                                android:textColor="@color/PostTitle"/>
+                                android:textStyle="bold" />
 
 
                         </TableRow>
@@ -361,7 +359,8 @@
                                 android:id="@+id/number_of_sets"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_vertical"
                                 android:text="@string/Howmanyseatsyouwant"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -724,7 +723,6 @@
                         android:background="@drawable/bg_btn_shape"
                         android:text="@string/reseve" />
                 </LinearLayout>
-
             </RelativeLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -735,6 +733,4 @@
         android:layout_height="1dp"
         android:layout_marginTop="-10dp"
         android:background="@color/liner" />
-
-
 </RelativeLayout>

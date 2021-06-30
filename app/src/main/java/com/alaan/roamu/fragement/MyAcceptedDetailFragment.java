@@ -123,7 +123,7 @@ import retrofit2.Response;
 public class MyAcceptedDetailFragment extends FragmentManagePermission
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, BackFragment, OnMapReadyCallback, DirectionCallback,
-        Animation.AnimationListener{
+        Animation.AnimationListener {
 
     private View view;
     AppCompatButton trackRide;
@@ -140,7 +140,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     String permissions[] = {PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-//    private SwipeRefreshLayout swipeRefreshLayout;
+    //    private SwipeRefreshLayout swipeRefreshLayout;
     private Dialog dialog;
     AppCompatButton cancel;
     com.google.android.gms.maps.MapView mapView;
@@ -397,7 +397,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 trackRide.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.GONE);
                 btn_complete.setVisibility(View.GONE);
-
+                CheckRating(rideJson.getUser_id(), rideJson.getTravel_id(), rideJson.getDriver_id());
             }
             if (ride_status.equalsIgnoreCase("ACCEPTED")) {
                 isStarted();
@@ -841,10 +841,10 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 try {
                     Gson gson = new GsonBuilder().create();
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
-                        if (response.has("data") && response.getString("status").equalsIgnoreCase("true")) {
+                        if (response.has("data") && response.getString("data").equalsIgnoreCase("true")) {
                             btn_payment.setVisibility(View.GONE);
                         } else {
-//                            btn_complete.setVisibility(View.VISIBLE);
+                            btn_complete.setVisibility(View.VISIBLE);
                         }
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
@@ -1583,7 +1583,6 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
                         }
                     });
-
 
 
                 }
