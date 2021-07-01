@@ -22,9 +22,6 @@
     <list default="true" id="0849051a-1acf-46bb-bd40-3e8860f91495" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseTravel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseTravel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
