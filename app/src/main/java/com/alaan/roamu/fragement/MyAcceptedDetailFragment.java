@@ -74,6 +74,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -487,6 +488,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onClick(View v) {
                 if (ride_status.equalsIgnoreCase("WAITED")) {
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
+                    updateTravelFirebase();
+                    //
                 }
                 if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
                     completeTask();
@@ -519,6 +522,29 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 // Getting Post failed, log a message
             }
         });
+    }
+
+    public void updateTravelFirebase() {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
+        Map<String, Object> travelObject = new HashMap<>();
+        travelObject.put("driver_id", rideJson.getDriver_id());
+
+//        Map<String, String> Client = new HashMap<>();
+//        Client.put(rideJson.getUser_id(),rideJson.getUser_id());
+
+//        travelObject.put("Clients", Client);
+
+        databaseRef.updateChildren(travelObject).addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Clients").child(rideJson.getUser_id());
+//                Map<String, String> Client = new HashMap<>();
+//                Client.put(rideJson.getUser_id(),rideJson.getUser_id());Map<String, String> Client = new HashMap<>();
+////                Client.put(rideJson.getUser_id(),rideJson.getUser_id());
+                databaseRef.setValue(rideJson.getUser_id());
+            }
+        });
+
     }
 
     public void setupData() {
@@ -839,6 +865,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 if (getActivity() != null) {
 //                    swipeRefreshLayout.setRefreshing(false);
                 }
+                if(status.contains("COMPLETED")){
+                    btn_complete.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -934,6 +963,17 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         Map<String, Object> rideObject = new HashMap<>();
         rideObject.put("ride_id", rideJson.getRide_id());
         rideObject.put("text", getString(R.string.RideUpdated) + " " + notificationText);
+        rideObject.put("readStatus", "0");
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseRef.setValue(rideObject);
+    }
+
+    public void addNotificationFirebase(int ride_id_param) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
+        Map<String, Object> rideObject = new HashMap<>();
+        rideObject.put("ride_id", String.valueOf(ride_id_param));
+        rideObject.put("text", getString(R.string.Notification_Request_approve));
         rideObject.put("readStatus", "0");
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());

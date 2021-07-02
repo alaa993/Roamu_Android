@@ -564,6 +564,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     Log.i("ibrahim_waited", "--------------");
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
                     updateTravelFirebase();
+                    //send notification
+                    addNotificationFirebase(Integer.parseInt(rideJson.getRide_id()));
 
                 }
                 if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
@@ -1011,6 +1013,9 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 if (getActivity() != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
+                if(status.contains("COMPLETED")){
+                    btn_complete.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1043,6 +1048,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 // Getting Post failed, log a message
             }
         });
+    }
+
+    public void addNotificationFirebase(int ride_id_param) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
+        Map<String, Object> rideObject = new HashMap<>();
+        rideObject.put("ride_id", String.valueOf(ride_id_param));
+        rideObject.put("text", getString(R.string.Notification_Request_approve));
+        rideObject.put("readStatus", "0");
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseRef.setValue(rideObject);
     }
 
     public void updateTravelFirebase() {
