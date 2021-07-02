@@ -260,5 +260,7 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="car_type3">Bus</string>
     <string name="status">Status</string>
     <string name="full_travel">We are sorry to let you know that the travel you requested is fulled by passengers, your request is renewed!</string>
+    <string name="userComments">Users Comments</string>
+
 
 </resources>

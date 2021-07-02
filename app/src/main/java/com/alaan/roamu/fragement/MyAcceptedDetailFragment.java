@@ -889,8 +889,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.i("ibrahim", "reponse");
+                Log.i("ibrahim", response.toString());
                 try {
-                    Gson gson = new GsonBuilder().create();
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         if (response.has("data") && response.getString("data").equalsIgnoreCase("true")) {
                             btn_payment.setVisibility(View.GONE);
@@ -898,7 +899,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                             btn_complete.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+                        Log.i("ibrahim", "else not success");
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();

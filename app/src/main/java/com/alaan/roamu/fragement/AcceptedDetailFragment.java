@@ -529,6 +529,28 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 }
             }
         });
+        textView10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                Log.i("ibrahim","textView10");
+//                Log.i("ibrahim",rideJson.getDriver_id());
+//                bundle.putSerializable("data", rideJson.getDriver_id());
+//                UsersCommentsFragment detailFragment = new UsersCommentsFragment();
+//                detailFragment.setArguments(bundle);
+//
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(((ViewGroup)getView().getParent()).getId(), detailFragment);
+//                fragmentTransaction.commit();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", rideJson.getDriver_id());
+                UsersCommentsFragment detailFragment = new UsersCommentsFragment();
+                detailFragment.setArguments(bundle);
+                ((HomeActivity) getActivity()).changeFragment(detailFragment, "UsersCommentsFragment");
+            }
+        });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -918,7 +940,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void sendStatus(String ride_id, final String status) {
-        Log.i("ibrahim","sendStatus");
+        Log.i("ibrahim", "sendStatus");
         RequestParams params = new RequestParams();
         params.put("ride_id", ride_id);
         params.put("status", status);
@@ -961,10 +983,14 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                             }
                         }
                     } else {
-                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+                        Log.i("ibrahim", "sendStatus");
+                        Log.i("ibrahim", "success else");
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+                    Log.i("ibrahim", "sendstatus_onSuccess_catch");
+                    Log.i("ibrahim", e.getMessage());
                 }
             }
 
@@ -997,18 +1023,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseTravel fbTravel = dataSnapshot.getValue(firebaseTravel.class);
                 if (fbTravel != null) {
-                    if(status.contains("ACCEPTED")){
+                    if (status.contains("ACCEPTED")) {
                         Log.i("ibrahim", "fbTravel");
                         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
                         databaseRef.setValue(fbTravel.Counters.ACCEPTED + 1);
-                    }
-                    else if(status.contains("COMPLETED")){
+                    } else if (status.contains("COMPLETED")) {
                         Log.i("ibrahim", "fbTravel");
                         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("COMPLETED");
                         databaseRef.setValue(fbTravel.Counters.COMPLETED + 1);
 
                         DatabaseReference databaseRef1 = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
-                        databaseRef1.setValue(fbTravel.Counters.ACCEPTED -1 );
+                        databaseRef1.setValue(fbTravel.Counters.ACCEPTED - 1);
                     }
                 }
             }
@@ -1044,6 +1069,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void CheckRating(String user_id, String travel_id, String driver_id) {
+        Log.i("ibrahim", "CheckRating");
+
         final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("travel_id", travel_id);
@@ -1059,11 +1086,16 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.i("ibrahim", "CheckRating_onSuccess");
+
+                Log.i("ibrahim", "checkrating response");
                 Log.i("ibrahim", response.toString());
                 try {
-                    Gson gson = new GsonBuilder().create();
+                    Log.i("ibrahim", "CheckRating_onSuccess_try");
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         if (response.has("data") && response.getString("data").equalsIgnoreCase("true")) {
+                            Log.i("ibrahim", "CheckRating_onSuccess_try1");
+
                             btn_payment.setVisibility(View.GONE);
                             Log.i("ibrahim", "GONE");
 
@@ -1073,10 +1105,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
                         }
                     } else {
-                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+                        Log.i("ibrahim", "checkRating");
+                        Log.i("ibrahim", "success else");
+                        Log.i("ibrahim", "CheckRating_onSuccess_else");
+
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+                    Log.i("ibrahim", "CheckRating_onSuccess_catch");
+                    Log.i("ibrahim", e.getMessage());
+
                 }
             }
 
@@ -1114,6 +1153,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     }
 
     public void sendRating(float DriverRatingST, float FareRatingST) {
+        Log.i("ibrahim", "sendRating");
+
 
         RequestParams params = new RequestParams();
         params.put("driver_id", rideJson.getDriver_id());
@@ -1135,6 +1176,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.i("ibrahim", "sendRating_onSuccess");
+
 //                Log.i("ibrahim",response.toString());
 //                try {
 //                    if (response.has("status") && response.getString("status").equals("success")) {
@@ -1153,6 +1196,8 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+                Log.i("ibrahim", "sendRating_onFailure");
+
 //                Toast.makeText(getActivity(), getString(R.string.try_again), Toast.LENGTH_LONG).show();
 
             }
@@ -1160,7 +1205,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 //                Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
-                Log.i("ibrahim", "Failure");
+                Log.i("ibrahim", "sendRating_onFailure1");
             }
 
             @Override

@@ -16,11 +16,9 @@
     <string name="cash_on_hand">طلب الدفع النقدي للسائق</string>
 
 
-
     <string name="contact_admin">"هناك بعض المشاكل. يرجى الاتصال بالمسؤول الخاص بك."</string>
 
     <string name="success_login">"مرحبا بك في"</string>
-
 
 
     <string name="payment_update">تم تحديد نوع الدفع</string>
@@ -30,9 +28,6 @@
     <string name="ride_request_cancelled">تم إلغاء الرحلة</string>
 
     <string name="ride_request_accepted">تم قبول الرحلة</string>
-
-
-
 
 
     <string name="old_pws_is_required">"كلمة المرور القديمة مطلوبة"</string>
@@ -54,7 +49,6 @@
     <string name="ride_has_been_requested">تم التأكيد</string>
 
 
-
     <string name="error_payment">"خطأ أثناء تحديث الدفع"</string>
 
     <string name="server_not_respond">"الخادم لم يستجب"</string>
@@ -70,9 +64,7 @@
     <string name="FROM">"من"</string>
 
 
-
     <string name="DRIVERNAME">"اسم السائق"</string>
-
 
 
     <string name="pickup_location">"من "</string>
@@ -82,7 +74,6 @@
     <string name="drivername">"رقم السائق"</string>
 
 
-
     <string name="mobile_numberr">"رقم الهاتف المحمول"</string>
 
     <string name="CUSTOMERNAME">"اسم الراكب"</string>
@@ -90,21 +81,17 @@
     <string name="nodata_found">"لاتوجد بيانات"</string>
 
 
-
     <string name="REQUEST_RIDE">نوع الطلب</string>
 
     <string name="Login">"تسجيل الدخول"</string>
 
 
-
     <string name="create_ac">"انشئ حساب"</string>
-
 
 
     <string name="pwd_reset_instruction">"أدخل عنوان بريدك الإلكتروني المسجل ، وسنرسل لك رسالة بريد إلكتروني لإعادة تعيين كلمة المرور الخاصة بك"</string>
 
     <string name="register_hint">"بريد الكتروني مسجل"</string>
-
 
 
     <string name="new_pwd">"كلمة السر الجديدة"</string>
@@ -114,7 +101,6 @@
     <string name="make_payment">"خيارات بالدفع"</string>
 
     <string name="taxigo">roamu</string>
-
 
 
     <string name="fare">"أجرة"</string>
@@ -249,7 +235,7 @@
     <string name="add_travel"> حفظ</string>
     <string name="privacy_menu">الأحكام العامة</string>
 
-<!--    // by ibrahim-->
+    <!--    // by ibrahim-->
     <string name="enter_number_of_passengers_trip_price">أدخل عدد الركاب وسعر الرحلة</string>
     <string name="number_of_passengers_1">عدد الركاب، 1</string>
     <string name="trip_price">سعر الرحلة</string>
@@ -331,6 +317,7 @@
     <string name="car_type3">حافلة كبيرة</string>
     <string name="status">الحالة</string>
     <string name="full_travel">نأسف لإعلامك بأن الرحلة التي طلبتها ممتلئة بالركاب، وتم تجديد طلبك!</string>
+    <string name="userComments">تعليقات المسافرين</string>
 
 
 </resources>
