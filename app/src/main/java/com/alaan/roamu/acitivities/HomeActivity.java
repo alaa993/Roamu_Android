@@ -345,21 +345,23 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
     public void getPhotoUri() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
+        if (user != null) {
+            String uid = user.getUid();
+            DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
 
-        databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String UserName = dataSnapshot.child("username").getValue(String.class);
-                String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
-                Glide.with(getApplicationContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(avatar);
-            }
+            databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String UserName = dataSnapshot.child("username").getValue(String.class);
+                    String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
+                    Glide.with(getApplicationContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(avatar);
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
     }
 
     @Override
@@ -415,7 +417,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     public void setLocaiton(Location location) {
-        if (location != null) {
+        if (location != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Location").child(SessionManager.getUserId());
             Map<String, Object> rideObject = new HashMap<>();
             rideObject.put("latitude", location.getLatitude());

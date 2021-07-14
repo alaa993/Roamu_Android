@@ -136,9 +136,9 @@
     <string name="change">CHANGE</string>
     <string name="newpwd_required">new password is required</string>
     <string name="password_updated">password Updated</string>
-    <string name="complete_ride">COMPLETE RIDE</string>
-    <string name="cancel_ride">CANCEL RIDE</string>
-    <string name="basefare">"Base Fare       "</string>
+    <string name="complete_ride">Complete Ride (Rate, Comment)</string>
+    <string name="cancel_ride">Cancel Ride</string>
+    <string name="basefare">"Base Fare"</string>
     <string name="invalid_location">Invalid location</string>
 
     <string name="log_out">Log out</string>

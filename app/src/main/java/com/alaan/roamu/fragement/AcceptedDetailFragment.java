@@ -1013,7 +1013,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 if (getActivity() != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                if(status.contains("COMPLETED")){
+                if (status.contains("COMPLETED")) {
                     btn_complete.setVisibility(View.GONE);
                 }
             }

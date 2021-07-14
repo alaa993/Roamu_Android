@@ -516,7 +516,6 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     databaseRef.setValue(fbTravel.Counters.OFFLINE + 1);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message

@@ -179,7 +179,7 @@
     <string name="change">"يتغيرون"</string>
     <string name="newpwd_required">"كلمة المرور الجديدة مطلوبة"</string>
     <string name="password_updated">"تم تحديث كلمة السر"</string>
-    <string name="complete_ride">"انتهاء الرحلة"</string>
+    <string name="complete_ride">انهاء الرحلة (تقييم وتعليق)</string>
     <string name="cancel_ride">"إلغاء الرحلة"</string>
     <string name="basefare">"الاجرة الاساسية"</string>
     <string name="invalid_location">"موقع غير صالح"</string>
@@ -243,7 +243,7 @@
     <string name="cancel">إلغاء</string>
     <string name="enter_coubbon_number">أدخل رقم الكوبون</string>
     <string name="date_and_time">التاريخ</string>
-    <string name="reseve">تأكيد الحجز</string>
+    <string name="reseve">حجز</string>
     <string name="empty_seats">عدد المسافرين الآخرين</string>
     <string name="driver_rate">تقييم السائق</string>
     <string name="carConditon">تقييم الأجرة</string>
