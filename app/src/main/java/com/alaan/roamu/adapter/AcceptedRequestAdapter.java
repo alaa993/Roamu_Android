@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.fragement.AcceptedDetailFragment;
@@ -32,7 +34,6 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     public AcceptedRequestAdapter(List<PendingRequestPojo> list) {
         this.list = list;
     }
-
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -92,6 +93,7 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
     public class Holder extends RecyclerView.ViewHolder {
         TextView drivername, from_add, to_add, date, time, status, txt_car_type;
         TextView f, t, dn, dt;
+
         public Holder(View itemView) {
             super(itemView);
             f = (TextView) itemView.findViewById(R.id.from);

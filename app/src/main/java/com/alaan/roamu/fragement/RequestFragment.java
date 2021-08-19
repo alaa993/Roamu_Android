@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableRow;
@@ -113,7 +114,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     private String networkAvailable;
     private String tryAgain;
     private String directionRequest;
-    TextView textViewCity, textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
+    TextView textViewCity, textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10, textView11, txt_fare_view, txt_name, txt_number, title, txt_vehiclename, dateandtime, TimeVal, txt_bag, txt_smoke, car_name;
     TextView txt_Driver_name, txt_city, txt_Empty_Seats, txt_DriverRate, txt_TravelsCount, txt_PickupPoint, txt_fare, fianl_fare;
     private ImageView DriverAvatar;
     private ImageView DriverCar;
@@ -141,6 +142,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
 
         // directionRequest = getResources().getString(R.string.direction_request);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -187,10 +189,40 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     } else if (destination == null) {
                         Toast.makeText(getActivity(), getString(R.string.invalid_droplocation), Toast.LENGTH_SHORT).show();
                     } else {
-                        String o = origin.latitude + "," + origin.longitude;
-                        String d = destination.latitude + "," + destination.longitude;
-                        AddRide(SessionManager.getKEY(), pickup_address, drop_address, o, d, String.valueOf(finalfare), distance, dateandtime_val);
-                        Log.d(TAG, "onClick: " + SessionManager.getKEY());
+                        android.app.AlertDialog.Builder mBuilder = new android.app.AlertDialog.Builder(RequestFragment.this.getContext());
+                        View mView = getLayoutInflater().inflate(R.layout.dialog_addtravel_layout, null);
+                        final EditText mPassengers = (EditText) mView.findViewById(R.id.etPassengers);
+                        final EditText etNotes = (EditText) mView.findViewById(R.id.etNotes);
+//                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
+                        Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
+                        Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
+
+                        mBuilder.setView(mView);
+                        final android.app.AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+                        mPassengers.setVisibility(View.GONE);
+                        mSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (true) {
+                                    dialog.dismiss();
+                                    String o = origin.latitude + "," + origin.longitude;
+                                    String d = destination.latitude + "," + destination.longitude;
+                                    AddRide(SessionManager.getKEY(), pickup_address, drop_address, o, d, String.valueOf(finalfare), distance, dateandtime_val, String.valueOf(etNotes.getText()));
+                                    Log.d(TAG, "onClick: " + SessionManager.getKEY());
+                                } else {
+                                    Toast.makeText(RequestFragment.this.getContext(),
+                                            "Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        mCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
                     }
                 }
             }
@@ -271,6 +303,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 userObject.put("timestamp", ServerValue.TIMESTAMP);
                 databaseRef.setValue(userObject);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -310,6 +343,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         textView8 = (TextView) view.findViewById(R.id.textView8);
         textView9 = (TextView) view.findViewById(R.id.textView9);
         textView10 = (TextView) view.findViewById(R.id.textView10);
+        textView11 = (TextView) view.findViewById(R.id.textView11);
         txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
         txt_name = (TextView) view.findViewById(R.id.txt_name);
         txt_Driver_name = (TextView) view.findViewById(R.id.Driver_name);
@@ -396,16 +430,19 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     public String getAddress() {
                         return pass.getFromPlace();
                     }
+
                     @Nullable
                     @Override
                     public List<String> getAttributions() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public String getId() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public LatLng getLatLng() {
@@ -413,65 +450,78 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
                         return location;
                     }
+
                     @Nullable
                     @Override
                     public String getName() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public OpeningHours getOpeningHours() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public String getPhoneNumber() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public List<PhotoMetadata> getPhotoMetadatas() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public PlusCode getPlusCode() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Integer getPriceLevel() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Double getRating() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public List<Type> getTypes() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Integer getUserRatingsTotal() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public LatLngBounds getViewport() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Uri getWebsiteUri() {
                         return null;
                     }
+
                     @Override
                     public int describeContents() {
                         return 0;
                     }
+
                     @Override
                     public void writeToParcel(Parcel dest, int flags) {
                     }
@@ -482,16 +532,19 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     public String getAddress() {
                         return pass.getToPlace();
                     }
+
                     @Nullable
                     @Override
                     public List<String> getAttributions() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public String getId() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public LatLng getLatLng() {
@@ -499,65 +552,78 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         LatLng location = new LatLng(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
                         return location;
                     }
+
                     @Nullable
                     @Override
                     public String getName() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public OpeningHours getOpeningHours() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public String getPhoneNumber() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public List<PhotoMetadata> getPhotoMetadatas() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public PlusCode getPlusCode() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Integer getPriceLevel() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Double getRating() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public List<Type> getTypes() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Integer getUserRatingsTotal() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public LatLngBounds getViewport() {
                         return null;
                     }
+
                     @Nullable
                     @Override
                     public Uri getWebsiteUri() {
                         return null;
                     }
+
                     @Override
                     public int describeContents() {
                         return 0;
                     }
+
                     @Override
                     public void writeToParcel(Parcel dest, int flags) {
                     }
@@ -582,7 +648,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 drivername = pass.getDriverName();
                 pickup_address = pickup.getAddress().toString();
                 drop_address = drop.getAddress().toString();
-                if (drivername != null) { txt_name.setText(drivername); }
+                if (drivername != null) {
+                    txt_name.setText(drivername);
+                }
                 txt_Driver_name.setText(pass.getDriverName());
                 txt_city.setText(pass.getDriverCity());
                 txt_Empty_Seats.setText(pass.empty_set);
@@ -607,10 +675,12 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     }
+
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         pass.setFare(txt_fare.getText().toString());
                     }
+
                     @Override
                     public void afterTextChanged(Editable editable) {
                     }
@@ -683,6 +753,17 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         }
                     }
                 });
+
+                textView11.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("travel_id", pass1.getTravel_id());
+                        NoteFragment noteFragment = new NoteFragment();
+                        noteFragment.setArguments(bundle);
+                        ((HomeActivity) getActivity()).changeFragment(noteFragment, "fragment_note");
+                    }
+                });
             }
         }
     }
@@ -722,6 +803,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 super.onStart();
                 swipeRefreshLayout.setRefreshing(true);
             }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -823,7 +905,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     }
 
     // pending request by ibrahim
-    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String time) {
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String time, String ride_notes) {
         final RequestParams params = new RequestParams();
         params.put("driver_id", driver_id);
         //by ibrahim
@@ -844,6 +926,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         params.put("distance", distance);
         params.put("status", pass.getStatus());
         params.put("booked_set", num_set.getNumber());
+        params.put("ride_notes", ride_notes);
+
         Server.setHeader(key);
         Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
             @Override
@@ -863,8 +947,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                             if (pass.getcheck() == "1") {
                                 SavePost(pickup_address, drop_address, dateandtime_val, time_val, ride_id);
                             }
-                            addRideFirebase(ride_id, pass.getTravel_status(),pass.getStatus(), pass.getPayment_status(), pass.getPayment_mode());
-                            addNotificationFirebase(ride_id);
+                            addRideFirebase(ride_id, pass.getTravel_status(), pass.getStatus(), pass.getPayment_status(), pass.getPayment_mode());
+                            addNotificationFirebase(ride_id, Integer.parseInt(pass.getTravelId()));
                         }
                         startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                     } else {
@@ -905,11 +989,12 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         databaseRef.setValue(rideObject);
     }
 
-    public void addNotificationFirebase(int ride_id_param) {
+    public void addNotificationFirebase(int ride_id_param, int travel_id_param) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(pass.getDriverId()).push();
         Map<String, Object> rideObject = new HashMap<>();
         rideObject.put("ride_id", String.valueOf(ride_id_param));
-        rideObject.put("text", getString(R.string.Notification_Request));
+        rideObject.put("travel_id", String.valueOf(travel_id_param));
+        rideObject.put("text", "request");
         rideObject.put("readStatus", "0");
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());

@@ -33,9 +33,6 @@ public class CommentList extends ArrayAdapter<Comment>{
         this.comments = comments;
     }
 
-
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();

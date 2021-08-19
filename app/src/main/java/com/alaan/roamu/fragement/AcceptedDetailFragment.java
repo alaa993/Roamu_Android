@@ -143,7 +143,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
     private String tryAgain;
     private String directionRequest;
     TextView textView1, textView2, textView3, textView4, textView5,
-            textView6, textView7, textView8, textView9, textView10,
+            textView6, textView7, textView8, textView9, textView10, textView11,
             txt_fare_view, txt_name, txt_number, txt_vehiclename,
             dateandtime, TimeVal, txt_bag, txt_smoke, car_name, mobilenumbertext, carConditon, carConditonrating;
 
@@ -287,6 +287,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         textView8 = (TextView) view.findViewById(R.id.textView8);
         textView9 = (TextView) view.findViewById(R.id.textView9);
         textView10 = (TextView) view.findViewById(R.id.textView10);
+        textView11 = (TextView) view.findViewById(R.id.textView11);
         carConditon = (TextView) view.findViewById(R.id.carConditon);
         carConditonrating = (TextView) view.findViewById(R.id.carConditonrating);
         txt_fare_view = (TextView) view.findViewById(R.id.txt_fare_view);
@@ -496,7 +497,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         super.onSuccess(statusCode, headers, response);
                                         updateRideFirebase(travel_status, ride_status, payment_status, "OFFLINE");
-                                        updateNotificationFirebase(getString(R.string.notification_5));
+                                        updateNotificationFirebase("offline_request");
                                         updateTravelCounterFirebase();
                                         rideJson.setPayment_mode("OFFLINE");
                                         btn_payment.setVisibility(View.GONE);
@@ -551,6 +552,17 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                 ((HomeActivity) getActivity()).changeFragment(detailFragment, "UsersCommentsFragment");
             }
         });
+
+        textView11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("travel_id", rideJson.getTravel_id());
+                NoteFragment noteFragment = new NoteFragment();
+                noteFragment.setArguments(bundle);
+                ((HomeActivity) getActivity()).changeFragment(noteFragment, "fragment_note");
+            }
+        });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -565,7 +577,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
                     updateTravelFirebase();
                     //send notification
-                    addNotificationFirebase(Integer.parseInt(rideJson.getRide_id()));
+                    addNotificationFirebase(rideJson.getRide_id(), rideJson.getTravel_id());
 
                 }
                 if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
@@ -978,9 +990,9 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                                     btn_payment.setVisibility(View.GONE);
                                     trackRide.setVisibility(View.GONE);
                                 } else {
+                                    updateNotificationFirebase(list.get(0).getStatus());
                                     Log.i("ibrahim", "waited");
                                     updateRideFirebase(travel_status, list.get(0).getStatus(), payment_status, payment_mode);
-                                    updateNotificationFirebase(list.get(0).getStatus());
                                 }
                             }
                         }
@@ -1050,11 +1062,27 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         });
     }
 
-    public void addNotificationFirebase(int ride_id_param) {
+    public void addNotificationFirebase(String ride_id_param, String travel_id_param) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
         Map<String, Object> rideObject = new HashMap<>();
-        rideObject.put("ride_id", String.valueOf(ride_id_param));
-        rideObject.put("text", getString(R.string.Notification_Request_approve));
+        rideObject.put("ride_id", ride_id_param);
+        rideObject.put("travel_id", travel_id_param);
+        Log.i("ibrahim", "addNotificationFirebase");
+//        Log.i("ibrahim",rideJson.getTravel_id());
+//        rideObject.put("travel_id", rideJson.getTravel_id());
+        rideObject.put("text", "request_approve");
+        rideObject.put("readStatus", "0");
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseRef.setValue(rideObject);
+    }
+
+    public void updateNotificationFirebase(String notificationText) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
+        Map<String, Object> rideObject = new HashMap<>();
+        rideObject.put("ride_id", rideJson.getRide_id());
+        rideObject.put("travel_id", rideJson.getTravel_id());
+        rideObject.put("text", notificationText.toLowerCase());
         rideObject.put("readStatus", "0");
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -1157,16 +1185,6 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
         databaseRef.setValue(rideObject);
     }
 
-    public void updateNotificationFirebase(String notificationText) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
-        Map<String, Object> rideObject = new HashMap<>();
-        rideObject.put("ride_id", rideJson.getRide_id());
-        rideObject.put("text", getString(R.string.RideUpdated) + " " + notificationText);
-        rideObject.put("readStatus", "0");
-        rideObject.put("timestamp", ServerValue.TIMESTAMP);
-        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseRef.setValue(rideObject);
-    }
 
     public void sendRating(float DriverRatingST, float FareRatingST) {
         Log.i("ibrahim", "sendRating");

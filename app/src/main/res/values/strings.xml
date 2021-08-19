@@ -15,7 +15,7 @@
     <string name="cash_on_hand">Request Cash On Hand to driver</string>
 
     <string name="contact_admin">There is some problem. please contact your administrator.</string>
-    <string name="success_login">Welcome to </string>
+    <string name="success_login">Welcome to roamu</string>
 
     <string name="payment_update">Payment Updated</string>
     <string name="ride_request_completed">ride request completed</string>
@@ -53,7 +53,7 @@
     <string name="nodata_found">No Data Found</string>
 
     <string name="REQUEST_RIDE">REQUEST RIDE</string>
-    <string name="Login">Login</string>
+    <string name="Login">Login or Sign up</string>
 
     <string name="create_ac">Create an Account</string>
 
@@ -102,7 +102,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">Login or Sign Up</string>
     <string name="drop_up_location">drop location</string>
     <string name="pick_up_location">pick up location</string>
     <string name="update">Update</string>
@@ -263,5 +263,36 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="full_travel">We are sorry to let you know that the travel you requested is fulled by passengers, your request is renewed!</string>
     <string name="userComments">Users Comments</string>
 
+
+    <string name="notification_request">the driver is glad to travel with you</string>
+    <string name="notification_request_approve">the driver approved your request!</string>
+    <string name="notification_accepted">the driver accepted your request!</string>
+    <string name="notification_completed">Successful Arrivals</string>
+    <string name="notification_cancelled">Apologizes for cancelling the request</string>
+    <string name="notification_started">Travel Started!</string>
+    <string name="notification_offline_request">the Client wants to pay cash!</string>
+    <string name="notification_offline_approved">the driver Accepted your offline payment</string>
+
+    <string name="Create_group">Create New Gruop</string>
+    <string name="show">Show</string>
+    <string name="group_name">Group Name</string>
+    <string name="change_group_name">Change Group Name</string>
+    <string name="my_groups">My Groups</string>
+    <string name="admin_name">Admin Name</string>
+    <string name="group_members">Group Members</string>
+    <string name="group_management">Group Management</string>
+    <string name="Driver_Phone_number">Driver Phone Number</string>
+    <string name="delet_driver">Delete Driver</string>
+    <string name="country">Country</string>
+    <string name="add_Driver">add Driver</string>
+
+    <string name="addChangeGroup">Add Group or change Group Name</string>
+    <string name="addDeleteDriver">Add Driver or Delete Driver</string>
+    <string name="drivers">Group</string>
+    <string name="GOD">Group Management</string>
+
+    <string name="notes_bags_weights">Notes, like Number of Bags (Optional)</string>
+    <string name="notes">Notes</string>
+    <string name="invalid_phone_number">Invalid Phone Number, please try Again!</string>
 
 </resources>

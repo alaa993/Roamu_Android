@@ -48,6 +48,7 @@ import com.alaan.roamu.fragement.MyAcceptedRequestFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
+import com.alaan.roamu.fragement.groups_driver;
 import com.alaan.roamu.fragement.lang;
 import com.alaan.roamu.fragement.platform;
 import com.alaan.roamu.pojo.Notification;
@@ -259,6 +260,11 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             case R.id.notifications:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new NotificationsFragment(), getString(R.string.notifications));
+                break;
+
+            case R.id.group_of_drivers:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new groups_driver(), getString(R.string.drivers));
                 break;
 
             case R.id.platform:

@@ -552,6 +552,15 @@
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/mapbox_blue" />
 
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/notes"
+                                android:layout_gravity="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/mapbox_blue" />
+
                         </TableRow>
 
                         <TableRow

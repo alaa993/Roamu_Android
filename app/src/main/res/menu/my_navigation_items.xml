@@ -25,6 +25,11 @@
         android:icon="@mipmap/ic_account_circle_black_24dp"
         android:title="@string/profile"></item>
     <item
+        android:id="@+id/group_of_drivers"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:title="@string/GOD"></item>
+
+    <item
         android:id="@+id/platform"
         android:icon="@drawable/ic_language_black_24dp"
         android:title="@string/platform"></item>

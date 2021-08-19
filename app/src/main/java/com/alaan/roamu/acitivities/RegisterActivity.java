@@ -1,13 +1,16 @@
 package com.alaan.roamu.acitivities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -27,6 +30,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +39,7 @@ import com.alaan.roamu.fragement.ProfileFragment;
 import com.alaan.roamu.pojo.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.fxn.stash.Stash;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -104,6 +109,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
     TextInputEditText input_email, input_password, input_confirmPassword, input_mobile, input_name;
     AppCompatButton sign_up;
     SwipeRefreshLayout swipeRefreshLayout;
+
 
     private CircleImageView imageProfile;
     private TextView changePhoto;
@@ -234,8 +240,14 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     }
                     // utype = "0" means user and "1" = driver
                     // mtype = "0" means iOS  and "1" = Android
-                    register(email, name, latitude, longitude, country, state, city, "1", token, "0", "");
-                    saveProfile(name);
+
+                    if (input_name.getText().toString().trim().equals("")) {
+                        input_name.setError(getString(R.string.fiels_is_required));
+                    } else {
+                        register(email, name, latitude, longitude, country, state, city, "1", token, "0", "");
+                        saveProfile(name);
+                    }
+
                 } else {
                     Toast.makeText(RegisterActivity.this, "network is not available", Toast.LENGTH_LONG).show();
                 }
@@ -595,6 +607,8 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         });
 
     }
+
+
 
     public void applyfonts() {
         TextView textView = (TextView) findViewById(R.id.txt_register);

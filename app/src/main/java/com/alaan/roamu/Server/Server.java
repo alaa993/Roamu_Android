@@ -24,6 +24,14 @@ public class Server {
     public static final String PAYPAL_KEY="AYi2W29-PSkOI0-utUCLVEuPL1qP8BjYCEOAz3OlnDomdc8yXl10QbGJVX3yc7QgZwM2AEgGn-3K-aoM";     //This quiz is required for place auto complete
     public static final String GET_SPECIFIC_RIDE = BASE_URL + "api/user/ride_specific" + FORMAT;
     public static final String UPDATE = BASE_URL + "api/user/update" + FORMAT;
+    public static final String GET_REQUEST1 = BASE_URL + "api/user/rides2" + FORMAT;
+    public static final String GET_MEBLIST =  BASE_URL + "api/driver/getGroupList" +FORMAT;
+    public static final String GET_GROUP = BASE_URL + "api/driver/getAdminGroupInfo" +FORMAT;
+    public static final String GET_MyGroupLIST =  BASE_URL + "api/driver/getMyGroupList" +FORMAT;
+    public static String addGruop = "api/driver/addgroup"+FORMAT;
+    public static String ChangeGruopName = "api/driver/editgroup"+FORMAT;
+    public static String add_user_Gruop =  "api/driver/addUserToGroup"+ FORMAT;
+    public static String remove_user_Gruop =  "api/driver/delUserFromGroup"+ FORMAT;
 
     private static final String TAG = "server";
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -68,6 +76,10 @@ public class Server {
     }
 
     public static void setContetntType() {
+        client.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    }
+
+    public static void setContentType() {
         client.addHeader("Content-Type", "application/x-www-form-urlencoded");
     }
 

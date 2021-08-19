@@ -18,7 +18,7 @@
 
     <string name="contact_admin">"هناك بعض المشاكل. يرجى الاتصال بالمسؤول الخاص بك."</string>
 
-    <string name="success_login">"مرحبا بك في"</string>
+    <string name="success_login">مرحبا بك في روميو</string>
 
 
     <string name="payment_update">تم تحديد نوع الدفع</string>
@@ -83,7 +83,7 @@
 
     <string name="REQUEST_RIDE">نوع الطلب</string>
 
-    <string name="Login">"تسجيل الدخول"</string>
+    <string name="Login">تسجيل الدخول أو إنشاء حساب</string>
 
 
     <string name="create_ac">"انشئ حساب"</string>
@@ -145,7 +145,7 @@
     <string name="password">"كلمه السر"</string>
     <string name="confirm_password">"تأكيد كلمة المرور"</string>
     <string name="sign_up">"سجل"</string>
-    <string name="sign_in">"تسجيل الدخول"</string>
+    <string name="sign_in">تسجيل الدخول أو إنشاء حساب</string>
     <string name="drop_up_location">"إسقاط الموقع"</string>
     <string name="pick_up_location">"اختر موقعا"</string>
     <string name="update">"تحديث"</string>
@@ -319,6 +319,38 @@
     <string name="status">الحالة</string>
     <string name="full_travel">نأسف لإعلامك بأن الرحلة التي طلبتها ممتلئة بالركاب، وتم تجديد طلبك!</string>
     <string name="userComments">تعليقات المسافرين</string>
+
+    <string name="notification_request">السائق يسعده السفر معكم</string>
+    <string name="notification_request_approve">تم تأكيد الطلب من قبل السائق</string>
+    <string name="notification_accepted">قبل السائق طلبكم</string>
+    <string name="notification_completed">تم الوصول بنجاح</string>
+    <string name="notification_cancelled">يعتذر السائق عن قبول طلبكم!</string>
+    <string name="notification_started">بدأت الرحلة!</string>
+    <string name="notification_offline_request">يريد الزبون الدفع نقدا</string>
+    <string name="notification_offline_approved">تم تأكيد الدفع نقدا</string>
+
+    <string name="Create_group">إضافة مجموعة</string>
+    <string name="show">عرض المعلومات</string>
+    <string name="group_name">اسم المجموعة</string>
+    <string name="change_group_name">تغيير اسم المجموعة</string>
+    <string name="my_groups">مجموعاتي</string>
+    <string name="admin_name">مدير المجموعة</string>
+    <string name="group_members">أعضاء المجموعة</string>
+    <string name="group_management">إدارة المجموعات</string>
+    <string name="Driver_Phone_number">رقم الهاتف</string>
+    <string name="delet_driver">حذف السائق</string>
+    <string name="country">المدينة</string>
+    <string name="add_Driver">إضافة سائق</string>
+
+    <string name="addChangeGroup">إضافة مجموعة أو تغيير اسم المجموعة</string>
+    <string name="addDeleteDriver">إضافة أو حذف سائق</string>
+    <string name="drivers">المجموعة</string>
+    <string name="GOD">إدارة المجموعات</string>
+
+    <string name="notes_bags_weights">ملاحظات، مثل عدد الحقائب ووزنها (اختياري)</string>
+    <string name="notes">الملاحظات</string>
+    <string name="invalid_phone_number">رقم الهاتف غير صحيح ، يرجى المحاولة مرة أخرى!</string>
+
 
 
 </resources>

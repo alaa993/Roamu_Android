@@ -201,7 +201,10 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="@string/sign_in"
+                        android:visibility="gone"
                         android:textColor="@color/black" />
+
+
                 </RelativeLayout>
 
             </LinearLayout>

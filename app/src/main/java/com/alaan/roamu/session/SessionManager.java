@@ -258,7 +258,7 @@ public class SessionManager {
 
 
     public static String getUserId() {
-        return getUser() == null ? "1234" : getUser().getUser_id();
+        return getUser() == null ? "" : getUser().getUser_id();
     }
 
     /**

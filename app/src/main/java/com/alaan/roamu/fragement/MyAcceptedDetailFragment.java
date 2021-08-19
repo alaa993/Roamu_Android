@@ -444,7 +444,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                         super.onSuccess(statusCode, headers, response);
                                         updateRideFirebase(travel_status, ride_status, payment_status, "OFFLINE");
-                                        updateNotificationFirebase(getString(R.string.notification_5));
+                                        updateNotificationFirebase("offline_request");
                                         updateTravelCounterFirebase();
                                         rideJson.setPayment_mode("OFFLINE");
                                         btn_payment.setVisibility(View.GONE);
@@ -961,18 +961,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
         Map<String, Object> rideObject = new HashMap<>();
         rideObject.put("ride_id", rideJson.getRide_id());
-        rideObject.put("text", getString(R.string.RideUpdated) + " " + notificationText);
-        rideObject.put("readStatus", "0");
-        rideObject.put("timestamp", ServerValue.TIMESTAMP);
-        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseRef.setValue(rideObject);
-    }
-
-    public void addNotificationFirebase(int ride_id_param) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(rideJson.getDriver_id()).push();
-        Map<String, Object> rideObject = new HashMap<>();
-        rideObject.put("ride_id", String.valueOf(ride_id_param));
-        rideObject.put("text", getString(R.string.Notification_Request_approve));
+        rideObject.put("travel_id", rideJson.getTravel_id());
+        rideObject.put("text", notificationText.toLowerCase());
         rideObject.put("readStatus", "0");
         rideObject.put("timestamp", ServerValue.TIMESTAMP);
         rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());

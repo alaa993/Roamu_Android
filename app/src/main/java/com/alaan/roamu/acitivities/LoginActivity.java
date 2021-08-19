@@ -1,8 +1,11 @@
 package com.alaan.roamu.acitivities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.fxn.stash.Stash;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -58,6 +64,9 @@ public class LoginActivity extends ActivityManagePermission {
     Context context;
     SwipeRefreshLayout swipeRefreshLayout;
 
+    Button b1, b2;
+    public static String LANGUAGE = "ar";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +75,11 @@ public class LoginActivity extends ActivityManagePermission {
 
         setContentView(R.layout.login);
         bindView();
+
+        setLocale("ar", LoginActivity.this);
+//        LoginActivity.this.recreate();
+//        Stash.put("TAG_LANG", "ar");
+
         applyfonts();
 
 
@@ -147,6 +161,54 @@ public class LoginActivity extends ActivityManagePermission {
             }
         });
 
+        b1 = findViewById(R.id.b1en);
+        b2 = findViewById(R.id.b2ar);
+
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("en", LoginActivity.this);
+                LoginActivity.this.recreate();
+                Stash.put("TAG_LANG", "en");
+
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("ar", LoginActivity.this);
+                LoginActivity.this.recreate();
+                Stash.put("TAG_LANG", "ar");
+
+
+            }
+        });
+    }
+
+    @SuppressLint("NewApi")
+    public static void setLocale(String lang, Context context) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        if (lang.contains("ku")) {
+            configuration.setLayoutDirection(new Locale("ar"));
+        } else {
+            configuration.setLayoutDirection(new Locale(lang));
+        }
+
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = context.getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("lang", lang);
+        editor.apply();
+    }
+
+    public static void loadLocale(Context context) {
+        SharedPreferences pref = context.getSharedPreferences("Settings", MODE_PRIVATE);
+        String lang = pref.getString("lang", "ar");
+        LANGUAGE = lang;
+        setLocale(lang, context);
 
     }
 

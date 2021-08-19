@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     LinearLayout liner_close;
     String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     private String drivername;
-//    MapView mMapView;
+    //    MapView mMapView;
     Pass pass;
     Place pickup, drop, s_drop, s_pic;
     ProgressBar progressBar;
@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     TextView NS_car_type;
     Spinner droplist;
     String[] status_arr;
-    String[] status_Content_arr={"car","minibus","bus"};
+    String[] status_Content_arr = {"car", "minibus", "bus"};
     String carType = "car";
 
 
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             linear_request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("ibrahim","linear_request");
+                    Log.i("ibrahim", "linear_request");
                     if (CheckConnection.haveNetworkConnection(getActivity())) {
                         if (pickup_location == null || drop == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_location), Toast.LENGTH_LONG).show();
@@ -257,6 +257,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                             AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeFragment.this.getContext());
                             View mView = getLayoutInflater().inflate(R.layout.dialog_addtravel_layout, null);
                             final EditText mPassengers = (EditText) mView.findViewById(R.id.etPassengers);
+                            final EditText etNotes = (EditText) mView.findViewById(R.id.etNotes);
 //                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
@@ -271,7 +272,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                                         dialog.dismiss();
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
-                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(0), "0", String.valueOf(mPassengers.getText()));
+                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(0), "0", String.valueOf(mPassengers.getText()), String.valueOf(etNotes.getText()));
                                     } else {
                                         Toast.makeText(HomeFragment.this.getContext(),
                                                 "Failed",
@@ -347,7 +348,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             search_box_custom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("ibrahim","search_box_custom");
+                    Log.i("ibrahim", "search_box_custom");
 //                    onRefresh();
 //                    if (currentLatitude != null && !currentLatitude.equals(0.0) && currentLongitude != null && !currentLongitude.equals(0.0)) {
                     Intent intent = new Intent(getActivity(), List_provider.class);
@@ -546,7 +547,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         droplist = (Spinner) rootView.findViewById(R.id.carTypeSpinner);
         droplist.setOnItemSelectedListener(this);
         status_arr = new String[]{getString(R.string.car_type1), getString(R.string.car_type2), getString(R.string.car_type3)};
-        ArrayAdapter data = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,status_arr);
+        ArrayAdapter data = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, status_arr);
         droplist.setAdapter(data);
 
         Places.initialize(getApplicationContext(), getString(R.string.google_android_map_api_key));
@@ -1268,7 +1269,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     }
 
     // pending request by ibrahim
-    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String booked_set) {
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String booked_set, String ride_notes) {
         final RequestParams params = new RequestParams();
         params.put("driver_id", "-1");
         //by ibrahim
@@ -1286,6 +1287,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         params.put("status", "REQUESTED");
         params.put("booked_set", booked_set);
         params.put("car_type", carType);
+        params.put("ride_notes", ride_notes);
         Server.setHeader(key);
         Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
             @Override

@@ -49,23 +49,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.i("notifcode by ibrahim",remoteMessage.getData().get("msg").toString());
             Log.i("notification by ibrahim",message);
 
-            if (remoteMessage.getData().get("msg").equals("0") && remoteMessage.getData().get("name") != null)
-            {
+            if (remoteMessage.getData().get("msg").equals("0") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
-            }else if (remoteMessage.getData().get("msg").equals("2") && remoteMessage.getData().get("name") != null)
-            {
+            } else if (remoteMessage.getData().get("msg").equals("2") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
-            }else if (remoteMessage.getData().get("msg").equals("3") && remoteMessage.getData().get("name") != null)
-            {
+            } else if (remoteMessage.getData().get("msg").equals("3") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
-            }else if (remoteMessage.getData().get("msg").equals("5") && remoteMessage.getData().get("name") != null)
-            {
+            } else if (remoteMessage.getData().get("msg").equals("5") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
-            }else if (remoteMessage.getData().get("msg").equals("6") && remoteMessage.getData().get("name") != null)
-            {
+            } else if (remoteMessage.getData().get("msg").equals("6") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
-            }else if (remoteMessage.getData().get("msg").equals("7") && remoteMessage.getData().get("name") != null)
-            {
+            } else if (remoteMessage.getData().get("msg").equals("7") && remoteMessage.getData().get("name") != null) {
                 message = remoteMessage.getData().get("name") + " " + message;
             }
             sendNotification(remoteMessage.getData(), message);

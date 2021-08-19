@@ -57,29 +57,29 @@
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp">
+<!--                    <TableRow-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="0dp"-->
+<!--                        android:padding="10dp">-->
 
-                        <TextView
-                            android:id="@+id/FN_txt2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/email"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/FN_txt2"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/email"-->
+<!--                            android:textAppearance="?android:attr/textAppearanceSmall" />-->
 
-                        <EditText
-                            android:id="@+id/FN_Etxt2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:maxLines="1"
-                            android:padding="1dp" />
+<!--                        <EditText-->
+<!--                            android:id="@+id/FN_Etxt2"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="5dp"-->
+<!--                            android:layout_marginLeft="5dp"-->
+<!--                            android:maxLines="1"-->
+<!--                            android:padding="1dp" />-->
 
-                    </TableRow>
+<!--                    </TableRow>-->
 
                     <TableRow
                         android:layout_width="wrap_content"
