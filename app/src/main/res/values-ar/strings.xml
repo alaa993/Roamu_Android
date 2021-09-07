@@ -33,7 +33,7 @@
     <string name="old_pws_is_required">"كلمة المرور القديمة مطلوبة"</string>
 
 
-    <string name="select_driver">"انقر على معلومات السائق"</string>
+    <string name="select_driver">"انقر على معلومات الكابتن"</string>
 
     <string name="invalid_fare">"أجرة غير صالحة"</string>
 
@@ -64,14 +64,14 @@
     <string name="FROM">"من"</string>
 
 
-    <string name="DRIVERNAME">"اسم السائق"</string>
+    <string name="DRIVERNAME">"اسم الكابتن"</string>
 
 
     <string name="pickup_location">"من "</string>
 
     <string name="drop_location">"إلى"</string>
 
-    <string name="drivername">"رقم السائق"</string>
+    <string name="drivername">"رقم الكابتن"</string>
 
 
     <string name="mobile_numberr">"رقم الهاتف المحمول"</string>
@@ -91,7 +91,7 @@
 
     <string name="pwd_reset_instruction">"أدخل عنوان بريدك الإلكتروني المسجل ، وسنرسل لك رسالة بريد إلكتروني لإعادة تعيين كلمة المرور الخاصة بك"</string>
 
-    <string name="register_hint">"بريد الكتروني مسجل"</string>
+    <string name="register_hint">"البريد الإلكتروني مسجل"</string>
 
 
     <string name="new_pwd">"كلمة السر الجديدة"</string>
@@ -117,7 +117,7 @@
 
     <string-array name="payment_mode">
         <item>الدفع نقداً</item>
-        <item>الدفع الالكتروني</item>
+        <item>الدفع الإلكتروني</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -142,6 +142,8 @@
     <string name="mobile_number">"رقم الهاتف المحمول"</string>
     <string name="email">"البريد الإلكتروني"</string>
     <string name="name">الاسم</string>
+    <string name="first_name">الإسم</string>
+    <string name="last_name">الكنية</string>
     <string name="password">"كلمه السر"</string>
     <string name="confirm_password">"تأكيد كلمة المرور"</string>
     <string name="sign_up">"سجل"</string>
@@ -214,8 +216,8 @@
     <!--    // by ibrahim-->
     <string name="about_us"><![CDATA["عن التطبيق
 يعمل التطبيق في مجال التنقل التشاركي ، مع ميزة رائدة في هذا النوع من التنقل ، إذ منحنا كلا من صاحب وسيلة النقل و المستخدم فرصة الحجز لدى الآخر بحرية تامة   و عندما يرغب المسافر الذهاب إلى منطقة داخل مدينته أو إلى مدينة اخرى يبحث عن وسائل النقل المتاحة في الوقت المناسب له ، و يختار ما يرى أنها مناسبة لرحلته من بين السيارات المتاحة ، و للسائق حرية الموافقة أو الاعتذار بعد مشاهدة ملف المسافر.
-و يبحث السائق عن الراغبين بالسفر في التوقيت الذي يغادر به و الوجهة المقررة ، و يختار المسافرين المناسبين للسفر معه ، و تكون الموافقة النهائية  للمسافر نفسه بعد الاطلاع على ملف السائق و تقييمه من قبل الآخرين.
-التقييم في التطبيق لا يقتصر على  المركبة  واداء السائق فقط ، بل اضفنا تقييما للأجرة التي يحددها صاحب السيارة ، و هدفنا  من ذلك تقديم افضل الأسعار و خدمة متميزة للمسافرين مع التطبيق.
+و يبحث الكابتن عن الراغبين بالسفر في التوقيت الذي يغادر به و الوجهة المقررة ، و يختار المسافرين المناسبين للسفر معه ، و تكون الموافقة النهائية  للمسافر نفسه بعد الاطلاع على ملف الكابتن و تقييمه من قبل الآخرين.
+التقييم في التطبيق لا يقتصر على  المركبة  واداء الكابتن فقط ، بل اضفنا تقييما للأجرة التي يحددها صاحب السيارة ، و هدفنا  من ذلك تقديم افضل الأسعار و خدمة متميزة للمسافرين مع التطبيق.
 يكون المسافر على اطلاع قبل الحجز على مواصفات المركبة و عدد الحقائب المسموح بها ، و فيما إذا كان مسموحا بالتدخين خلال الرحلة من عدمه.
 "]]></string>
     <string name="pricvy">"الأحكام العامة
@@ -245,7 +247,7 @@
     <string name="date_and_time">التاريخ</string>
     <string name="reseve">حجز</string>
     <string name="empty_seats">عدد المسافرين الآخرين</string>
-    <string name="driver_rate">تقييم السائق</string>
+    <string name="driver_rate">تقييم الكابتن</string>
     <string name="carConditon">تقييم الأجرة</string>
     <string name="travels_count">الرحلات المنجزة</string>
     <string name="pickup_point">نقطة التقاط</string>
@@ -274,16 +276,16 @@
     <string name="notification_7">اختاركم للسفر معكم</string>
     <string name="notification_8">تم ارسال الطلب وسيصلكم التأكيد في أقرب وقت</string>
     <string name="trip_detail">تفاصيل الرحلة</string>
-    <string name="about_driver">عن السائق</string>
+    <string name="about_driver">عن الكابتن</string>
     <string name="my_requests">رحلاتي</string>
     <string name="request_type">نوع الطلب</string>
     <string name="nominate_a_driver">ترشيح سائق</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="Black_Sany">صني سوداء</string>
-    <string name="driver_city">مدينة السائق</string>
-    <string name="driver_country">بلد السائق</string>
-    <string name="driver_phone">هاتف السائق</string>
-    <string name="driver_vehicle">مركبة السائق</string>
+    <string name="driver_city">مدينة الكابتن</string>
+    <string name="driver_country">بلد الكابتن</string>
+    <string name="driver_phone">هاتف الكابتن</string>
+    <string name="driver_vehicle">مركبة الكابتن</string>
     <string name="description">التفاصيل</string>
     <string name="send">إرسال</string>
     <string name="profit">نجاح و أرباح</string>
@@ -304,7 +306,7 @@
     <string name="All_travel">كل الرحلات</string>
     <string name="my_accepted_travels">رحلاتي المقبولة</string>
     <string name="no_status">لايوجد حالة</string>
-    <string name="DetailReqVCEnterRating">الرجاء إدخال تقييم السائق\n تقييم سعر الرحلة\n تعليق (اختياري)</string>
+    <string name="DetailReqVCEnterRating">الرجاء إدخال تقييم الكابتن\n تقييم سعر الرحلة\n تعليق (اختياري)</string>
     <string name="Notification_Request">أرسل اليك طلب</string>
     <string name="Notification_Request_approve">تم تأكيد الطلب</string>
     <string name="RideUpdated">تم تحديث معلومات الرحلة:</string>
@@ -320,25 +322,27 @@
     <string name="full_travel">نأسف لإعلامك بأن الرحلة التي طلبتها ممتلئة بالركاب، وتم تجديد طلبك!</string>
     <string name="userComments">تعليقات المسافرين</string>
 
-    <string name="notification_request">السائق يسعده السفر معكم</string>
-    <string name="notification_request_approve">تم تأكيد الطلب من قبل السائق</string>
-    <string name="notification_accepted">قبل السائق طلبكم</string>
+    <string name="notification_request">يسعدنا سفركم معنا</string>
+    <string name="notification_request_approve">تم تأكيد الطلب من قبل الكابتن</string>
+    <string name="notification_accepted">قبل الكابتن طلبكم</string>
     <string name="notification_completed">تم الوصول بنجاح</string>
-    <string name="notification_cancelled">يعتذر السائق عن قبول طلبكم!</string>
+    <string name="notification_cancelled">يعتذر الكابتن عن قبول طلبكم!</string>
     <string name="notification_started">بدأت الرحلة!</string>
     <string name="notification_offline_request">يريد الزبون الدفع نقدا</string>
     <string name="notification_offline_approved">تم تأكيد الدفع نقدا</string>
+    <string name="notification_add_driver">تم اختيارك ضمن مجموعة: </string>
+    <string name="notification_del_driver">تم إخراجك من مجموعة: </string>
 
     <string name="Create_group">إضافة مجموعة</string>
     <string name="show">عرض المعلومات</string>
     <string name="group_name">اسم المجموعة</string>
     <string name="change_group_name">تغيير اسم المجموعة</string>
-    <string name="my_groups">مجموعاتي</string>
+    <string name="my_groups">مجموعتي</string>
     <string name="admin_name">مدير المجموعة</string>
     <string name="group_members">أعضاء المجموعة</string>
     <string name="group_management">إدارة المجموعات</string>
     <string name="Driver_Phone_number">رقم الهاتف</string>
-    <string name="delet_driver">حذف السائق</string>
+    <string name="delet_driver">حذف الكابتن</string>
     <string name="country">المدينة</string>
     <string name="add_Driver">إضافة سائق</string>
 
@@ -351,6 +355,18 @@
     <string name="notes">الملاحظات</string>
     <string name="invalid_phone_number">رقم الهاتف غير صحيح ، يرجى المحاولة مرة أخرى!</string>
 
+    <string name="distance_info">معلومات المسافة والزمن</string>
+    <string name="distance1_info">المسافة بين النقطتين</string>
+    <string name="distance_time_info">الوقت اللازم للوصول</string>
+
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+    <string name="Post_updated_successfully">تم تحديث المنشور بنجاح!</string>
+    <string name="Post_deleted_successfully">تم حذف المنشور بنجاح!</string>
+    <string name="do_you_want_to_delete">هل تريد الحذف؟</string>
+    <string name="no">لا</string>
+    <string name="yes">نعم</string>
+    <string name="whatsapp">رقمنا</string>
 
 
 </resources>

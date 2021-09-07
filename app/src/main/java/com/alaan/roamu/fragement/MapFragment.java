@@ -1,5 +1,7 @@
 package com.alaan.roamu.fragement;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.animation.Animation;
 
 import com.akexorcist.googledirection.DirectionCallback;
 import com.alaan.roamu.R;
+import com.alaan.roamu.Server.GoogMatrixRequest;
 import com.alaan.roamu.adapter.search_d_adapter;
 import com.alaan.roamu.pojo.NearbyData;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -102,9 +105,11 @@ import com.google.android.libraries.places.api.Places;
 
 import net.skoumal.fragmentback.BackFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -303,7 +308,6 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
             }
         });
         NearBy();
-
         return rootView;
     }
 

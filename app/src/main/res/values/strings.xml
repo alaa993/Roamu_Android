@@ -99,6 +99,8 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign Up</string>
@@ -272,12 +274,14 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="notification_started">Travel Started!</string>
     <string name="notification_offline_request">the Client wants to pay cash!</string>
     <string name="notification_offline_approved">the driver Accepted your offline payment</string>
+    <string name="notification_add_driver">You have been selected in a group: </string>
+    <string name="notification_del_driver">You have been removed from a group: </string>
 
     <string name="Create_group">Create New Gruop</string>
     <string name="show">Show</string>
     <string name="group_name">Group Name</string>
     <string name="change_group_name">Change Group Name</string>
-    <string name="my_groups">My Groups</string>
+    <string name="my_groups">My Group</string>
     <string name="admin_name">Admin Name</string>
     <string name="group_members">Group Members</string>
     <string name="group_management">Group Management</string>
@@ -294,5 +298,18 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="notes_bags_weights">Notes, like Number of Bags (Optional)</string>
     <string name="notes">Notes</string>
     <string name="invalid_phone_number">Invalid Phone Number, please try Again!</string>
+
+    <string name="distance_info">Distance Information</string>
+    <string name="distance1_info">Distance</string>
+    <string name="distance_time_info">Arrival time</string>
+
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="Post_updated_successfully">Post updated successfully!</string>
+    <string name="Post_deleted_successfully">Post deleted successfully!</string>
+    <string name="do_you_want_to_delete">Do you want to delete?</string>
+    <string name="no">NO</string>
+    <string name="yes">Yes</string>
+    <string name="whatsapp">WhatsApp</string>
 
 </resources>

@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -13,6 +15,8 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -28,11 +32,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,11 +49,13 @@ import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.model.Direction;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.alaan.roamu.R;
+import com.alaan.roamu.Server.GoogMatrixRequest;
 import com.alaan.roamu.Server.Server;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.custom.CheckConnection;
 import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.custom.SetCustomFont;
+import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.PendingRequestPojo;
 import com.alaan.roamu.pojo.Tracking;
 import com.alaan.roamu.pojo.firebaseClients;
@@ -108,9 +116,11 @@ import com.thebrownarrow.permissionhelper.PermissionUtils;
 
 import net.skoumal.fragmentback.BackFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,12 +131,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.loopj.android.http.AsyncHttpClient.log;
+
 public class MyAcceptedDetailFragment extends FragmentManagePermission
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, BackFragment, OnMapReadyCallback, DirectionCallback,
         Animation.AnimationListener {
 
     private View view;
+    private RelativeLayout distancematrix_informations;
+    Animation animFadeIn, animFadeOut;
+    TextView txt_distance, txt_timedistance;
+
     AppCompatButton trackRide;
     private String mobile = "";
     AppCompatButton btn_cancel, btn_payment, btn_complete;
@@ -251,6 +267,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 getCurrentlOcation();
             }
         }
+
         configPaypal();
         return view;
     }
@@ -299,6 +316,24 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         mMapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.MyADF_mapview);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
+
+        animFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.dialogue_scale_anim_open);
+        animFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.dialogue_scale_anim_exit);
+        animFadeIn.setAnimationListener(this);
+        animFadeOut.setAnimationListener(this);
+        distancematrix_informations = (RelativeLayout) view.findViewById(R.id.distancematrix);
+        txt_distance = (TextView) view.findViewById(R.id.txt_distance);
+        txt_timedistance = (TextView) view.findViewById(R.id.txt_timedistance);
+
+        distancematrix_informations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (distancematrix_informations.getVisibility() == View.VISIBLE) {
+                    distancematrix_informations.startAnimation(animFadeOut);
+                    distancematrix_informations.setVisibility(View.GONE);
+                }
+            }
+        });
 
         my_acc_d_f_home_button = (Button) view.findViewById(R.id.my_acc_d_f_home_button);
         mapView = (com.google.android.gms.maps.MapView) view.findViewById(R.id.MyADF_mapview);
@@ -516,6 +551,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     databaseRef.setValue(fbTravel.Counters.OFFLINE + 1);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -864,7 +900,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 if (getActivity() != null) {
 //                    swipeRefreshLayout.setRefreshing(false);
                 }
-                if(status.contains("COMPLETED")){
+                if (status.contains("COMPLETED")) {
                     btn_complete.setVisibility(View.GONE);
                 }
             }
@@ -1488,9 +1524,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
+
+
         myMap.setMaxZoomPreference(80);
+//        myMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         requestDirection();
-        //by ibrahim
+
         myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -1572,9 +1611,118 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     my_marker.showInfoWindow();
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 15);
                     myMap.animateCamera(cameraUpdate);
+
                     myMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
+//                            Toast.makeText(getActivity(), "Lat " + latLng.latitude + " " + "Long " + latLng.longitude, Toast.LENGTH_LONG).show();
+                            if (distancematrix_informations.getVisibility() == View.VISIBLE) {
+                                distancematrix_informations.startAnimation(animFadeOut);
+                                distancematrix_informations.setVisibility(View.GONE);
+                            } else {
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //test GoogMatrixRequest
+                                        try {
+//                                        String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest("37.7680296,-122.4375126", "37.7663444,-122.4412006");
+                                            String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest(currentLatitude + "," + currentLongitude, latLng.latitude + "," + latLng.longitude);
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(googleMatrixResponse);
+                                                JSONArray dist = (JSONArray) jsonObject.get("rows");
+                                                JSONObject obj2 = (JSONObject) dist.get(0);
+                                                JSONArray disting = (JSONArray) obj2.get("elements");
+                                                JSONObject obj3 = (JSONObject) disting.get(0);
+                                                JSONObject obj4 = (JSONObject) obj3.get("distance");
+                                                JSONObject obj5 = (JSONObject) obj3.get("duration");
+
+                                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            System.out.println(obj4.get("text"));
+                                                            System.out.println(obj5.get("text"));
+                                                            txt_distance.setText(obj4.get("text").toString());
+                                                            txt_timedistance.setText(obj5.get("text").toString());
+                                                            distancematrix_informations.setVisibility(View.VISIBLE);
+                                                            distancematrix_informations.startAnimation(animFadeIn);
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+
+                                            } catch (JSONException err) {
+                                                Log.d("Error", err.toString());
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //
+                                    }
+                                });
+
+                                thread.start();
+                            }
+                        }
+                    });
+
+                    myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            if (distancematrix_informations.getVisibility() == View.VISIBLE) {
+                                distancematrix_informations.startAnimation(animFadeOut);
+                                distancematrix_informations.setVisibility(View.GONE);
+                            } else {
+                                LatLng position = marker.getPosition();
+                                //                            Toast.makeText(getActivity(), "Lat " + position.latitude + " " + "Long " + position.longitude, Toast.LENGTH_LONG).show();
+                                Thread thread = new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        //test GoogMatrixRequest
+                                        try {
+//                                        String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest("37.7680296,-122.4375126", "37.7663444,-122.4412006");
+                                            String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest(currentLatitude + "," + currentLongitude, position.latitude + "," + position.longitude);
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(googleMatrixResponse);
+                                                JSONArray dist = (JSONArray) jsonObject.get("rows");
+                                                JSONObject obj2 = (JSONObject) dist.get(0);
+                                                JSONArray disting = (JSONArray) obj2.get("elements");
+                                                JSONObject obj3 = (JSONObject) disting.get(0);
+                                                JSONObject obj4 = (JSONObject) obj3.get("distance");
+                                                JSONObject obj5 = (JSONObject) obj3.get("duration");
+
+                                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            System.out.println(obj4.get("text"));
+                                                            System.out.println(obj5.get("text"));
+                                                            txt_distance.setText(obj4.get("text").toString());
+                                                            txt_timedistance.setText(obj5.get("text").toString());
+                                                            distancematrix_informations.setVisibility(View.VISIBLE);
+                                                            distancematrix_informations.startAnimation(animFadeIn);
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+
+
+                                            } catch (JSONException err) {
+                                                Log.d("Error", err.toString());
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //
+                                    }
+                                });
+
+                                thread.start();
+                            }
+                            return true;
                         }
                     });
                     databaseTravelRef.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -61,6 +61,7 @@ public class PostActivity extends Fragment {
     TextView AddCommentBTN;
     TextView TripDetail;
     Pass pass;
+    public ImageView more;
 
     //a list to store all the artist from firebase database
     List<Comment> comments;
@@ -120,7 +121,7 @@ public class PostActivity extends Fragment {
 
         TripDetail.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("ibrahim was here1","-----------------------------");
+                Log.i("ibrahim was here1", "-----------------------------");
 //                NeaBy("10");
             }
         });
@@ -129,9 +130,9 @@ public class PostActivity extends Fragment {
     }
 
     public void NeaBy(String travel_id) {
-        Log.i("ibrahim was here2","-----------------------------");
+        Log.i("ibrahim was here2", "-----------------------------");
         RequestParams params = new RequestParams();
-        params.put("bag",travel_id);
+        params.put("bag", travel_id);
         Server.setHeader(SessionManager.getKEY());
 
         Server.get("api/user/travels2/format/json", params, new JsonHttpResponseHandler() {
@@ -144,13 +145,13 @@ public class PostActivity extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim was here3","-----------------------------");
+                Log.i("ibrahim was here3", "-----------------------------");
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         Gson gson = new GsonBuilder().create();
-                        log.i("tag","success by ibrahim");
-                        Log.i("ibrahim was here4","-----------------------------");
-                        Log.i("ibrahim was here5",response.getJSONArray("data").toString());
+                        log.i("tag", "success by ibrahim");
+                        Log.i("ibrahim was here4", "-----------------------------");
+                        Log.i("ibrahim was here5", response.getJSONArray("data").toString());
                         List<NearbyData> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
 
                         }.getType());
@@ -182,7 +183,7 @@ public class PostActivity extends Fragment {
                         //
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("data", pass);
-                        Log.i("ibrahim was here","-----------------------------");
+                        Log.i("ibrahim was here", "-----------------------------");
                         Log.i("ibrahim was here", String.valueOf(pass.getTravelId()));
                         Log.i("ibrahim was here", String.valueOf(nearbyData.empty_set));
                         Log.i("ibrahim was here", String.valueOf(pass.empty_set));

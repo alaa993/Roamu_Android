@@ -79,11 +79,9 @@ public class PostList extends ArrayAdapter<Post> {
         }
         //type = 0 => driver
         //type = 1 => user
-        if (post.type.contains("0") && post.travel_id > 0)
-        {
+        if (post.type.contains("0") && post.travel_id > 0) {
             TripDetail.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             TripDetail.setVisibility(View.GONE);
         }
         databaseComments = FirebaseDatabase.getInstance().getReference("posts").child(post.id).child("Comments");
@@ -153,37 +151,39 @@ public class PostList extends ArrayAdapter<Post> {
                         Gson gson = new GsonBuilder().create();
                         List<NearbyData> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
                         }.getType());
-                        final NearbyData nearbyData = list.get(0);
-                        pass = new Pass();
-                        pass.f = Pass.fragment_type.GET;
-                        pass.setFromPlace(nearbyData.getPickup_address());
-                        pass.setToPlace(nearbyData.getDrop_address());
-                        pass.setFromAddress(nearbyData.getPickup_location());
-                        pass.setToAddress(nearbyData.getDrop_location());
-                        pass.setPickupPoint(nearbyData.getPickup_point());
-                        pass.setDriverId(nearbyData.getUser_id());
-                        //by ibrahim
-                        pass.setTravelId(nearbyData.getTravel_id());
-                        pass.setFare(nearbyData.getAmount());
-                        pass.setDriverName(nearbyData.getName());
-                        pass.setSmoke(nearbyData.getsmoked());
-                        pass.setDate(nearbyData.getTravel_date());
-                        pass.setTime(nearbyData.getTravel_time());
-                        pass.setAvalibleset(nearbyData.getBooked_set());
-                        pass.avatar = nearbyData.avatar;
-                        pass.vehicle_info = nearbyData.vehicle_info;
-                        pass.setVehicleName(nearbyData.getVehicle_info());
-                        pass.empty_set = nearbyData.empty_set;
-                        pass.DriverRate = nearbyData.DriverRate;
-                        pass.Travels_Count = nearbyData.Travels_Count;
-                        pass.pickup_location = nearbyData.getPickup_location();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("data", pass);
-                        RequestFragment fragobj = new RequestFragment();
-                        fragobj.setArguments(bundle);
-                        (context).getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frame, fragobj)
-                                .commit();
+                        if (list.size() > 0) {
+                            final NearbyData nearbyData = list.get(0);
+                            pass = new Pass();
+                            pass.f = Pass.fragment_type.GET;
+                            pass.setFromPlace(nearbyData.getPickup_address());
+                            pass.setToPlace(nearbyData.getDrop_address());
+                            pass.setFromAddress(nearbyData.getPickup_location());
+                            pass.setToAddress(nearbyData.getDrop_location());
+                            pass.setPickupPoint(nearbyData.getPickup_point());
+                            pass.setDriverId(nearbyData.getUser_id());
+                            //by ibrahim
+                            pass.setTravelId(nearbyData.getTravel_id());
+                            pass.setFare(nearbyData.getAmount());
+                            pass.setDriverName(nearbyData.getName());
+                            pass.setSmoke(nearbyData.getsmoked());
+                            pass.setDate(nearbyData.getTravel_date());
+                            pass.setTime(nearbyData.getTravel_time());
+                            pass.setAvalibleset(nearbyData.getBooked_set());
+                            pass.avatar = nearbyData.avatar;
+                            pass.vehicle_info = nearbyData.vehicle_info;
+                            pass.setVehicleName(nearbyData.getVehicle_info());
+                            pass.empty_set = nearbyData.empty_set;
+                            pass.DriverRate = nearbyData.DriverRate;
+                            pass.Travels_Count = nearbyData.Travels_Count;
+                            pass.pickup_location = nearbyData.getPickup_location();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("data", pass);
+                            RequestFragment fragobj = new RequestFragment();
+                            fragobj.setArguments(bundle);
+                            (context).getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.frame, fragobj)
+                                    .commit();
+                        }
                     }
                 } catch (JSONException e) {
                 }

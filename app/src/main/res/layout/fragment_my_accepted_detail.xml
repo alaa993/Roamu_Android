@@ -268,9 +268,9 @@
         android:layout_gravity="bottom">
 
         <LinearLayout
+            android:id="@+id/linear_child1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linear_child1"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -302,8 +302,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_below="@+id/linear_child1"
+            android:orientation="vertical"
             android:weightSum="2">
 
             <android.support.v7.widget.AppCompatButton
@@ -334,5 +334,25 @@
                 android:text="@string/cancel_ride"
                 android:visibility="gone" />
         </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/distancematrix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+
+        android:layout_marginBottom="0dip"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/driver_ern"
+            layout="@layout/distancematrix_informations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+
     </RelativeLayout>
 </FrameLayout>

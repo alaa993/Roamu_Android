@@ -289,7 +289,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             input_name.setText(user.getName());
             input_email.setText(user.getEmail());
             input_mobile.setText(user.getMobile());
-           // Glide.with(getActivity()).load(user.getAvatar()).apply(new RequestOptions().error(R.mipmap.ic_account_circle_black_24dp)).into(profile_pic);
+            // Glide.with(getActivity()).load(user.getAvatar()).apply(new RequestOptions().error(R.mipmap.ic_account_circle_black_24dp)).into(profile_pic);
         }
     }
 
@@ -302,7 +302,6 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/AvenirLTStd_Medium.otf");
         view.setTypeface(font);
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -361,6 +360,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             return false;
         }
     }
+
     public void getPhotoUri() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
@@ -373,12 +373,14 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 Glide.with(getActivity()).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(profile_pic);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
             }
         });
     }
+
     public void UpdateUser() {
         RequestParams params = new RequestParams();
         params.put("mobile", input_mobile.getText().toString().trim());

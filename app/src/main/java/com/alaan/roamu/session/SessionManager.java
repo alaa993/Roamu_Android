@@ -31,7 +31,7 @@ public class SessionManager {
     static SessionManager app;
 
     // Sharedpref file name
-    private static final String PREF_NAME = "taxiapp";
+    private static final String PREF_NAME = "roamu";
 
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";

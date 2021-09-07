@@ -26,6 +26,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class UsersCommentsFragment extends Fragment {
                     //adding artist to the list
                     comments.add(Comment);
                 }
-                //creating adapter
+           //creating adapter
                 CommentList commentAdapter = new CommentList(UsersCommentsFragment.this.getActivity(), comments);
                 //attaching adapter to the listview
                 listViewPosts.setAdapter(commentAdapter);

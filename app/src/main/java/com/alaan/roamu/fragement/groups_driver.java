@@ -25,10 +25,15 @@ import com.alaan.roamu.adapter.Group_membar_Adapter;
 import com.alaan.roamu.adapter.PromoAdapter;
 import com.alaan.roamu.pojo.Group_List_membar;
 import com.alaan.roamu.pojo.Group_membar;
+import com.alaan.roamu.pojo.PendingRequestPojo;
 import com.alaan.roamu.pojo.promopojo;
 import com.alaan.roamu.session.SessionManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +45,9 @@ import net.skoumal.fragmentback.BackFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -320,7 +327,27 @@ public class groups_driver extends Fragment implements BackFragment {
                 super.onSuccess(statusCode, headers, response);
                 Log.i("ibrahim", "response");
                 Log.i("ibrahim", response.toString());
+//                try {
+//                    Gson gson = new GsonBuilder().create();
+//                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+//                        List<Group_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_membar>>() {
+//                        }.getType());
+//                        if (response.has("data") && response.getJSONArray("data").length() > 0) {
+//                            if (list.size() > 0) {
+//                                addNotificationFirebase(String.valueOf(list.get(0).driver_id), "notification_add_driver_5_" + list.get(0).group_name);
+//                            }
+//                        }
+//                    } else {
+//                        Log.i("ibrahim", "sendStatus");
+//                        Log.i("ibrahim", "success else");
+//                    }
+//                } catch (JSONException e) {
+//                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+//                    Log.i("ibrahim", "sendstatus_onSuccess_catch");
+//                    Log.i("ibrahim", e.getMessage());
+//                }
                 Toast.makeText(getContext(), "Successfully Added To Group", Toast.LENGTH_SHORT).show();
+                //notifications
 //                getMemberList(Integer.parseInt(SessionManager.getUserId()));
 //                phone_number.setText("");
             }
@@ -348,10 +375,26 @@ public class groups_driver extends Fragment implements BackFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+//                try {
+//                    Gson gson = new GsonBuilder().create();
+//                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+//                        List<Group_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_membar>>() {
+//                        }.getType());
+//                        if (response.has("data") && response.getJSONArray("data").length() > 0) {
+//                            if (list.size() > 0) {
+//                                addNotificationFirebase(String.valueOf(list.get(0).driver_id), "notification_del_driver_5_" + list.get(0).group_name);
+//                            }
+//                        }
+//                    } else {
+//                        Log.i("ibrahim", "sendStatus");
+//                        Log.i("ibrahim", "success else");
+//                    }
+//                } catch (JSONException e) {
+//                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
+//                    Log.i("ibrahim", "sendstatus_onSuccess_catch");
+//                    Log.i("ibrahim", e.getMessage());
+//                }
                 Toast.makeText(getContext(), "Successfully Removed From Group", Toast.LENGTH_SHORT).show();
-//                phone_number.setText("");
-//                getMemberList(Integer.parseInt(SessionManager.getUserId()));
-
             }
 
             @Override
@@ -360,6 +403,18 @@ public class groups_driver extends Fragment implements BackFragment {
                 // swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    public void addNotificationFirebase(String id, String text) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(id).push();
+        Map<String, Object> rideObject = new HashMap<>();
+        rideObject.put("ride_id", "-2");
+        rideObject.put("travel_id", "-2");
+        rideObject.put("text", text);
+        rideObject.put("readStatus", "0");
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        rideObject.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseRef.setValue(rideObject);
     }
 
     public void changeFragment(final Fragment fragment, final String fragmenttag) {

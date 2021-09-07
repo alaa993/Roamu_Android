@@ -106,7 +106,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         LocationListener {
     String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     RelativeLayout relative_signin;
-    TextInputEditText input_email, input_password, input_confirmPassword, input_mobile, input_name;
+    TextInputEditText input_email, input_password, input_confirmPassword, input_mobile, input_name, input_last_name;
     AppCompatButton sign_up;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -192,6 +192,8 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     //   String mobile = input_mobile.getText().toString().trim();
                     //  String password = input_password.getText().toString().trim();
                     String name = input_name.getText().toString().trim();
+                    String lastname = input_last_name.getText().toString().trim();
+
                     try {
                         Geocoder geocoder;
                         List<Address> addresses = null;
@@ -241,10 +243,10 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     // utype = "0" means user and "1" = driver
                     // mtype = "0" means iOS  and "1" = Android
 
-                    if (input_name.getText().toString().trim().equals("")) {
+                    if (input_name.getText().toString().trim().equals("") || input_last_name.getText().toString().trim().equals("")) {
                         input_name.setError(getString(R.string.fiels_is_required));
                     } else {
-                        register(email, name, latitude, longitude, country, state, city, "1", token, "0", "");
+                        register(email, name + " " + lastname, latitude, longitude, country, state, city, "1", token, "0", "");
                         saveProfile(name);
                     }
 
@@ -544,7 +546,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         String uid = user.getUid();
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users/profile").child(uid);
         Map<String, Object> userObject = new HashMap<>();
-        userObject.put("username", input_name.getText().toString().trim());
+        userObject.put("username", input_name.getText().toString().trim() + " " + input_last_name.getText().toString().trim().equals(""));
         userObject.put("photoURL", "https://firebasestorage.googleapis.com/v0/b/roamu-f58c1.appspot.com/o/man-avatar-profile-vector-21372076.jpg?alt=media&token=d8d704ce-9ead-457e-af9e-fd9a263604b8");
         databaseRef.setValue(userObject);
     }
@@ -591,6 +593,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         input_password = (TextInputEditText) findViewById(R.id.input_password);
         input_confirmPassword = (TextInputEditText) findViewById(R.id.input_confirmPassword);
         input_name = (TextInputEditText) findViewById(R.id.input_name);
+        input_last_name = (TextInputEditText) findViewById(R.id.input_last_name);
         input_mobile = (TextInputEditText) findViewById(R.id.input_mobile);
         sign_up = (AppCompatButton) findViewById(R.id.sign_up);
 
@@ -607,7 +610,6 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         });
 
     }
-
 
 
     public void applyfonts() {

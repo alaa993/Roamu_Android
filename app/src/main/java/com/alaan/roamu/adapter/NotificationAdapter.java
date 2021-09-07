@@ -1,5 +1,7 @@
 package com.alaan.roamu.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -58,6 +60,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         this.context = context;
         this.notifications = notifications;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
@@ -69,25 +72,30 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         ImageView PostAvatar = (ImageView) listViewItem.findViewById(R.id.Notificatoin_image);
         Notification notification = notifications.get(position);
 
-        Log.i("ibrahim_1",notification.toString());
+        Log.i("ibrahim_1", notification.toString());
         textViewText.setText(notification.text);
-        try{
-            String resourceAppStatusString = "notification_".concat(notification.text);
-            int messageId = getResourceId(resourceAppStatusString, "string", context.getPackageName());
-            String message = context.getString(messageId);
-
-
-//        textViewText.setText(notification.text);
-            textViewText.setText(message);
+        try {
+            if (notification.text.contains("_5_")) {
+                String currentString = notification.text;
+                String[] separated = currentString.split("_5_");
+                String resourceAppStatusString = "notification_".concat(separated[1].trim());
+                int messageId = getResourceId(resourceAppStatusString, "string", context.getPackageName());
+                String message = context.getString(messageId);
+                textViewText.setText(message + separated[1].trim());
+            } else {
+                String resourceAppStatusString = "notification_".concat(notification.text);
+                int messageId = getResourceId(resourceAppStatusString, "string", context.getPackageName());
+                String message = context.getString(messageId);
+                textViewText.setText(message);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (notification.timestamp != null)
-        {
+        if (notification.timestamp != null) {
             Date date = new Date(notification.timestamp);
             SimpleDateFormat DateFor = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String stringDate= DateFor.format(date);
+            String stringDate = DateFor.format(date);
             textViewDate.setText(stringDate.toString());
         }
 
@@ -114,7 +122,9 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         });
         listViewItem.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GetRides(String.valueOf(notification.ride_id), notification.id);
+                if (notification.ride_id != "-2") {
+                    GetRides(String.valueOf(notification.ride_id), notification.id);
+                }
             }
         });
 
