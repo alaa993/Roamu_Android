@@ -142,8 +142,8 @@
     <string name="mobile_number">"رقم الهاتف المحمول"</string>
     <string name="email">"البريد الإلكتروني"</string>
     <string name="name">الاسم</string>
-    <string name="first_name">الإسم</string>
-    <string name="last_name">الكنية</string>
+    <string name="first_name">الإسم الأول</string>
+    <string name="last_name">الإسم الأخير</string>
     <string name="password">"كلمه السر"</string>
     <string name="confirm_password">"تأكيد كلمة المرور"</string>
     <string name="sign_up">"سجل"</string>
@@ -246,6 +246,7 @@
     <string name="enter_coubbon_number">أدخل رقم الكوبون</string>
     <string name="date_and_time">التاريخ</string>
     <string name="reseve">حجز</string>
+    <string name="confirm">تأكيد الحجز</string>
     <string name="empty_seats">عدد المسافرين الآخرين</string>
     <string name="driver_rate">تقييم الكابتن</string>
     <string name="carConditon">تقييم الأجرة</string>
@@ -367,6 +368,8 @@
     <string name="no">لا</string>
     <string name="yes">نعم</string>
     <string name="whatsapp">رقمنا</string>
+    <string name="upload_images">رجاءاً اختر صورة أولاً</string>
+    <string name="select_image">اختر صورة</string>
 
 
 </resources>

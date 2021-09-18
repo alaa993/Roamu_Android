@@ -412,7 +412,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
             if (ride_status.equalsIgnoreCase("WAITED")) {
                 btn_cancel.setVisibility(View.VISIBLE);
-                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setText(getString(R.string.confirm));
                 btn_complete.setVisibility(View.VISIBLE);
                 isStarted();
             }
@@ -621,7 +621,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
             if (ride_status.equalsIgnoreCase("WAITED")) {
                 btn_cancel.setVisibility(View.VISIBLE);
-                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setText(getString(R.string.confirm));
                 btn_complete.setVisibility(View.VISIBLE);
                 isStarted();
             }

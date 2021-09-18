@@ -36,6 +36,9 @@ public class PendingRequestPojo implements Serializable {
     public String car_type;
     public String ride_notes;
     public String tr_notes;
+    public String avatar;
+    public String vehicle_info;
+    public String model;
 
     public PendingRequestPojo() {
     }

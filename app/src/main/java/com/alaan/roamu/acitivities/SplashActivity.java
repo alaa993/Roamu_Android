@@ -126,6 +126,9 @@ public class SplashActivity extends ActivityManagePermission {
                             login(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber(), "");
                         }
                     });
+                } else {
+                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(i);
                 }
             } else {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);
@@ -167,7 +170,7 @@ public class SplashActivity extends ActivityManagePermission {
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                         finish();
-                        Toast.makeText(SplashActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(SplashActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
 

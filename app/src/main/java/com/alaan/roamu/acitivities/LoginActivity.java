@@ -286,7 +286,7 @@ public class LoginActivity extends ActivityManagePermission {
                     } else {
                         startActivity(new Intent(LoginActivity.this, phoneVerfication.class));
 
-                        Toast.makeText(LoginActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LoginActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
 
                     }
                 } catch (JSONException e) {
@@ -324,11 +324,11 @@ public class LoginActivity extends ActivityManagePermission {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         String data = response.getString("data");
 
-                        Toast.makeText(LoginActivity.this, data, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LoginActivity.this, data, Toast.LENGTH_LONG).show();
 
                     } else {
                         String data = response.getString("data");
-                        Toast.makeText(LoginActivity.this, data, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LoginActivity.this, data, Toast.LENGTH_LONG).show();
 
 
                     }

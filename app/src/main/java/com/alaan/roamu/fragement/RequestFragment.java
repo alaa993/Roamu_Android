@@ -637,10 +637,10 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 travel_id = pass.getTravelId();
                 car_name.setText(pass.getVehicleName());
                 if (!String.valueOf(pass.vehicle_info).isEmpty()) {
-                    Glide.with(RequestFragment.this.getActivity()).load(Server.BASE_URL + pass.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
+                    Glide.with(RequestFragment.this.getActivity()).load(pass.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
                 }
                 if (!String.valueOf(pass.avatar).isEmpty()) {
-                    Glide.with(RequestFragment.this.getActivity()).load(Server.BASE_URL + pass.avatar).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
+                    Glide.with(RequestFragment.this.getActivity()).load(pass.avatar).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
                 }
                 if (fare != null) {
                     fare = Double.valueOf(pass.getFare());

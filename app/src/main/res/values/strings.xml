@@ -181,7 +181,8 @@
     <string name="privacy_menu">General Provisions</string>
     <string name="carConditon">Fare Rate</string>
     <string name="Black_Sany">Black_sany_car_ui</string>
-    <string name="reseve">RESERVE</string>
+    <string name="reseve">Reserve</string>
+    <string name="confirm">Confirm</string>
 
 
     <!-- Strings used for fragments for navigation -->
@@ -311,5 +312,7 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="no">NO</string>
     <string name="yes">Yes</string>
     <string name="whatsapp">WhatsApp</string>
+    <string name="upload_images">please select an image first!</string>
+    <string name="select_image">Select image</string>
 
 </resources>

@@ -246,10 +246,10 @@ public class Requst_ride extends AppCompatActivity {
                 car_name.setText(pass.getVehicleName());
 
                 if (!String.valueOf(pass.vehicle_info).isEmpty()) {
-                    Glide.with(Requst_ride.this).load(Server.BASE_URL + pass.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
+                    Glide.with(Requst_ride.this).load(pass.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
                 }
                 if (!String.valueOf(pass.avatar).isEmpty()) {
-                    Glide.with(Requst_ride.this).load(Server.BASE_URL + pass.avatar).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
+                    Glide.with(Requst_ride.this).load(pass.avatar).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
                 }
 
                 if (fare != null) {

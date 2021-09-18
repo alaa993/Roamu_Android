@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alaan.roamu.custom.Utils;
 import com.alaan.roamu.fragement.ProfileFragment;
 import com.alaan.roamu.pojo.User;
 import com.bumptech.glide.Glide;
@@ -70,6 +71,7 @@ import com.alaan.roamu.custom.CheckConnection;
 import com.alaan.roamu.session.SessionManager;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.thebrownarrow.permissionhelper.ActivityManagePermission;
@@ -130,6 +132,10 @@ public class RegisterActivity extends ActivityManagePermission implements Google
     ProfileFragment.UpdateListener listener;
     String token;
     String format;
+
+
+    String photoURL = "";
+    boolean is_image_selected = false;
 
     public static String getMimeType(Context context, Uri uri) {
         String extension;
@@ -243,8 +249,12 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     // utype = "0" means user and "1" = driver
                     // mtype = "0" means iOS  and "1" = Android
 
-                    if (input_name.getText().toString().trim().equals("") || input_last_name.getText().toString().trim().equals("")) {
+                    if (input_name.getText().toString().trim().equals("")) {
                         input_name.setError(getString(R.string.fiels_is_required));
+                    } else if (input_last_name.getText().toString().trim().equals("")) {
+                        input_last_name.setError(getString(R.string.fiels_is_required));
+                    } else if (is_image_selected == false) {
+                        Toast.makeText(RegisterActivity.this, getString(R.string.upload_images), Toast.LENGTH_LONG).show();
                     } else {
                         register(email, name + " " + lastname, latitude, longitude, country, state, city, "1", token, "0", "");
                         saveProfile(name);
@@ -292,144 +302,192 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("permisson", "granted");
+                    TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(RegisterActivity.this)
+                            .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                                @Override
+                                public void onImageSelected(Uri uri) {
+                                    // here is selected uri
+//                                    imageProfile.setImageURI(uri);
+//                                    is_image_selected = true;
+                                    imageFile = new File(uri.getPath());
+                                    //  profile_pic.setImageURI(uri);
+                                    format = getMimeType(RegisterActivity.this, uri);
+                                    is_image_selected = true;
+                                }
+                            }).setOnErrorListener(new TedBottomPicker.OnErrorListener() {
+                                @Override
+                                public void onError(String message) {
+                                    Toast.makeText(RegisterActivity.this, getString(R.string.try_again), Toast.LENGTH_LONG).show();
+//                                    Log.d(getTag(), message);
+                                }
+                            })
+                            .create();
+
+                    tedBottomPicker.show(RegisterActivity.this.getSupportFragmentManager());
+
+                } else {
+
+                }
+            }
+        }
+    }
+
     public interface ProfileUpdateListener {
         void update(String url);
     }
 
     // Select Image method
     private void SelectImage() {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                requestForSpecificPermission();
+            } else {
+                TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(RegisterActivity.this)
+                        .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                            @Override
+                            public void onImageSelected(Uri uri) {
+                                // here is selected uri
+                                imageFile = new File(uri.getPath());
+                                // profile_pic.setImageURI(uri);
+                                format = getMimeType(RegisterActivity.this, uri);
+                                Glide.with(RegisterActivity.this).load(uri.getPath()).apply(new RequestOptions().error(R.drawable.user_default)).into(imageProfile);
+                                is_image_selected = true;
+//                                upload_pic(format);
+                                       /* if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("png") || format.equalsIgnoreCase("gif") || format.equalsIgnoreCase("jpeg")) {
 
-        // Defining Implicit Intent to mobile gallery
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(
-                Intent.createChooser(
-                        intent,
-                        "Select Image from here..."),
-                PICK_IMAGE_REQUEST);
+                                        } else {
+                                            Toast.makeText(getActivity(), "jpg,png or gif is only accepted", Toast.LENGTH_LONG).show();
+                                        }*/
+                            }
+                        }).setOnErrorListener(new TedBottomPicker.OnErrorListener() {
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
+//                                Log.d(getTag(), message);
+                            }
+                        })
+                        .create();
+
+                tedBottomPicker.show(RegisterActivity.this.getSupportFragmentManager());
+            }
+
+
+        } else {
+            TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(RegisterActivity.this)
+                    .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                        @Override
+                        public void onImageSelected(Uri uri) {
+                            // here is selected uri
+                            imageFile = new File(uri.getPath());
+                            //  profile_pic.setImageURI(uri);
+                            format = getMimeType(RegisterActivity.this, uri);
+                            is_image_selected = true;
+//                            upload_pic(format);
+                        }
+                    }).setOnErrorListener(new TedBottomPicker.OnErrorListener() {
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
+//                            Log.d(getTag(), message);
+                        }
+                    })
+                    .create();
+
+            tedBottomPicker.show(RegisterActivity.this.getSupportFragmentManager());
+        }
     }
 
-//    private void uploadImage() {
-//        if (mImageUri != null) {
+//    public void upload_pic(String type) {
+//        RequestParams params = new RequestParams();
+//        if (imageFile != null) {
+//            try {
+//                log.i("Message", "ibrahim-------------------imageFile");
+//                log.i("type", type);
+//                log.i("imageFile", imageFile.toString());
 //
-////            // Code for showing progressDialog while uploading
-////            ProgressDialog progressDialog
-////                    = new ProgressDialog(this);
-////            progressDialog.setTitle("Uploading...");
-////            progressDialog.show();
+//                if (type.equals("jpg")) {
+//                    params.put("avatar", imageFile, "image/jpeg");
+//                } else if (type.equals("jpeg")) {
+//                    params.put("avatar", imageFile, "image/jpeg");
+//                } else if (type.equals("png")) {
+//                    params.put("avatar", imageFile, "image/png");
+//                } else {
+//                    params.put("avatar", imageFile, "image/gif");
+//                }
 //
-//            // Defining the child of storageReference
-//            StorageReference ref
-//                    = storageRef
-//                    .child(
-//                            "images/"
-//                                    + UUID.randomUUID().toString());
-//
-//            // adding listeners on upload
-//            // or failure of image
-//            ref.putFile(mImageUri)
-//                    .addOnSuccessListener(
-//                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//
-//                                @Override
-//                                public void onSuccess(
-//                                        UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                                    // Image uploaded successfully
-//                                    // Dismiss dialog
-////                                    progressDialog.dismiss();
-//                                    Toast
-//                                            .makeText(RegisterActivity.this,
-//                                                    "Image Uploaded!!",
-//                                                    Toast.LENGTH_SHORT)
-//                                            .show();
-//                                }
-//                            })
-//
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//
-//                            // Error, Image not uploaded
-////                            progressDialog.dismiss();
-//                            Toast
-//                                    .makeText(RegisterActivity.this,
-//                                            "Failed " + e.getMessage(),
-//                                            Toast.LENGTH_SHORT)
-//                                    .show();
-//                        }
-//                    })
-//                    .addOnProgressListener(
-//                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-//
-//                                // Progress Listener for loading
-//                                // percentage on the dialog box
-//                                @Override
-//                                public void onProgress(
-//                                        UploadTask.TaskSnapshot taskSnapshot) {
-//                                    double progress
-//                                            = (100.0
-//                                            * taskSnapshot.getBytesTransferred()
-//                                            / taskSnapshot.getTotalByteCount());
-////                                    progressDialog.setMessage(
-////                                            "Uploaded "
-////                                                    + (int) progress + "%");
-//                                }
-//                            });
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                Log.d("catch", e.toString());
+//            }
 //        }
+//        Server.setHeader(SessionManager.getKEY());
+//        log.i("Message", "ibrahim-------------------userid");
+//        log.i("Message", SessionManager.getUserId());
+//        log.i("Message", "ibrahim-------------------userid");
+//
+//        params.put("user_id", SessionManager.getUserId());
+//        Server.post("api/user/uploadimage/format/json", params, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                super.onSuccess(statusCode, headers, response);
+//                log.i("successfully", "ibrahim---------------------------------------------------");
+//                Log.e("success", response.toString());
+//
+//                try {
+//                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+//
+//                        String rurl = response.getJSONObject("data").getString("avatar");
+//                        imageProfile.setImageBitmap(null);
+//
+//                        Glide.with(RegisterActivity.this).load(rurl).apply(new RequestOptions().error(R.mipmap.ic_account_circle_black_24dp)).into(imageProfile);
+//                        SessionManager.setAvatar(rurl);
+//                        profileUpdateListener.update(rurl);
+////                        Toast.makeText(RegisterActivity.this, getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
+//
+//                    } else {
+//
+////                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
+//
+//                    }
+//                } catch (JSONException e) {
+//                    log.i("Fail", "ibrahim-------------------");
+//                    Log.e("catch", e.toString());
+//                    Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+////                progressBar.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                super.onFailure(statusCode, headers, responseString, throwable);
+//                Log.e("fail", responseString);
+//
+//                Toast.makeText(RegisterActivity.this, getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+//
 //    }
 
-//    public void uploadImage2() {
-//        if(mImageUri != null) {
-////            pd.show();
-//            StorageReference childRef = storageRef.child("image123wqas.jpg");
-//
-////            //uploading the image
-//            UploadTask uploadTask = childRef.putFile(mImageUri);
-//
-//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-////                    pd.dismiss();
-//                    Toast.makeText(RegisterActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-////                    pd.dismiss();
-//                    Toast.makeText(RegisterActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-////            childRef.putFile(mImageUri)
-////                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-////                        @Override
-////                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-////                            // Get a URL to the uploaded content
-////                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-////                        }
-////                    })
-////                    .addOnFailureListener(new OnFailureListener() {
-////                        @Override
-////                        public void onFailure(@NonNull Exception exception) {
-////                            // Handle unsuccessful uploads
-////                            // ...
-////                        }
-////                    });
-//        }
-//        else {
-//            Toast.makeText(RegisterActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-    public void upload_pic(String type, String user_id) {
+    public void upload_pic(String type) {
+//        progressBar.setVisibility(View.VISIBLE);
         RequestParams params = new RequestParams();
         if (imageFile != null) {
             try {
-                log.i("Message", "ibrahim-------------------imageFile");
-                log.i("type", type);
-                log.i("imageFile", imageFile.toString());
 
                 if (type.equals("jpg")) {
                     params.put("avatar", imageFile, "image/jpeg");
@@ -440,65 +498,66 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                 } else {
                     params.put("avatar", imageFile, "image/gif");
                 }
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Log.d("catch", e.toString());
             }
         }
         Server.setHeader(SessionManager.getKEY());
-        log.i("Message", "ibrahim-------------------userid");
-        log.i("Message", SessionManager.getUserId());
-        log.i("Message", "ibrahim-------------------userid");
+        params.put("user_id", SessionManager.getUserId());
 
-        params.put("user_id", user_id);
-        Server.post("api/user/uploadimage/format/json", params, new JsonHttpResponseHandler() {
+        Server.post("api/user/update/format/json", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                log.i("successfully", "ibrahim---------------------------------------------------");
                 Log.e("success", response.toString());
-
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        String url = response.getJSONObject("data").getString("avatar");
+                        try {
+                            Glide.with(RegisterActivity.this).load(photoURL).apply(new RequestOptions().error(R.drawable.user_default)).into(imageProfile);
+                        } catch (Exception e) {
+                        }
+                        User user = SessionManager.getUser();
+                        user.setAvatar(url);
+                        Gson gson = new Gson();
+                        SessionManager.setUser(gson.toJson(user));
+//                        profileUpdateListener.update(url);
+//                        input_name.setText(user.getName());
+//                        input_email.setText(user.getEmail());
+//                        input_mobile.setText(user.getMobile());
+//                        input_vehicle.setText(user.getVehicle_info());
 
-                        String rurl = response.getJSONObject("data").getString("avatar");
-                        imageProfile.setImageBitmap(null);
-
-                        Glide.with(RegisterActivity.this).load(rurl).apply(new RequestOptions().error(R.mipmap.ic_account_circle_black_24dp)).into(imageProfile);
-                        SessionManager.setAvatar(rurl);
-                        profileUpdateListener.update(rurl);
-//                        Toast.makeText(RegisterActivity.this, getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
+                        try {
+                            FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+                            String uid = fuser.getUid();
+                            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users/profile").child(uid);
+                            Map<String, Object> userObject = new HashMap<>();
+                            userObject.put("photoURL", url);
+                            databaseRef.updateChildren(userObject);
+                        } catch (Exception e) {
+                        }
 
                     } else {
-
-//                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
-
+//                        progressBar.setVisibility(View.GONE);
+                        if (response.has("data")) {
+//                            Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
+                        }
                     }
                 } catch (JSONException e) {
-                    log.i("Fail", "ibrahim-------------------");
-                    Log.e("catch", e.toString());
+//                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
-
                 }
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-//                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("fail", responseString);
-
-                Toast.makeText(RegisterActivity.this, getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
+//                progressBar.setVisibility(View.GONE);
+                Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
             }
         });
-
     }
 
     private void uploadImage() {
@@ -546,7 +605,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         String uid = user.getUid();
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users/profile").child(uid);
         Map<String, Object> userObject = new HashMap<>();
-        userObject.put("username", input_name.getText().toString().trim() + " " + input_last_name.getText().toString().trim().equals(""));
+        userObject.put("username", input_name.getText().toString().trim() + " " + input_last_name.getText().toString().trim());
         userObject.put("photoURL", "https://firebasestorage.googleapis.com/v0/b/roamu-f58c1.appspot.com/o/man-avatar-profile-vector-21372076.jpg?alt=media&token=d8d704ce-9ead-457e-af9e-fd9a263604b8");
         databaseRef.setValue(userObject);
     }
@@ -611,7 +670,6 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 
     }
 
-
     public void applyfonts() {
         TextView textView = (TextView) findViewById(R.id.txt_register);
         Typeface font = Typeface.createFromAsset(getAssets(), "font/AvenirLTStd_Medium.otf");
@@ -657,22 +715,26 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
 
-                        Toast.makeText(RegisterActivity.this, "success", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(RegisterActivity.this, "success", Toast.LENGTH_LONG).show();
                         SessionManager.setKEY(response.getJSONObject("data").getString("key"));
-                        //
-//                        saveProfile(name);
-                        //
-//                        String user_id = response.getJSONObject("data").getString("user_id");
-//                        Log.i("Message", "ibrahim------------------------------------------response");
-//                        Log.i("response", response.getString("data").toString());
-//                        Log.i("Message", "ibrahim------------------------------------------response");
-//                        Log.i("response", user_id);
-//                        Log.i("Message", "ibrahim------------------------------------------response");
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        if (auth.getCurrentUser() != null) {
+                            if (!FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().isEmpty()) {
+                                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                                        token = instanceIdResult.getToken();
+                                        SessionManager.setGcmToken(token);
+                                    }
+                                });
+                                login(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber(), input_password.getText().toString().trim());
 
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            }
+                        }
+
                         finish();
                     } else {
-                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(RegisterActivity.this, "error occurred", Toast.LENGTH_LONG).show();
@@ -698,6 +760,53 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         });
     }
 
+    public void login(String email, String password) {
+
+        RequestParams params = new RequestParams();
+        params.put("mobile", email);
+        // params.put("password", password);
+        params.put("utype", "0");
+        params.put("gcm_token", token);
+//        Log.e("TOKEN",token);
+        Server.post("user/loginByMobile/format/json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+
+                        Utils utils = new Utils(RegisterActivity.this);
+                        utils.isAnonymouslyLoggedIn();
+
+                        Gson gson = new Gson();
+                        User user = gson.fromJson(response.getJSONObject("data").toString(), User.class);
+                        Log.i("ibrahim", "response.getJSONObject(\"data\").toString()");
+                        Log.i("ibrahim", response.getJSONObject("data").toString());
+                        SessionManager.setUser(gson.toJson(user));
+                        SessionManager.setIsLogin();
+                        upload_pic(format);
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    } else {
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

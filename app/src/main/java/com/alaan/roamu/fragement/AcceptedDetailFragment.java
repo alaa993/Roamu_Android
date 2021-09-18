@@ -36,8 +36,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alaan.roamu.pojo.Post;
 import com.alaan.roamu.pojo.firebaseRide;
 import com.alaan.roamu.pojo.firebaseTravel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -398,7 +401,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             dateandtime.setText(rideJson.getDate());
             txt_Empty_Seats.setText(rideJson.getempty_set());
 //            txt_city.setText(rideJson.);
-            car_name.setText(rideJson.getDriver_name());
+            car_name.setText(rideJson.model);
             txt_Driver_name.setText(rideJson.getDriver_name());
             num_set.setText(rideJson.getBooked_set());
             mobilenumber.setOnClickListener(new View.OnClickListener() {
@@ -431,7 +434,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
             if (ride_status.equalsIgnoreCase("WAITED")) {
                 btn_cancel.setVisibility(View.VISIBLE);
-                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setText(getString(R.string.confirm));
                 btn_complete.setVisibility(View.VISIBLE);
                 isStarted();
             }
@@ -576,9 +579,9 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
                     Log.i("ibrahim_waited", "--------------");
                     sendStatus(rideJson.getRide_id(), "ACCEPTED");
                     updateTravelFirebase();
+                    deletePostFirebase();
                     //send notification
                     addNotificationFirebase(rideJson.getRide_id(), rideJson.getTravel_id());
-
                 }
                 if (ride_status.equalsIgnoreCase("ACCEPTED") || ride_status.equalsIgnoreCase("COMPLETED")) {// edited by ibrahim it was completed date:21/1/2021
                     Log.i("ibrahim_completed", "--------------");
@@ -639,6 +642,30 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 //        }
     }
 
+    public void deletePostFirebase() {
+        Log.i("ibrahim", "deletePostFirebase");
+        FirebaseDatabase.getInstance().getReference("posts").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("ibrahim", "dataSnapshot");
+                Log.i("ibrahim", dataSnapshot.toString());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Log.i("ibrahim", "dataSnapshot");
+                    Log.i("ibrahim", postSnapshot.toString());
+                    Post post = postSnapshot.getValue(Post.class);
+                    if (rideJson.getTravel_id().equalsIgnoreCase(String.valueOf(post.travel_id))) {
+                        Log.i("ibrahim", "dataSnapshot");
+                        Log.i("ibrahim", post.text);
+                        postSnapshot.getRef().removeValue();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
     public void updateTravelCounterFirebase() {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -671,6 +698,12 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
             dateandtime.setText(rideJson.getDate());
             txt_Empty_Seats.setText(rideJson.getempty_set());
             num_set.setText(rideJson.getBooked_set());
+            if (!String.valueOf(rideJson.vehicle_info).isEmpty()) {
+                Glide.with(AcceptedDetailFragment.this.getActivity()).load(rideJson.vehicle_info).apply(new RequestOptions().error(R.drawable.images)).into(DriverCar);
+            }
+            if (!String.valueOf(rideJson.getDriver_avatar()).isEmpty()) {
+                Glide.with(AcceptedDetailFragment.this.getActivity()).load(rideJson.getDriver_avatar()).apply(new RequestOptions().error(R.drawable.images)).into(DriverAvatar);
+            }
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -699,7 +732,7 @@ public class AcceptedDetailFragment extends FragmentManagePermission implements 
 
             if (ride_status.equalsIgnoreCase("WAITED")) {
                 btn_cancel.setVisibility(View.VISIBLE);
-                btn_complete.setText(getString(R.string.reseve));
+                btn_complete.setText(getString(R.string.confirm));
                 btn_complete.setVisibility(View.VISIBLE);
                 isStarted();
             }
