@@ -14,6 +14,7 @@ public class PendingRequestPojo implements Serializable {
     private String pickup_address;
     private String drop_address;
     private String pickup_point;
+    public String ride_pickup_point;
     private String pickup_location;
     private String drop_location;
     private String distance;
@@ -39,6 +40,8 @@ public class PendingRequestPojo implements Serializable {
     public String avatar;
     public String vehicle_info;
     public String model;
+    public String ride_type;
+
 
     public PendingRequestPojo() {
     }

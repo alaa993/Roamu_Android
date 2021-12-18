@@ -56,8 +56,6 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void SavePost() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();

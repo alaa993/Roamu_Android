@@ -20,29 +20,29 @@ public class Server {
 
     public static final String FORMAT = "/format/json";
     public static final String BASE_URL = "https://roamu.net/";            // Your admin panel URL
-    public static final String ENVIRONMENT= PayPalConfiguration.ENVIRONMENT_SANDBOX;    //PayPalConfiguration.ENVIRONMENT_PRODUCTION     for production
-    public static final String PAYPAL_KEY="AYi2W29-PSkOI0-utUCLVEuPL1qP8BjYCEOAz3OlnDomdc8yXl10QbGJVX3yc7QgZwM2AEgGn-3K-aoM";     //This quiz is required for place auto complete
+    public static final String ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;    //PayPalConfiguration.ENVIRONMENT_PRODUCTION     for production
+    public static final String PAYPAL_KEY = "AYi2W29-PSkOI0-utUCLVEuPL1qP8BjYCEOAz3OlnDomdc8yXl10QbGJVX3yc7QgZwM2AEgGn-3K-aoM";     //This quiz is required for place auto complete
     public static final String GET_SPECIFIC_RIDE = BASE_URL + "api/user/ride_specific" + FORMAT;
     public static final String UPDATE = BASE_URL + "api/user/update" + FORMAT;
     public static final String GET_REQUEST1 = BASE_URL + "api/user/rides2" + FORMAT;
-    public static final String GET_MEBLIST =  BASE_URL + "api/driver/getGroupList" +FORMAT;
-    public static final String GET_GROUP = BASE_URL + "api/driver/getAdminGroupInfo" +FORMAT;
-    public static final String GET_MyGroupLIST =  BASE_URL + "api/driver/getMyGroupList" +FORMAT;
-    public static String addGruop = "api/driver/addgroup"+FORMAT;
-    public static String ChangeGruopName = "api/driver/editgroup"+FORMAT;
-    public static String add_user_Gruop =  "api/driver/addUserToGroup"+ FORMAT;
-    public static String remove_user_Gruop =  "api/driver/delUserFromGroup"+ FORMAT;
+    public static final String GET_MEBLIST = BASE_URL + "api/driver/getGroupList" + FORMAT;
+    public static final String GET_GROUP = BASE_URL + "api/driver/getAdminGroupInfo" + FORMAT;
+    public static final String GET_MyGroupLIST = BASE_URL + "api/driver/getMyGroupList" + FORMAT;
+    public static String addGruop = "api/driver/addgroup" + FORMAT;
+    public static String ChangeGruopName = "api/driver/editgroup" + FORMAT;
+    public static String add_user_Gruop = "api/driver/addUserToGroup" + FORMAT;
+    public static String remove_user_Gruop = "api/driver/delUserFromGroup" + FORMAT;
+    public static final String ride_type_change = "api/user/ride_type_change" + FORMAT;
 
     private static final String TAG = "server";
     private static AsyncHttpClient client = new AsyncHttpClient();
-
 
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.setTimeout(3000);
         client.get(getAbsoluteUrl(url), params, responseHandler);
 
-        Log.e(TAG, getAbsoluteUrl(url)+params.toString());
+        Log.e(TAG, getAbsoluteUrl(url) + params.toString());
     }
 
     public static void postSync(String url, RequestParams params, JsonHttpResponseHandler jsonHttpResponseHandler) {
@@ -64,6 +64,7 @@ public class Server {
         return BASE_URL + relativeUrl;
 
     }
+
     public static void getPublic(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.setTimeout(3000);
         client.get(url, params, responseHandler);

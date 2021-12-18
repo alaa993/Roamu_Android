@@ -11,14 +11,19 @@
         android:title="@string/map"></item>
 
     <item
+        android:id="@+id/my_requests"
+        android:icon="@mipmap/ic_hourglass_empty_black_24dp"
+        android:title="@string/my_requests"></item>
+
+    <item
         android:id="@+id/my_accepted_requests"
         android:icon="@mipmap/ic_hourglass_empty_black_24dp"
         android:title="@string/my_accepted_travels" />
 
     <item
-        android:id="@+id/my_requests"
+        android:id="@+id/my_scheduled_requests"
         android:icon="@mipmap/ic_hourglass_empty_black_24dp"
-        android:title="@string/my_requests"></item>
+        android:title="@string/my_sechduled_travels"></item>
 
     <item
         android:id="@+id/profile"

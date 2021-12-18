@@ -40,7 +40,7 @@ public class lang extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    Button b1,b2,b3;
+    Button b1, b2;
     View view;
 
 
@@ -49,27 +49,28 @@ public class lang extends Fragment {
     public lang() {
         // Required empty public constructor
     }
+
     public void BindView() {
 
-        b1=view.findViewById(R.id.b1en);
-        b2=view.findViewById(R.id.b2ar);
+        b1 = view.findViewById(R.id.b1en);
+        b2 = view.findViewById(R.id.b2ar);
 
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setLocale("en",getActivity());
+                setLocale("en", getActivity());
                 getActivity().recreate();
-                Stash.put("TAG_LANG","en");
+                Stash.put("TAG_LANG", "en");
 
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setLocale("ar",getActivity());
+                setLocale("ar", getActivity());
                 getActivity().recreate();
-                Stash.put("TAG_LANG","ar");
+                Stash.put("TAG_LANG", "ar");
 
 
             }
@@ -132,10 +133,9 @@ public class lang extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else
-            {
+        } else {
 
-            }
+        }
     }
 
     @Override
@@ -160,14 +160,14 @@ public class lang extends Fragment {
     }
 
     @SuppressLint("NewApi")
-    public static void setLocale(String lang , Context context){
+    public static void setLocale(String lang, Context context) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
         configuration.locale = locale;
         if (lang.contains("ku")) {
             configuration.setLayoutDirection(new Locale("ar"));
-        }else {
+        } else {
             configuration.setLayoutDirection(new Locale(lang));
         }
 
@@ -177,11 +177,11 @@ public class lang extends Fragment {
         editor.apply();
     }
 
-    public static void  loadLocale(Context context){
+    public static void loadLocale(Context context) {
         SharedPreferences pref = context.getSharedPreferences("Settings", MODE_PRIVATE);
         String lang = pref.getString("lang", "ar");
         LANGUAGE = lang;
-        setLocale(lang,context);
+        setLocale(lang, context);
 
     }
 }

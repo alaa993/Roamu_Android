@@ -139,11 +139,13 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     private String driver_id, passanger_value, bag_value, smoke_value, date_time_value, time_value;
     private String cost;
     private String unit;
+    EditText mPickupPoint;
     private int PLACE_PICKER_REQUEST = 7896;
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
     private int PLACE_search_AUTOCOMPLETE_REQUEST_CODE = 7777;
     private int PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE = 7778;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private int POINT_PICKER_REQUEST = 12345;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     //    private Double currentLatitude;
@@ -173,10 +175,12 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     //    MapView mMapView;
     Pass pass;
     Place pickup, drop, s_drop, s_pic;
+    Place point;
+    String p = "";
     ProgressBar progressBar;
     private PlacesClient placesClient;
     RecyclerView recyclerView;
-    private CheckBox Checkbox;
+    private CheckBox Checkbox,Checkbox2;
 
     TextView NS_car_type;
     Spinner droplist;
@@ -259,20 +263,39 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                             final EditText mPassengers = (EditText) mView.findViewById(R.id.etPassengers);
                             final EditText etNotes = (EditText) mView.findViewById(R.id.etNotes);
 //                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
+                            mPickupPoint = (EditText) mView.findViewById(R.id.etPickupPoint);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
                             Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
+                            Checkbox2 = (CheckBox) mView.findViewById(R.id.checkBox2);
                             mBuilder.setView(mView);
                             final AlertDialog dialog = mBuilder.create();
                             dialog.show();
+                            mPickupPoint.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Places.initialize(getActivity(), getString(R.string.google_android_map_api_key));
+                                    List<com.google.android.libraries.places.api.model.Place.Field> fields =
+                                            Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID,
+                                                    com.google.android.libraries.places.api.model.Place.Field.NAME,
+                                                    com.google.android.libraries.places.api.model.Place.Field.ADDRESS,
+                                                    com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
+                                    Intent intent = new Autocomplete.IntentBuilder(
+                                            AutocompleteActivityMode.FULLSCREEN, fields)
+                                            .build(getActivity());
+                                    startActivityForResult(intent, POINT_PICKER_REQUEST);
+                                }
+                            });
                             mSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!mPassengers.getText().toString().isEmpty()) {
+                                    if (!mPassengers.getText().toString().isEmpty() && !mPickupPoint.getText().toString().isEmpty()) {
                                         dialog.dismiss();
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
-                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(0), "0", String.valueOf(mPassengers.getText()), String.valueOf(etNotes.getText()));
+                                        if (point != null)
+                                            p = String.valueOf(point.getLatLng().latitude) + "," + String.valueOf(point.getLatLng().longitude);
+                                        AddRide(SessionManager.getKEY(), s_pic.getAddress(), s_drop.getAddress(), from_add, to_add, String.valueOf(0), "0", mPickupPoint.getText().toString(), p, String.valueOf(mPassengers.getText()), String.valueOf(etNotes.getText()));
                                     } else {
                                         Toast.makeText(HomeFragment.this.getContext(),
                                                 "Failed",
@@ -404,7 +427,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         } else if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 pickup = Autocomplete.getPlaceFromIntent(data);
-                pickup_location.setText(pickup.getAddress());
+                pickup_location.setText(pickup.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.e(TAG, status.toString());
@@ -413,7 +436,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 drop = Autocomplete.getPlaceFromIntent(data);
-                drop_location.setText(drop.getAddress());
+                drop_location.setText(drop.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -421,7 +444,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         } else if (requestCode == PLACE_search_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 s_drop = Autocomplete.getPlaceFromIntent(data);
-                search_drop_location.setText(s_drop.getAddress());
+                search_drop_location.setText(s_drop.getName());
                 Log.e(TAG, "search_drop: " + PLACE_search_AUTOCOMPLETE_REQUEST_CODE);
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -430,7 +453,15 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         } else if (requestCode == PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 s_pic = Autocomplete.getPlaceFromIntent(data);
-                search_pich_location.setText(s_pic.getAddress());
+                search_pich_location.setText(s_pic.getName());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == POINT_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                point = Autocomplete.getPlaceFromIntent(data);
+                mPickupPoint.setText(point.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -1269,7 +1300,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     }
 
     // pending request by ibrahim
-    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String booked_set, String ride_notes) {
+    public void AddRide(String key, String pickup_address, String drop_address, String pickup_location, String drop_location, String amount, String distance, String PickupPoint, String pickup_point_location, String booked_set, String ride_notes) {
         final RequestParams params = new RequestParams();
         params.put("driver_id", "-1");
         //by ibrahim
@@ -1281,6 +1312,8 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         params.put("time", time_value);
         params.put("pickup_location", pickup_location);
         params.put("drop_location", drop_location);
+        params.put("ride_pickup_point", PickupPoint);
+        params.put("ride_pickup_point_location", pickup_point_location);
         params.put("Ride_smoked", "0");
         params.put("amount", amount);
         params.put("distance", distance);
@@ -1288,6 +1321,9 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         params.put("booked_set", booked_set);
         params.put("car_type", carType);
         params.put("ride_notes", ride_notes);
+        if (Checkbox2.isChecked()) {
+            params.put("ride_type", "1");
+        }
         Server.setHeader(key);
         Server.post("api/user/addRide2/format/json", params, new JsonHttpResponseHandler() {
             @Override

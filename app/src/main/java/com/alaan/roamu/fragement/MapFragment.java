@@ -146,7 +146,8 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
     Animation animFadeIn, animFadeOut;
     String TAG = "home";
     LinearLayout linear_request;
-    String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
+    String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE,
+            PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     //    CardView rides, earnings;
     private String driver_id = "";
     private String cost = "";
@@ -996,11 +997,6 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.i("ibrahim", "insideMarker");
-//        if (footer2.getVisibility() == View.GONE) {
-//            footer2.setVisibility(View.VISIBLE);
-//        } else {
-//            footer2.setVisibility(View.GONE);
-//        }
         textView_totalride.setText("");
         textView_today.setText("");
         textView_overall.setText("");

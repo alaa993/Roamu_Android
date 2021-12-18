@@ -13,7 +13,7 @@
 
     <string name="paypal_payment_currency">"دولار أمريكي"</string>
 
-    <string name="cash_on_hand">طلب الدفع النقدي للسائق</string>
+    <string name="cash_on_hand">طلب الدفع النقدي للكابتن</string>
 
 
     <string name="contact_admin">"هناك بعض المشاكل. يرجى الاتصال بالمسؤول الخاص بك."</string>
@@ -108,7 +108,7 @@
     <string name="vehicle_name">"اسم السيارة"</string>
 
 
-    <string name="Track_Driver">"سائق السيارة"</string>
+    <string name="Track_Driver">"كابتن السيارة"</string>
 
     <string name="Track_Ride">"مسار الرحلة"</string>
 
@@ -215,7 +215,7 @@
     <string name="phone">هاتف</string>
     <!--    // by ibrahim-->
     <string name="about_us"><![CDATA["عن التطبيق
-يعمل التطبيق في مجال التنقل التشاركي ، مع ميزة رائدة في هذا النوع من التنقل ، إذ منحنا كلا من صاحب وسيلة النقل و المستخدم فرصة الحجز لدى الآخر بحرية تامة   و عندما يرغب المسافر الذهاب إلى منطقة داخل مدينته أو إلى مدينة اخرى يبحث عن وسائل النقل المتاحة في الوقت المناسب له ، و يختار ما يرى أنها مناسبة لرحلته من بين السيارات المتاحة ، و للسائق حرية الموافقة أو الاعتذار بعد مشاهدة ملف المسافر.
+يعمل التطبيق في مجال التنقل التشاركي ، مع ميزة رائدة في هذا النوع من التنقل ، إذ منحنا كلا من صاحب وسيلة النقل و المستخدم فرصة الحجز لدى الآخر بحرية تامة   و عندما يرغب المسافر الذهاب إلى منطقة داخل مدينته أو إلى مدينة اخرى يبحث عن وسائل النقل المتاحة في الوقت المناسب له ، و يختار ما يرى أنها مناسبة لرحلته من بين السيارات المتاحة ، و للكابتن حرية الموافقة أو الاعتذار بعد مشاهدة ملف المسافر.
 و يبحث الكابتن عن الراغبين بالسفر في التوقيت الذي يغادر به و الوجهة المقررة ، و يختار المسافرين المناسبين للسفر معه ، و تكون الموافقة النهائية  للمسافر نفسه بعد الاطلاع على ملف الكابتن و تقييمه من قبل الآخرين.
 التقييم في التطبيق لا يقتصر على  المركبة  واداء الكابتن فقط ، بل اضفنا تقييما للأجرة التي يحددها صاحب السيارة ، و هدفنا  من ذلك تقديم افضل الأسعار و خدمة متميزة للمسافرين مع التطبيق.
 يكون المسافر على اطلاع قبل الحجز على مواصفات المركبة و عدد الحقائب المسموح بها ، و فيما إذا كان مسموحا بالتدخين خلال الرحلة من عدمه.
@@ -238,9 +238,10 @@
     <string name="privacy_menu">الأحكام العامة</string>
 
     <!--    // by ibrahim-->
-    <string name="enter_number_of_passengers_trip_price">أدخل عدد الركاب وسعر الرحلة</string>
+    <string name="enter_number_of_passengers_trip_price">أدخل عدد الركاب وسعر المقعد الواحد</string>
     <string name="number_of_passengers_1">عدد الركاب، 1</string>
-    <string name="trip_price">سعر الرحلة</string>
+    <string name="number_of_passengers">عدد الركاب</string>
+    <string name="trip_price">سعر المقعد الواحد</string>
     <string name="submit">إرسال</string>
     <string name="cancel">إلغاء</string>
     <string name="enter_coubbon_number">أدخل رقم الكوبون</string>
@@ -252,6 +253,7 @@
     <string name="carConditon">تقييم الأجرة</string>
     <string name="travels_count">الرحلات المنجزة</string>
     <string name="pickup_point">نقطة التقاط</string>
+    <string name="my_location">موقعي (اختياري)</string>
     <string name="platform">منصة التواصل الاجتماعي</string>
     <string name="what_is_on_your_mind">ماذا يدور في ذهنك!!</string>
     <string name="add">أضف</string>
@@ -280,7 +282,7 @@
     <string name="about_driver">عن الكابتن</string>
     <string name="my_requests">رحلاتي</string>
     <string name="request_type">نوع الطلب</string>
-    <string name="nominate_a_driver">ترشيح سائق</string>
+    <string name="nominate_a_driver">ترشيح كابتن</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="Black_Sany">صني سوداء</string>
     <string name="driver_city">مدينة الكابتن</string>
@@ -345,10 +347,10 @@
     <string name="Driver_Phone_number">رقم الهاتف</string>
     <string name="delet_driver">حذف الكابتن</string>
     <string name="country">المدينة</string>
-    <string name="add_Driver">إضافة سائق</string>
+    <string name="add_Driver">إضافة كابتن</string>
 
     <string name="addChangeGroup">إضافة مجموعة أو تغيير اسم المجموعة</string>
-    <string name="addDeleteDriver">إضافة أو حذف سائق</string>
+    <string name="addDeleteDriver">إضافة أو حذف كابتن</string>
     <string name="drivers">المجموعة</string>
     <string name="GOD">إدارة المجموعات</string>
 
@@ -364,12 +366,20 @@
     <string name="delete">حذف</string>
     <string name="Post_updated_successfully">تم تحديث المنشور بنجاح!</string>
     <string name="Post_deleted_successfully">تم حذف المنشور بنجاح!</string>
+    <string name="Place_deleted_successfully">تم حذف المكان بنجاح!</string>
     <string name="do_you_want_to_delete">هل تريد الحذف؟</string>
     <string name="no">لا</string>
     <string name="yes">نعم</string>
-    <string name="whatsapp">رقمنا</string>
+    <string name="whatsapp">ارقام الواتساب</string>
     <string name="upload_images">رجاءاً اختر صورة أولاً</string>
     <string name="select_image">اختر صورة</string>
+    <string name="facebook">الفيسبوك</string>
+    <string name="scheduled_travel">رحلة مجدولة</string>
+    <string name="add_place">إضافة موقع على الخريطة</string>
+    <string name="place_name">اسم المكان</string>
+    <string name="place_type">نوع المكان</string>
+    <string name="place_added_successfully">تمت إضافة المكان بنجاح</string>
+    <string name="my_sechduled_travels">رحلاتي المجدولة</string>
 
 
 </resources>

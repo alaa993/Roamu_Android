@@ -96,7 +96,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
     UpdateListener listener;
     EditText input_vehicle, input_name, input_password, input_mobile;
     TextView input_email;
-    AppCompatButton btn_update, btn_change;
+    AppCompatButton btn_update, btn_change, btn_add_place;
     ImageView profile_pic;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -227,6 +227,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         profile_pic = (ImageView) view.findViewById(R.id.profile_pic);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         btn_change = (AppCompatButton) view.findViewById(R.id.btn_change);
+        btn_add_place = (AppCompatButton) view.findViewById(R.id.btn_add_place);
 
         input_email = (TextView) view.findViewById(R.id.input_email);
         //input_vehicle = (EditText) view.findViewById(R.id.input_vehicle);
@@ -242,6 +243,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         MediumFont(input_mobile);
         BookFont(btn_update);
         BookFont(btn_change);
+        BookFont(btn_add_place);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -275,6 +277,18 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             public void onClick(View v) {
                 if (CheckConnection.haveNetworkConnection(getActivity())) {
                     changepassword_dialog(getString(R.string.change_password));
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btn_add_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckConnection.haveNetworkConnection(getActivity())) {
+                    MyPlacesFragment fragobj = new MyPlacesFragment();
+                    ((HomeActivity) getActivity()).changeFragment(fragobj, getString(R.string.request_ride));
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
                 }

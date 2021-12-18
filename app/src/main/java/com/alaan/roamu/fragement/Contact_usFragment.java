@@ -22,6 +22,8 @@ public class Contact_usFragment extends Fragment {
     View view;
     EditText Name, description;
     TextView whatsAppNumber;
+    TextView whatsAppNumber1;
+    TextView Facebook;
     AppCompatButton btn_send;
 
     public Contact_usFragment() {
@@ -48,6 +50,8 @@ public class Contact_usFragment extends Fragment {
 //        email = (EditText) view.findViewById(R.id.FN_Etxt2);
         description = (EditText) view.findViewById(R.id.FN_Etxt3);
         whatsAppNumber = (TextView) view.findViewById(R.id.FN_txt5);
+        whatsAppNumber1 = (TextView) view.findViewById(R.id.FN_txt7);
+        Facebook = (TextView) view.findViewById(R.id.FN_txt9);
         btn_send = (AppCompatButton) view.findViewById(R.id.FN_BTN);
 
         btn_send.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +72,32 @@ public class Contact_usFragment extends Fragment {
                     String text = "Name: " + Name.getText().toString() + "\n"
 //                + "Email: " + email.getText().toString() + "\n"
                             + "Description: " + description.getText().toString();
-                    openWhatsAppConversationUsingUri(getContext(), "+447732830221", text);
+                    openWhatsAppConversationUsingUri(getContext(), "00447732830221", text);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        whatsAppNumber1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckConnection.haveNetworkConnection(getActivity())) {
+                    String text = "Name: " + Name.getText().toString() + "\n"
+//                + "Email: " + email.getText().toString() + "\n"
+                            + "Description: " + description.getText().toString();
+                    openWhatsAppConversationUsingUri(getContext(), "00905315859877", text);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckConnection.haveNetworkConnection(getActivity())) {
+                    openFacebookAppUri(getContext());
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
                 }
@@ -80,6 +109,15 @@ public class Contact_usFragment extends Fragment {
     public static void openWhatsAppConversationUsingUri(Context context, String numberWithCountryCode, String message) {
 
         Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=" + numberWithCountryCode + "&text=" + message);
+
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        context.startActivity(sendIntent);
+    }
+
+    public static void openFacebookAppUri(Context context) {
+
+        Uri uri = Uri.parse("https://www.facebook.com/Roamu-106899641669798");
 
         Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
 

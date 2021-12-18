@@ -110,7 +110,7 @@ public class PostFragment extends Fragment {
         Bundle bundle = getArguments();
         String Post_id_bundle = bundle.getString("Post_id");
         if (bundle.getString("request_type").contains("private")) {
-            PostRL.setVisibility(View.GONE);
+            PostRL.setVisibility(View.VISIBLE);
             databasePost = FirebaseDatabase.getInstance().getReference("private_posts").child(Post_id_bundle);
             databaseComments = FirebaseDatabase.getInstance().getReference("private_posts").child(Post_id_bundle).child("Comments");
 
@@ -246,7 +246,7 @@ public class PostFragment extends Fragment {
                     more.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (post.author.uid.endsWith(user.getUid())&& post.travel_id == 0) {
+                            if (post.author.uid.endsWith(user.getUid()) && post.travel_id == 0) {
                                 more.setVisibility(View.VISIBLE);
                                 PopupMenu popup = new PopupMenu(getContext(), more);
                                 popup.inflate(R.menu.post_menu);

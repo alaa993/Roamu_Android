@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -34,11 +35,13 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,10 @@ import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.custom.CheckConnection;
 import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.custom.SetCustomFont;
+import com.alaan.roamu.custom.Utils;
+import com.alaan.roamu.pojo.Fav_Places;
+import com.alaan.roamu.pojo.NearbyData;
+import com.alaan.roamu.pojo.Notification;
 import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.pojo.PendingRequestPojo;
 import com.alaan.roamu.pojo.Tracking;
@@ -94,6 +101,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -124,6 +132,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
@@ -166,11 +175,11 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     TextView txt_Driver_name, txt_PickupPoint;
     TextView calculateFare;
     Snackbar snackbar;
+    Switch switchCompat;
+    List<NearbyData> list;
 
     DatabaseReference databaseRides;
-
     ValueEventListener listener;
-
     DatabaseReference databaseTravelRef;
     DatabaseReference databaseClientsLocation;
     DatabaseReference databaseDriverLocation;
@@ -183,7 +192,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     private String payment_mode;
 
     Button my_acc_d_f_home_button;
-
+    ValueEventListener listener_fav_places;
+    DatabaseReference database_fav_places;
     com.google.android.gms.maps.MapView mMapView;
     GoogleMap myMap;
 
@@ -204,6 +214,16 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     private Double fare = 50.00;
     Double finalfare;
     firebaseTravel fbTravel;
+
+    int[][] states = new int[][]{
+            new int[]{-android.R.attr.state_checked},
+            new int[]{android.R.attr.state_checked},
+    };
+
+    int[] thumbColors = new int[]{
+            Color.RED,
+            Color.GREEN,
+    };
 
     public MyAcceptedDetailFragment() {
         // Required empty public constructor
@@ -269,6 +289,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         }
 
         configPaypal();
+        NearBy();
         return view;
     }
 
@@ -353,6 +374,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         btn_cancel = (AppCompatButton) view.findViewById(R.id.MyADF_btn_cancel);
         pickup_location.setSelected(true);
         drop_location.setSelected(true);
+        switchCompat = (Switch) view.findViewById(R.id.travel_schedule);
+        switchCompat.setChecked(false);
+        DrawableCompat.setTintList(DrawableCompat.wrap(switchCompat.getThumbDrawable()), new ColorStateList(states, thumbColors));
         if (bundle != null) {
             pickup_location.setText(rideJson.getpickup_address() + " ");
             drop_location.setText(rideJson.getDrop_address());
@@ -453,6 +477,11 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 } else {
                 }
             }
+
+            if (rideJson.ride_type.equalsIgnoreCase("1")) {
+                switchCompat.setChecked(true);
+                DrawableCompat.setTintList(DrawableCompat.wrap(switchCompat.getThumbDrawable()), new ColorStateList(states, thumbColors));
+            }
         }
         setupData();
         btn_payment.setOnClickListener(new View.OnClickListener() {
@@ -535,6 +564,28 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            }
+        });
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (Utils.haveNetworkConnection(getContext())) {
+                    DrawableCompat.setTintList(DrawableCompat.wrap(switchCompat.getThumbDrawable()), new ColorStateList(states, thumbColors));
+
+                    if (isChecked) {
+                        Log.i("ibrhim", "switchCompat");
+                        Log.i("ibrhim", "1");
+                        travel_type_change(rideJson.getRide_id(), "1", false);
+                    } else {
+                        Log.i("ibrhim", "switchCompat");
+                        Log.i("ibrhim", "0");
+                        travel_type_change(rideJson.getRide_id(), "0", false);
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.network_not_available), Toast.LENGTH_LONG).show();
+
+                }
             }
         });
     }
@@ -714,6 +765,65 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         });
     }
 
+    public void travel_type_change(String user_id, String status, Boolean what) {
+        RequestParams params = new RequestParams();
+        params.put("ride_id", user_id);
+        params.put("ride_type", status);
+        Server.setHeader(SessionManager.getKEY());
+        Server.post(Server.ride_type_change, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        String status = response.getJSONObject("data").getString("is_online");
+
+                        if (what) {
+                        } else {
+                            if (status.equals("1")) {
+                                switchCompat.setChecked(true);
+                            } else {
+                                switchCompat.setChecked(false);
+                            }
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+            }
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.e("FAIl", throwable.toString() + ".." + responseString);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+        });
+    }
+
     public void AddComment(String text) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -874,6 +984,14 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         updateRideFirebase(travel_status, status, payment_status, payment_mode);
                         updateNotificationFirebase(status);
                         updateTravelCounterFirebase(status);
+                        if (status.contains("CANCELLED") || status.contains("COMPLETED")) {
+                            if (response.has("ride_id")) {
+                                String ride_id = response.getString("ride_id");
+                                if (ride_id != null && !ride_id.contains("null")) {
+                                    addRideFirebase(ride_id, "", "REQUESTED", "", "");
+                                }
+                            }
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -983,6 +1101,18 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
     public void updateRideFirebase(String travel_status, String ride_status, String payment_status, String payment_mode) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
+        Map<String, Object> rideObject = new HashMap<>();
+
+        rideObject.put("ride_status", ride_status);
+        rideObject.put("travel_status", travel_status);
+        rideObject.put("payment_status", payment_status);
+        rideObject.put("payment_mode", payment_mode);
+        rideObject.put("timestamp", ServerValue.TIMESTAMP);
+        databaseRef.setValue(rideObject);
+    }
+
+    public void addRideFirebase(String ride_id_param, String travel_status, String ride_status, String payment_status, String payment_mode) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("rides").child(String.valueOf(ride_id_param));
         Map<String, Object> rideObject = new HashMap<>();
 
         rideObject.put("ride_status", ride_status);
@@ -1912,6 +2042,26 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(30 * 1000);
         mLocationRequest.setFastestInterval(5 * 1000);
+    }
+
+    public void NearBy() {
+
+        database_fav_places = FirebaseDatabase.getInstance().getReference("Fav_Places").child(SessionManager.getUserId());
+        listener_fav_places = database_fav_places.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Fav_Places fav_places = postSnapshot.getValue(Fav_Places.class);
+                    fav_places.id = postSnapshot.getKey();
+                    origin = new LatLng(fav_places.latitude, fav_places.longitude);
+                    Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title(getString(R.string.place_name)).snippet(fav_places.name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public void calculateDistance(Double aDouble) {

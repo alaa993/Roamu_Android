@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
+import com.alaan.roamu.acitivities.List_provider;
 import com.alaan.roamu.pojo.Comment;
 import com.alaan.roamu.pojo.CommentList;
 import com.alaan.roamu.pojo.PendingRequestPojo;
@@ -65,10 +66,14 @@ public class UsersCommentsFragment extends Fragment {
 
         Log.i("ibrahim", SessionManager.getUserId());
         view = inflater.inflate(R.layout.fragment_users_comments, container, false);
-        ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.userComments));
-
         bundle = getArguments();
         if (bundle != null) {
+            if(bundle.getSerializable("request_type").equals("private")){
+
+            }
+//                ((List_provider) getActivity()).fontToTitleBar(getString(R.string.userComments));
+            else
+                ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.userComments));
             Driver_id = (String) bundle.getSerializable("data");
             Log.i("ibrahim", "bundle");
             Log.i("ibrahim", Driver_id);

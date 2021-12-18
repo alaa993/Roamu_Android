@@ -132,10 +132,23 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_update"
+                    android:id="@+id/btn_add_place"
                     android:layout_width="@dimen/login_width"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/parent"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_20"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/ripple_effect"
+                    android:text="@string/add_place"
+                    android:textColor="@color/black" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_update"
+                    android:layout_width="@dimen/login_width"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_add_place"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/margin_20"

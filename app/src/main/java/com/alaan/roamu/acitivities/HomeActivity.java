@@ -45,6 +45,7 @@ import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.fragement.Contact_usFragment;
 import com.alaan.roamu.fragement.MapFragment;
 import com.alaan.roamu.fragement.MyAcceptedRequestFragment;
+import com.alaan.roamu.fragement.MyScheduledRequestsFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
@@ -216,9 +217,10 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
+        MyScheduledRequestsFragment myScheduledRequestsFragment = new MyScheduledRequestsFragment();
         platform platform = new platform();
         MyAcceptedRequestFragment myAcceptedRequestFragment;
-        promo promo = new promo();
+//        promo promo = new promo();
 
         Bundle bundle;
 //        getVisibleFragment();
@@ -279,6 +281,11 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             case R.id.my_requests:
                 addPost.setVisibility(View.GONE);
                 changeFragment(acceptedRequestFragment, "Requests");
+                break;
+
+            case R.id.my_scheduled_requests:
+                addPost.setVisibility(View.GONE);
+                changeFragment(myScheduledRequestsFragment, "Requests");
                 break;
 
             case R.id.my_accepted_requests:

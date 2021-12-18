@@ -50,13 +50,11 @@ public class List_provider extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
         super.onStart();
     }
 
     @Override
     protected void onPause() {
-
         super.onPause();
     }
 
@@ -230,7 +228,7 @@ public class List_provider extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         super.onBackPressed();
 
     }

@@ -34,6 +34,15 @@
         android:inputType="text" />
 
     <EditText
+        android:id="@+id/etPickupPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/my_location"
+        android:inputType="text" />
+
+    <EditText
         android:id="@+id/etPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +58,13 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:text="@string/CheckBox" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/scheduled_travel" />
 
     <Button
         android:id="@+id/btnSubmitDialog"

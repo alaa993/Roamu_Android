@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragement.MyPlacesFragment">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/fm_mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/RL_add_fav_place"
+        android:layout_width="wrap_content"
+        android:layout_height="325dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dip"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/driver_ern"
+            layout="@layout/dialog_insert_fav_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

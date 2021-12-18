@@ -188,9 +188,10 @@
     <!-- Strings used for fragments for navigation -->
 
     <string name="Post_Empty">please write a comment!</string>
-    <string name="enter_number_of_passengers_trip_price">Enter number of passengers, trip price</string>
+    <string name="enter_number_of_passengers_trip_price">Enter number of passengers, Seat price</string>
     <string name="number_of_passengers_1">Number of Passengers, 1</string>
-    <string name="trip_price">Trip Price</string>
+    <string name="number_of_passengers">Passengers Count</string>
+    <string name="trip_price">Seat Price</string>
     <string name="submit">Submit</string>
     <string name="enter_coubbon_number">Enter Coubbon number</string>
     <string name="date_and_time">Date</string>
@@ -198,6 +199,7 @@
     <string name="driver_rate">Driver Rate</string>
     <string name="travels_count">Travels Count</string>
     <string name="pickup_point">Pickup Point</string>
+    <string name="my_location">My Location (optional)</string>
     <string name="what_is_on_your_mind">What is on your mind!</string>
     <string name="add">Add</string>
     <string name="post">ADD</string>
@@ -308,11 +310,20 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="delete">Delete</string>
     <string name="Post_updated_successfully">Post updated successfully!</string>
     <string name="Post_deleted_successfully">Post deleted successfully!</string>
+    <string name="Place_deleted_successfully">Place deleted successfully!</string>
     <string name="do_you_want_to_delete">Do you want to delete?</string>
     <string name="no">NO</string>
     <string name="yes">Yes</string>
-    <string name="whatsapp">WhatsApp</string>
+    <string name="whatsapp">WhatsApp No.</string>
     <string name="upload_images">please select an image first!</string>
     <string name="select_image">Select image</string>
+    <string name="facebook">Facebook</string>
+    <string name="scheduled_travel">Scheduled Travel</string>
+    <string name="add_place">Add Place on Map</string>
+    <string name="place_name">Place Name</string>
+    <string name="place_type">Place Type</string>
+    <string name="place_added_successfully">Address Added Successfully!</string>
+    <string name="my_sechduled_travels">My Scheduled Travels</string>
+
 
 </resources>
