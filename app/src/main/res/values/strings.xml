@@ -1,30 +1,21 @@
 <resources>
     <string name="app_name">Roamu</string>
-
-
     <!--Do not change this for localization -->
     <string name="google_android_map_api_key" translatable="false">AIzaSyCa3yhDGMZM2xHCc5ieYeyz87SuHYDzozU</string>
     <string name="mapboxkey">pk.eyJ1IjoiaWNhbnN0dWRpb3oiLCJhIjoiY2oyMXQ3dGRpMDAwdDJ3bXpmZHRkdTBtNyJ9.PxslIcrVRj_gVgiv-Y-jog</string>
-
-
     <string name="request_ride">Request Ride</string>
     <string name="merchant_privacy">https://www.example.com/privacy</string>
     <string name="merchant_user_agreement">https://www.example.com/legal</string>
     <string name="merchant_name">Taxi App</string>
     <string name="paypal_payment_currency">USD</string>
     <string name="cash_on_hand">Request Cash On Hand to driver</string>
-
     <string name="contact_admin">There is some problem. please contact your administrator.</string>
     <string name="success_login">Welcome to roamu</string>
-
     <string name="payment_update">Payment Updated</string>
     <string name="ride_request_completed">ride request completed</string>
     <string name="ride_request_cancelled">ride request cancelled</string>
     <string name="ride_request_accepted">ride request accepted</string>
-
-
     <string name="old_pws_is_required">old password is required</string>
-
     <string name="select_driver">tap driver info</string>
     <string name="invalid_fare">invalid fare</string>
     <string name="allow_permission">Allow Permission</string>
@@ -33,7 +24,6 @@
     <string name="invalid_pickuplocation">invalid pickup location</string>
     <string name="invalid_droplocation">invalid drop location</string>
     <string name="ride_has_been_requested">Ride has been requested</string>
-
     <string name="error_payment">Error while updating  payment</string>
     <string name="server_not_respond">server didn\'t response</string>
     <string name="payment_method">Choose Payment method</string>
@@ -41,61 +31,45 @@
     <string name="want_to_accept">Do you want to complete your accepted ride?</string>
     <string name="ride_request_cancellation">RIDE UPDATE</string>
     <string name="FROM">FROM</string>
-
     <string name="DRIVERNAME">Driver Name</string>
-
     <string name="pickup_location">"From"</string>
     <string name="drop_location">"To"</string>
     <string name="drivername">"Driver Number"</string>
-
-    <string name="mobile_numberr">"Mobile Number       "</string>
+    <string name="mobile_numberr">"Mobile Number"</string>
     <string name="CUSTOMERNAME">CUSTOMER NAME</string>
     <string name="nodata_found">No Data Found</string>
-
     <string name="REQUEST_RIDE">REQUEST RIDE</string>
     <string name="Login">Login or Sign up</string>
-
     <string name="create_ac">Create an Account</string>
-
     <string name="pwd_reset_instruction">Enter your registered email address ,We will send you an email to reset your password</string>
     <string name="register_hint">Registered Email</string>
-
     <string name="new_pwd">new password</string>
     <string name="INVALID_DISTANCE">INVALID DISTANCE</string>
     <string name="make_payment">Payment Options</string>
     <string name="taxigo">roamu</string>
-
-    <string name="fare">"Fare       "</string>
+    <string name="fare">"Fare"</string>
     <string name="vehicle_name">"Vehicle Name       "</string>
-
     <string name="Track_Driver">Track Driver</string>
     <string name="Track_Ride">Track Ride</string>
     <string name="exit">close</string>
-
-
     <string-array name="payment_mode">
         <item>Pay Cash</item>
+        <item>Pay From Wallet</item>
         <item>E-Payment</item>
     </string-array>
-
     <!-- TODO: Remove or change this placeholder text -->
-
     <string name="no_data_found">data Not found</string>
     <string name="terms_amp_conditions">term ANd COndtions</string>
     <string name="msg_no_internet">No internet Connection</string>
     <string name="QIBus_softui_txt_todo">TODO</string>
     <string name="QIBus_softui_lbl_total_fare">Total Fare</string>
-
     <string name="QIBus_softui_text_yes">Yes</string>
     <string name="QIBus_softui_text_no">No</string>
     <string name="English">English</string>
     <string name="arabic">Arabic</string>
     <string name="lang">Language</string>
     <string name="platform">Social Media Platform</string>
-
-
     //////////////
-
     <string name="mobile_number">Mobile Number</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
@@ -164,7 +138,8 @@
     <string name="fare_calculating">fare_calculating</string>
     <string name="Howmanyseatsyouwant">How many seats you want</string>
     <string name="applycoupon">Apply coupon</string>
-    <string name="promocodes">Discount</string>
+    <string name="promocodes">Promo Codes</string>
+    <string name="promo">Promo</string>
     <string name="cancel">Cancel</string>
     <string name="about_us"><![CDATA["About the application\\n
     The application works in the field of participatory mobility, with a pioneering feature in this type of transportation, as we gave both the owner of the means of transportation and the user the opportunity to reserve with the other freely, and when the traveler wants to go to an area within his city or to another city looking for available means of transportation At the appropriate time for him, and he chooses what he deems appropriate for his trip from among the available cars, and the driver is free to agree or apologize after seeing the traveler’s profile.  The driver searches for those who wish to travel at the time he leaves and the scheduled destination, and chooses the suitable travelers to travel with him, and the final approval of the traveler himself will be after reviewing the driver's file and its evaluation by others. The evaluation in the application is not limited to the vehicle and the performance of the driver only, but we have added an evaluation of the fare determined by the car owner, and our aim was to provide the best prices and outstanding service to travelers with the application. The passenger shall be aware, before booking, of the vehicle specifications  and the number of bags allowed And if smoking is allowed  During the trip or not. "]]></string>
@@ -188,7 +163,7 @@
     <!-- Strings used for fragments for navigation -->
 
     <string name="Post_Empty">please write a comment!</string>
-    <string name="enter_number_of_passengers_trip_price">Enter number of passengers, Seat price</string>
+    <string name="enter_number_of_passengers_trip_price">Please enter the required information</string>
     <string name="number_of_passengers_1">Number of Passengers, 1</string>
     <string name="number_of_passengers">Passengers Count</string>
     <string name="trip_price">Seat Price</string>
@@ -224,6 +199,7 @@
     <string name="notification_6">Payment completed successfully</string>
     <string name="notification_7">Choose you to travel with you</string>
     <string name="notification_8">The request has been sent and you will receive confirmation as soon as possible</string>
+    <string name="notification_9">the driver approved your request!</string>
     <string name="trip_detail">Trip Detail</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -325,5 +301,35 @@ But the owner of the car will have to check the car documents before agreeing to
     <string name="place_added_successfully">Address Added Successfully!</string>
     <string name="my_sechduled_travels">My Scheduled Travels</string>
 
+    <string name="WalletVC_Title">My Wallet</string>
+    <string name="WalletItem0">Account Charge</string>
+    <string name="WalletItem1">Send Money</string>
+    <string name="WalletItem2">Withdraw Amount</string>
+    <string name="WalletItem3">Transactions List</string>
+    <string name="charge_code">Charge Code</string>
+    <string name="amount">Amount</string>
+    <string name="wallet_id">Wallet id</string>
+    <string name="request">Request</string>
+    <string name="transaction_type">Transaction Type</string>
+    <string name="sender">Sender</string>
+    <string name="reciver">Reciver</string>
+    <string name="transaction_date">Transaction Date</string>
+    <string name="Kurdish">Kurdish</string>
 
+    <string name="message_transactionSuccess">Money Sent Successfully!</string>
+    <string name="message_transactionFail">"Couldn't send Money, Please try again later!"</string>
+
+    <string name="message_chargeSuccess">Account Charge Successfully!</string>
+    <string name="message_chargeFail">"Couldn't Charge Account, Please try again later!"</string>
+    <string name="sonething_went_wrong">Something Went Wrong, Please Try Again Later!</string>
+    <string name="balance">Balance</string>
+    <string name="share_application_to_friends_h">Win 100 Dinars when you recommend roamu to a friend!</string>
+    <string name="share_application_to_friends_d">1- Send the invite link to your friend\n
+                    2- Your friend downloads roamu app on his device\n
+                    3- Your friend enters the coupon\n
+                    4- You will get 100 dinars free credit and your friend will get 100 dinars free credit</string>
+    <string name="my_pickupPointLocation">Pickup Point location (optional)</string>
+    <string name="add_a_comment">Add a comment...</string>
+    <string name="confirm_search">Confirm</string>
+    <string name="address">Address</string>
 </resources>

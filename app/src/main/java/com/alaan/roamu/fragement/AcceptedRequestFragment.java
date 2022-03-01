@@ -111,7 +111,7 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
     }
 
     public void getAcceptedRequest(String id, String status, String key) {
-        Log.i("ibrahim","getAcceptedRequest");
+        //log.i("ibrahim","getAcceptedRequest");
         final RequestParams params = new RequestParams();
         params.put("id", id);
         params.put("status", status);
@@ -130,9 +130,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
                         }.getType());
-                        Log.i("ibrahim_list",list.toString());
-                        Log.i("ibrahim_list",response.getString("data"));
-                        Log.i("ibrahim_list","-----------");
+                        //log.i("ibrahim_list",list.toString());
+                        //log.i("ibrahim_list",response.getString("data"));
+                        //log.i("ibrahim_list","-----------");
                         if (response.has("data") && response.getJSONArray("data").length() == 0) {
                             txt_error.setVisibility(View.VISIBLE);
                             AcceptedRequestAdapter acceptedRequestAdapter = new AcceptedRequestAdapter(list);
@@ -147,7 +147,9 @@ public class AcceptedRequestFragment extends Fragment implements BackFragment, A
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
             }

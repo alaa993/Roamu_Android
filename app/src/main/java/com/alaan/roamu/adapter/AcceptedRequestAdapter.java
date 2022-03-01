@@ -50,13 +50,13 @@ public class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequest
         holder.date.setText(pojo.getDate());
         holder.status.setText(pojo.getStatus());
         holder.txt_car_type.setText(pojo.getCarType());
-
+        //log.i("pojo.getRide_id()",pojo.getRide_id());
         databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(pojo.getRide_id());
         listener = databaseRides.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-                Log.i("ibrahim ride", "----------");
+                //log.i("ibrahim ride", "----------");
                 holder.status.setText(fbRide.ride_status);
             }
 

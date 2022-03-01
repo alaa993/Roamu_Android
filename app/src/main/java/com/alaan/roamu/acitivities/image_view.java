@@ -37,7 +37,7 @@ public class image_view extends ActivityManagePermission {
         intent = getIntent().getExtras();
         newString = intent.getString("imageurl");
 
-        Log.i("ibrahim" , Server.BASE_URL + newString);
+        //log.i("ibrahim" , Server.BASE_URL + newString);
         Glide.with(this).load(Server.BASE_URL + newString).apply(new RequestOptions().error(R.drawable.images)).into(fullScreenImageView);
 
     }
@@ -50,7 +50,7 @@ public class image_view extends ActivityManagePermission {
 //        intent = getIntent().getExtras();
 //        newString = intent.getString("imageurl");
 //
-//        Log.i("ibrahim" , Server.BASE_URL + newString);
+//        //log.i("ibrahim" , Server.BASE_URL + newString);
 //        Glide.with(this).load(Server.BASE_URL + newString).apply(new RequestOptions().error(R.drawable.images)).into(fullScreenImageView);
 //        return view;
 //    }

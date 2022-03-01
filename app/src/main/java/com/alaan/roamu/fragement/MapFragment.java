@@ -3,7 +3,10 @@ package com.alaan.roamu.fragement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,6 +51,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -125,7 +129,7 @@ import static com.mapbox.mapboxsdk.Mapbox.getApplicationContext;
 
 public class MapFragment extends FragmentManagePermission implements OnMapReadyCallback, DirectionCallback,
         Animation.AnimationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, BackFragment, LocationListener, GoogleMap.OnMarkerClickListener {
+        GoogleApiClient.OnConnectionFailedListener, BackFragment, LocationListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public String NETWORK;
@@ -140,10 +144,12 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
     private int PLACE_PICKER_REQUEST = 7896;
 
     ImageView current_location, clear;
+    ProgressBar progressBar;
 
     int i = 0;
     String result = "";
     Animation animFadeIn, animFadeOut;
+    TextView txt_distance, txt_timedistance;
     String TAG = "home";
     LinearLayout linear_request;
     String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE,
@@ -239,7 +245,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
             }
         } catch (Exception e) {
 
-            Log.e("tag", "Inflate exception   " + e.toString());
+            //log.e("tag", "Inflate exception   " + e.toString());
         }
 
         linear_request.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +345,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                 pickup_location.setText(pickup.getAddress());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
-                Log.e(TAG, status.toString());
+                //log.e(TAG, status.toString());
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
@@ -449,7 +455,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
-        myMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
+//        myMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
         myMap.setMaxZoomPreference(80);
 //        GetRides();
 //        requestDirection();
@@ -532,6 +538,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
         header = (RelativeLayout) rootView.findViewById(R.id.header);
         footer = (RelativeLayout) rootView.findViewById(R.id.footer2);
         footer2 = (RelativeLayout) rootView.findViewById(R.id.footer);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
         textView_today = (TextView) rootView.findViewById(R.id.txt_todayearning);
         textView_overall = (TextView) rootView.findViewById(R.id.txt_overallearning);
@@ -540,7 +547,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
         footer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("ibrahim", "insideFooter2");
+                //log.i("ibrahim", "insideFooter2");
                 Bundle bundle = new Bundle();
                 pass = new Pass();
                 pass.f = Pass.fragment_type.GET;
@@ -567,9 +574,9 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                 pass.avatar = list.get(ride_number).avatar;
                 pass.vehicle_info = list.get(ride_number).vehicle_info;
                 // by ibrahim
-                log.i("ibrahim", "success by ibrahim search_d_adapter");
-                log.i("ibrahim", pass.getStatus());
-                log.i("ibrahim", list.get(ride_number).getVehicle_info());
+                //log.i("ibrahim", "success by ibrahim search_d_adapter");
+                //log.i("ibrahim", pass.getStatus());
+                //log.i("ibrahim", list.get(ride_number).getVehicle_info());
 
                 pass.setVehicleName(list.get(ride_number).getVehicle_info());
                 pass.empty_set = list.get(ride_number).empty_set;
@@ -598,6 +605,8 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
         mMapView.getMapAsync(this);
         animFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.dialogue_scale_anim_open);
         animFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.dialogue_scale_anim_exit);
+        txt_distance = (TextView) rootView.findViewById(R.id.txt_distance);
+        txt_timedistance = (TextView) rootView.findViewById(R.id.txt_timedistance);
         animFadeIn.setAnimationListener(this);
         animFadeOut.setAnimationListener(this);
         linear_request = (LinearLayout) rootView.findViewById(R.id.linear_request);
@@ -709,7 +718,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                             if (task.isSuccessful()) {
                                 FindCurrentPlaceResponse response = task.getResult();
                                 /*for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                                    Log.i(TAG, String.format("Place '%s' has likelihood: %f",
+                                    //log.i(TAG, String.format("Place '%s' has likelihood: %f",
                                             placeLikelihood.getPlace().getName(),
                                             placeLikelihood.getLikelihood()));
                                     pickup = placeLikelihood.getPlace();
@@ -721,8 +730,8 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                                 if (response != null && response.getPlaceLikelihoods() != null) {
                                     PlaceLikelihood placeLikelihood = response.getPlaceLikelihoods().get(0);
                                     pickup = placeLikelihood.getPlace();
-                                    Log.i("ibrahim", "gps");
-                                    Log.i("ibrahim", placeLikelihood.getPlace().getLatLng().toString());
+                                    //log.i("ibrahim", "gps");
+                                    //log.i("ibrahim", placeLikelihood.getPlace().getLatLng().toString());
 
                                     pickup_location.setText(placeLikelihood.getPlace().getAddress());
                                     current_location.setColorFilter(ContextCompat.getColor(getActivity(), R.color.current_lolcation));
@@ -732,7 +741,7 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                                 Exception exception = task.getException();
                                 if (exception instanceof ApiException) {
                                     ApiException apiException = (ApiException) exception;
-                                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                                    //log.e(TAG, "Place not found: " + apiException.getStatusCode());
                                 }
                             }
                         });
@@ -766,13 +775,97 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                     my_marker.showInfoWindow();
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 10);
                     myMap.animateCamera(cameraUpdate);
-
                     myMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
                             if (footer2.getVisibility() == View.VISIBLE) {
                                 footer2.setVisibility(View.GONE);
                             }
+                        }
+                    });
+
+                    myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            if (footer2.getVisibility() == View.VISIBLE) {
+                                footer2.startAnimation(animFadeOut);
+                                footer2.setVisibility(View.GONE);
+                            } else {
+                                progressBar.setVisibility(View.VISIBLE);
+                                LatLng position = marker.getPosition();
+                                //                            Toast.makeText(getActivity(), "Lat " + position.latitude + " " + "Long " + position.longitude, Toast.LENGTH_LONG).show();
+                                Thread thread = new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        //test GoogMatrixRequest
+                                        try {
+//                                        String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest("37.7680296,-122.4375126", "37.7663444,-122.4412006");
+                                            String googleMatrixResponse = GoogMatrixRequest.getGoogMatrixRequest(currentLatitude + "," + currentLongitude, position.latitude + "," + position.longitude);
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(googleMatrixResponse);
+                                                JSONArray dist = (JSONArray) jsonObject.get("rows");
+                                                JSONObject obj2 = (JSONObject) dist.get(0);
+                                                JSONArray disting = (JSONArray) obj2.get("elements");
+                                                JSONObject obj3 = (JSONObject) disting.get(0);
+                                                JSONObject obj4 = (JSONObject) obj3.get("distance");
+                                                JSONObject obj5 = (JSONObject) obj3.get("duration");
+
+                                                //log.i("ibrahim", "insideMarker");
+                                                textView_totalride.setText("");
+                                                textView_today.setText("");
+                                                textView_overall.setText("");
+                                                //log.i("ibrahim", String.valueOf(markers.size()));
+                                                for (int i = 0; i < markers.size(); i++) {
+//                                                    //log.i("ibrahim", "beforeloop");
+//                                                    //log.i("ibrahim", markers.get(i).getTitle().toString());
+
+                                                    if (marker.equals(markers.get(i))) {
+//                                                        //log.i("ibrahim", "insideMarker");
+//                                                        //log.i("ibrahim", "" + i);
+
+                                                        textView_totalride.setText(list.get(i).getName());
+                                                        textView_today.setText(list.get(i).getPickup_address());
+                                                        textView_overall.setText(list.get(i).getDrop_address());
+//                                                        footer2.setVisibility(View.VISIBLE);
+                                                        ride_number = i;
+                                                        break;
+                                                    }
+                                                }
+
+                                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            System.out.println(obj4.get("text"));
+                                                            System.out.println(obj5.get("text"));
+                                                            txt_distance.setText(obj4.get("text").toString());
+                                                            txt_timedistance.setText(obj5.get("text").toString());
+                                                            footer2.setVisibility(View.VISIBLE);
+                                                            footer2.startAnimation(animFadeIn);
+                                                            progressBar.setVisibility(View.GONE);
+                                                        } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+
+
+                                            } catch (JSONException err) {
+                                                Log.d("Error", err.toString());
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        //
+                                    }
+                                });
+
+                                thread.start();
+                            }
+                            return true;
                         }
                     });
                 }
@@ -945,34 +1038,36 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         Gson gson = new GsonBuilder().create();
-                        log.i("tag", "success by ibrahim");
-                        Log.e("success", response.toString());
+                        //log.i("tag", "success by ibrahim");
+                        //log.e("success", response.toString());
 
                         list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<NearbyData>>() {
                         }.getType());
-                        Log.e("success", String.valueOf(list.size()));
+                        //log.e("success", String.valueOf(list.size()));
 
                         for (int i = 0; i < list.size(); i++) {
-                            Log.i("success", String.valueOf(i));
+                            //log.i("success", String.valueOf(i));
 
                             String[] pickuplatlong = list.get(i).getPickup_location().split(",");
                             double pickuplatitude = Double.parseDouble(pickuplatlong[0]);
                             double pickuplongitude = Double.parseDouble(pickuplatlong[1]);
                             origin = new LatLng(pickuplatitude, pickuplongitude);
-                            Log.i("origin", origin.toString());
+                            //log.i("origin", origin.toString());
 
 
                             String[] droplatlong = list.get(i).getDrop_location().split(",");
                             double droplatitude = Double.parseDouble(droplatlong[0]);
                             double droplongitude = Double.parseDouble(droplatlong[1]);
                             destination = new LatLng(droplatitude, droplongitude);
-                            Log.i("destination", destination.toString());
+                            //log.i("destination", destination.toString());
 
                             Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title("Travel").snippet(list.get(i).getPickup_address()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                             markers.add(myMarker);
                         }
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 
                 }
             }
@@ -994,30 +1089,30 @@ public class MapFragment extends FragmentManagePermission implements OnMapReadyC
         });
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        Log.i("ibrahim", "insideMarker");
-        textView_totalride.setText("");
-        textView_today.setText("");
-        textView_overall.setText("");
-        Log.i("ibrahim", String.valueOf(markers.size()));
-        for (int i = 0; i < markers.size(); i++) {
-            Log.i("ibrahim", "beforeloop");
-            Log.i("ibrahim", markers.get(i).getTitle().toString());
-
-            if (marker.equals(markers.get(i))) {
-                Log.i("ibrahim", "insideMarker");
-                Log.i("ibrahim", "" + i);
-
-                textView_totalride.setText(list.get(i).getName());
-                textView_today.setText(list.get(i).getPickup_address());
-                textView_overall.setText(list.get(i).getDrop_address());
-                footer2.setVisibility(View.VISIBLE);
-                ride_number = i;
-                break;
-            }
-        }
-
-        return false;
-    }
+//    @Override
+//    public boolean onMarkerClick(Marker marker) {
+//        //log.i("ibrahim", "insideMarker");
+//        textView_totalride.setText("");
+//        textView_today.setText("");
+//        textView_overall.setText("");
+//        //log.i("ibrahim", String.valueOf(markers.size()));
+//        for (int i = 0; i < markers.size(); i++) {
+//            //log.i("ibrahim", "beforeloop");
+//            //log.i("ibrahim", markers.get(i).getTitle().toString());
+//
+//            if (marker.equals(markers.get(i))) {
+//                //log.i("ibrahim", "insideMarker");
+//                //log.i("ibrahim", "" + i);
+//
+//                textView_totalride.setText(list.get(i).getName());
+//                textView_today.setText(list.get(i).getPickup_address());
+//                textView_overall.setText(list.get(i).getDrop_address());
+//                footer2.setVisibility(View.VISIBLE);
+//                ride_number = i;
+//                break;
+//            }
+//        }
+//
+//        return false;
+//    }
 }

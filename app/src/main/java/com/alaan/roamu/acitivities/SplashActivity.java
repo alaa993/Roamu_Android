@@ -45,6 +45,7 @@ import static com.alaan.roamu.fragement.lang.setLocale;
 public class SplashActivity extends ActivityManagePermission {
     String permissionAsk[] = {PermissionUtils.Manifest_CAMERA, PermissionUtils.Manifest_WRITE_EXTERNAL_STORAGE, PermissionUtils.Manifest_READ_EXTERNAL_STORAGE, PermissionUtils.Manifest_ACCESS_FINE_LOCATION, PermissionUtils.Manifest_ACCESS_COARSE_LOCATION};
     String token;
+    public static final int OPEN_NEW_ACTIVITY = 123;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,16 +66,10 @@ public class SplashActivity extends ActivityManagePermission {
 
 //set content view AFTER ABOVE sequence (to avoid crash)
         setContentView(R.layout.splash_activity);
-        int SPLASH_TIME_OUT = 2000;
+        int SPLASH_TIME_OUT = 500;
         isGooglePlayServicesAvailable(SplashActivity.this);
 
         new Handler().postDelayed(new Runnable() {
-
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
             @Override
             public void run() {
                 // This method will be executed once the timer is over
@@ -103,12 +98,11 @@ public class SplashActivity extends ActivityManagePermission {
     }
 
     public void changement() {
-
         if (SessionManager.isLoggedIn()) {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            startActivityForResult(new Intent(SplashActivity.this, HomeActivity.class), OPEN_NEW_ACTIVITY);
         } else {
             Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(i);
+            startActivityForResult(i, OPEN_NEW_ACTIVITY);
         }
         finish();
     }
@@ -128,17 +122,16 @@ public class SplashActivity extends ActivityManagePermission {
                     });
                 } else {
                     Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(i);
+                    startActivityForResult(i, OPEN_NEW_ACTIVITY);
                 }
             } else {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(i);
+                startActivityForResult(i, OPEN_NEW_ACTIVITY);
             }
         } else {
             Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(i);
+            startActivityForResult(i, OPEN_NEW_ACTIVITY);
         }
-//        finish();
     }
 
     public void login(String email, String password) {
@@ -164,15 +157,17 @@ public class SplashActivity extends ActivityManagePermission {
                         Utils utils = new Utils(SplashActivity.this);
                         utils.isAnonymouslyLoggedIn();
                         if (response.has("data")) {
-                            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                            startActivityForResult(new Intent(SplashActivity.this, HomeActivity.class), OPEN_NEW_ACTIVITY);
                         }
                     } else {
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        startActivityForResult(new Intent(SplashActivity.this, LoginActivity.class), OPEN_NEW_ACTIVITY);
                         finish();
 //                        Toast.makeText(SplashActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 
                 }
             }
@@ -202,5 +197,12 @@ public class SplashActivity extends ActivityManagePermission {
 
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == OPEN_NEW_ACTIVITY) {
+            finish();
+        }
     }
 }

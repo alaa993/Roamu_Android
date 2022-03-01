@@ -119,7 +119,6 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             public void onClick(View v) {
                 Server.setHeader(SessionManager.getKEY());
                 UpdateUser();
-
             }
         });
         profile_pic.setOnClickListener(new View.OnClickListener() {
@@ -323,7 +322,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("permisson", "granted");
+                    //log.e("permisson", "granted");
                     TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(getActivity())
                             .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                                 @Override
@@ -359,16 +358,16 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         int write = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (fine == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission1", "fine");
+            //log.e("permission1", "fine");
             return true;
 
         }
         if (read == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission2", "coarse");
+            //log.e("permission2", "coarse");
             return true;
         }
         if (write == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission2", "coarse");
+            //log.e("permission2", "coarse");
             return true;
         } else {
             return false;
@@ -399,10 +398,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
         RequestParams params = new RequestParams();
         params.put("mobile", input_mobile.getText().toString().trim());
         params.put("name", input_name.getText().toString().trim());
-
         Server.setHeader(SessionManager.getKEY());
-
-
         params.put("user_id", SessionManager.getUserId());
         Server.post("api/user/update/format/json", params, new JsonHttpResponseHandler() {
             @Override
@@ -416,12 +412,27 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
-
-                        User user = SessionManager.getUser();
-
+//                        User user = SessionManager.getUser();
+                        Gson gson = new Gson();
+                        User user = gson.fromJson(response.getJSONObject("data").toString(), User.class);
                         input_name.setText(user.getName());
                         input_email.setText(user.getEmail());
                         input_mobile.setText(user.getMobile());
+
+                        Log.i("ibrahim", "user.getName()");
+                        try {
+                            FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+                            String uid = fuser.getUid();
+                            Log.i("ibrahim", uid);
+                            Log.i("ibrahim", user.getName());
+                            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users/profile").child(uid);
+                            Map<String, Object> userObject = new HashMap<>();
+                            userObject.put("username", user.getName());
+                            databaseRef.updateChildren(userObject);
+                        } catch (NullPointerException e) {
+                            System.err.println("Null pointer exception");
+                        } catch (Exception e) {
+                        }
 
                         Toast.makeText(getActivity(), getString(R.string.profile_updated), Toast.LENGTH_LONG).show();
 
@@ -430,6 +441,8 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
@@ -453,8 +466,6 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                 }
             }
         });
-
-
     }
 
     public void getCurrentlOcation() {
@@ -684,7 +695,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.e("success", response.toString());
+                //log.e("success", response.toString());
 
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
@@ -720,8 +731,10 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                         Toast.makeText(getActivity(), response.getString("data"), Toast.LENGTH_LONG).show();
 
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
-                    Log.e("catch", e.toString());
+                    //log.e("catch", e.toString());
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
                 }
@@ -736,7 +749,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("fail", responseString);
+                //log.e("fail", responseString);
 
                 Toast.makeText(getActivity(), getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
 
@@ -796,6 +809,8 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
 
 
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
@@ -920,7 +935,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
 
                         dialog.cancel();
-                        Log.e("success", response.toString());
+                        //log.e("success", response.toString());
                         Toast.makeText(getActivity(), getString(R.string.password_updated), Toast.LENGTH_LONG).show();
 
                     } else {
@@ -929,6 +944,8 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
 
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
@@ -947,7 +964,7 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
 
-                Log.e("fail", responseString);
+                //log.e("fail", responseString);
                 Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
             }

@@ -42,7 +42,7 @@ public class Server {
         client.setTimeout(3000);
         client.get(getAbsoluteUrl(url), params, responseHandler);
 
-        Log.e(TAG, getAbsoluteUrl(url) + params.toString());
+        //log.e(TAG, getAbsoluteUrl(url) + params.toString());
     }
 
     public static void postSync(String url, RequestParams params, JsonHttpResponseHandler jsonHttpResponseHandler) {

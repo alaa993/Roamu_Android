@@ -104,7 +104,7 @@ public class groups_driver extends Fragment implements BackFragment {
         BindView(savedInstanceState);
         GetDirver();
 //        getMemberList(Integer.parseInt(SessionManager.getUserId()));
-//        Log.e("Get Data in id", SessionManager.getUserId());
+//        //log.e("Get Data in id", SessionManager.getUserId());
         getGroupList(Integer.parseInt(SessionManager.getUserId()));
         return rootView;
 
@@ -239,7 +239,7 @@ public class groups_driver extends Fragment implements BackFragment {
     private void getMemberList(int group_id) {
         final RequestParams params = new RequestParams();
         params.put("admin_id", group_id);
-        Log.i("ibrahim group id", String.valueOf(group_id));
+        //log.i("ibrahim group id", String.valueOf(group_id));
         Server.setHeader(SessionManager.getKEY());
         Server.get(Server.GET_MEBLIST, params, new JsonHttpResponseHandler() {
             @Override
@@ -255,14 +255,16 @@ public class groups_driver extends Fragment implements BackFragment {
                     Gson gson = new GsonBuilder().create();
                     List<Group_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_membar>>() {
                     }.getType());
-                    Log.i("ibrahim list reply", response.getJSONArray("data").toString());
+                    //log.i("ibrahim list reply", response.getJSONArray("data").toString());
 //                        RecyclerView recyclerView = (RecyclerView)  rootView.findViewById(R.id.member_list);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);
                     Group_membar_Adapter group_membar_adapter = new Group_membar_Adapter(list);
                     recyclerView.setAdapter(group_membar_adapter);
                     group_membar_adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     //Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
             }
@@ -351,13 +353,13 @@ public class groups_driver extends Fragment implements BackFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.e("success", response.toString());
+                //log.e("success", response.toString());
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         progressBar.setVisibility(View.GONE);
                         GetDirver();
                         //        getMemberList(Integer.parseInt(SessionManager.getUserId()));
-                        //        Log.e("Get Data in id", SessionManager.getUserId());
+                        //        //log.e("Get Data in id", SessionManager.getUserId());
                         getGroupList(Integer.parseInt(SessionManager.getUserId()));
                         String url = response.getJSONObject("data").getString("avatar");
                         try {
@@ -384,7 +386,9 @@ public class groups_driver extends Fragment implements BackFragment {
                             Toast.makeText(getActivity(), response.getString("data"), Toast.LENGTH_LONG).show();
                         }
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
@@ -401,28 +405,28 @@ public class groups_driver extends Fragment implements BackFragment {
     }
 
     private void GetDirver() {
-        Log.i("ibrahim", "GetDirver()");
+        //log.i("ibrahim", "GetDirver()");
         RequestParams params = new RequestParams();
         params.put("admin_id", SessionManager.getUserId());
         Server.setHeader(SessionManager.getKEY());
-        Log.i("ibrahim", SessionManager.getUserId());
-        Log.i("ibrahim", SessionManager.getKEY());
-        Log.i("ibrahim", Server.GET_GROUP);
+        //log.i("ibrahim", SessionManager.getUserId());
+        //log.i("ibrahim", SessionManager.getKEY());
+        //log.i("ibrahim", Server.GET_GROUP);
 
         Server.get(Server.GET_GROUP, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim", "GetDirver()");
-                Log.i("ibrahim", response.toString());
+                //log.i("ibrahim", "GetDirver()");
+                //log.i("ibrahim", response.toString());
                 try {
                     Gson gson = new Gson();
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         List<Group_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_membar>>() {
                         }.getType());
-                        Log.e("Get Data in gruops", String.valueOf(list.toArray().length));
+                        //log.e("Get Data in gruops", String.valueOf(list.toArray().length));
                         if (list.toArray().length > 0) {
-                            Log.i("ibrahim", "list.toArray().length > 0");
+                            //log.i("ibrahim", "list.toArray().length > 0");
                             button_create_gruop.setVisibility(View.GONE);
                             button_add2.setVisibility(View.VISIBLE);
                             button_remove2.setVisibility(View.VISIBLE);
@@ -432,7 +436,7 @@ public class groups_driver extends Fragment implements BackFragment {
                             profile_pic.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        Log.i("ibrahim", "else list.toArray().length > 0");
+                        //log.i("ibrahim", "else list.toArray().length > 0");
                         button_create_gruop.setVisibility(View.VISIBLE);
                         button_add2.setVisibility(View.GONE);
                         button_remove2.setVisibility(View.GONE);
@@ -440,16 +444,18 @@ public class groups_driver extends Fragment implements BackFragment {
                         group_name_1.setVisibility(View.GONE);
                         profile_pic.setVisibility(View.GONE);
                     }
-                } catch (JSONException e) {
-                    Log.e("Get Data in gruops", e.getMessage());
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
+                    //log.e("Get Data in gruops", e.getMessage());
                 }
             }
         });
     }
 
     private void getGroupList(int driver_id) {
-        Log.i("ibrahim", "inside getGroupList");
-        Log.i("ibrahim", String.valueOf(driver_id));
+        //log.i("ibrahim", "inside getGroupList");
+        //log.i("ibrahim", String.valueOf(driver_id));
 
         final RequestParams params = new RequestParams();
         params.put("user_id", driver_id);
@@ -464,21 +470,23 @@ public class groups_driver extends Fragment implements BackFragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 //                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim", "response.toString()");
-                Log.i("ibrahim", response.toString());
+                //log.i("ibrahim", "response.toString()");
+                //log.i("ibrahim", response.toString());
                 try {
                     Gson gson = new GsonBuilder().create();
                     List<Group_List_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_List_membar>>() {
                     }.getType());
                     if (list.size() > 0) {
-                        Log.i("ibrahim list reply", response.getJSONArray("data").toString());
-                        Log.i("ibrahim list reply", list.get(0).group_name);
-                        Log.i("ibrahim list reply", list.get(0).admin_name);
-                        Log.i("ibrahim list reply", String.valueOf(list.get(0).group_id));
+                        //log.i("ibrahim list reply", response.getJSONArray("data").toString());
+                        //log.i("ibrahim list reply", list.get(0).group_name);
+                        //log.i("ibrahim list reply", list.get(0).admin_name);
+                        //log.i("ibrahim list reply", String.valueOf(list.get(0).group_id));
                         group_name_1.setText(list.get(0).group_name);
                         Glide.with(getActivity()).load(list.get(0).admin_avatar).apply(new RequestOptions().error(R.drawable.user_default)).into(profile_pic);
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                 }
             }
 
@@ -508,8 +516,8 @@ public class groups_driver extends Fragment implements BackFragment {
         RequestParams params = new RequestParams();
         params.put("admin_id", group_id);
         params.put("mobile", Phone);
-        Log.i("ibrahim", group_id.toString());
-        Log.i("ibrahim", Phone);
+        //log.i("ibrahim", group_id.toString());
+        //log.i("ibrahim", Phone);
         Server.setHeader(SessionManager.getKEY());
         Server.setContentType();
         Server.post(Server.add_user_Gruop, params, new JsonHttpResponseHandler() {
@@ -522,8 +530,8 @@ public class groups_driver extends Fragment implements BackFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim", "response");
-                Log.i("ibrahim", response.toString());
+                //log.i("ibrahim", "response");
+                //log.i("ibrahim", response.toString());
 //                try {
 //                    Gson gson = new GsonBuilder().create();
 //                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
@@ -535,13 +543,16 @@ public class groups_driver extends Fragment implements BackFragment {
 //                            }
 //                        }
 //                    } else {
-//                        Log.i("ibrahim", "sendStatus");
-//                        Log.i("ibrahim", "success else");
+//                        //log.i("ibrahim", "sendStatus");
+//                        //log.i("ibrahim", "success else");
 //                    }
-//                } catch (JSONException e) {
+//                }
+//                catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
 //                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
-//                    Log.i("ibrahim", "sendstatus_onSuccess_catch");
-//                    Log.i("ibrahim", e.getMessage());
+//                    //log.i("ibrahim", "sendstatus_onSuccess_catch");
+//                    //log.i("ibrahim", e.getMessage());
 //                }
                 Toast.makeText(getContext(), "Successfully Added To Group", Toast.LENGTH_SHORT).show();
                 //notifications
@@ -583,13 +594,15 @@ public class groups_driver extends Fragment implements BackFragment {
 //                            }
 //                        }
 //                    } else {
-//                        Log.i("ibrahim", "sendStatus");
-//                        Log.i("ibrahim", "success else");
+//                        //log.i("ibrahim", "sendStatus");
+//                        //log.i("ibrahim", "success else");
 //                    }
-//                } catch (JSONException e) {
+//                } catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
 //                    Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
-//                    Log.i("ibrahim", "sendstatus_onSuccess_catch");
-//                    Log.i("ibrahim", e.getMessage());
+//                    //log.i("ibrahim", "sendstatus_onSuccess_catch");
+//                    //log.i("ibrahim", e.getMessage());
 //                }
                 Toast.makeText(getContext(), "Successfully Removed From Group", Toast.LENGTH_SHORT).show();
             }
@@ -639,10 +652,10 @@ public class groups_driver extends Fragment implements BackFragment {
         requestParams.put("admin_id", SessionManager.getUserId());
         Server.setHeader(SessionManager.getKEY());
         Server.setContentType();
-        Log.i("ibrahim", "response");
-        Log.i("ibrahim", s);
-        Log.i("ibrahim", SessionManager.getUserId());
-        Log.i("ibrahim", SessionManager.getKEY());
+        //log.i("ibrahim", "response");
+        //log.i("ibrahim", s);
+        //log.i("ibrahim", SessionManager.getUserId());
+        //log.i("ibrahim", SessionManager.getKEY());
 
         Server.post(Server.addGruop, requestParams, new JsonHttpResponseHandler() {
             @Override
@@ -673,10 +686,10 @@ public class groups_driver extends Fragment implements BackFragment {
         requestParams.put("admin_id", SessionManager.getUserId());
         Server.setHeader(SessionManager.getKEY());
         Server.setContentType();
-        Log.i("ibrahim", "response");
-        Log.i("ibrahim", s);
-        Log.i("ibrahim", SessionManager.getUserId());
-        Log.i("ibrahim", SessionManager.getKEY());
+        //log.i("ibrahim", "response");
+        //log.i("ibrahim", s);
+        //log.i("ibrahim", SessionManager.getUserId());
+        //log.i("ibrahim", SessionManager.getKEY());
         Server.post(Server.ChangeGruopName, requestParams, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -689,7 +702,7 @@ public class groups_driver extends Fragment implements BackFragment {
                 super.onSuccess(statusCode, headers, response);
                 Toast.makeText(getContext(), "Group Name Changed Successfully", Toast.LENGTH_SHORT).show();
 //                group_name_et.setText("");
-//                Log.i("ibrahim was here","success");
+//                //log.i("ibrahim was here","success");
             }
 
             @Override

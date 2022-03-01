@@ -20,10 +20,12 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,10 +41,11 @@ import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.model.Direction;
 import com.akexorcist.googledirection.util.DirectionConverter;
-import com.alaan.roamu.acitivities.List_provider;
-import com.alaan.roamu.acitivities.image_view;
+import com.alaan.roamu.acitivities.GoogleMapsActivity;
+import com.alaan.roamu.acitivities.RegisterActivity;
+import com.alaan.roamu.adapter.Group_membar_Adapter;
+import com.alaan.roamu.pojo.Group_membar;
 import com.alaan.roamu.pojo.PendingRequestPojo;
-import com.alaan.roamu.pojo.Post;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -80,6 +83,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -89,7 +95,6 @@ import net.skoumal.fragmentback.BackFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,9 +104,8 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-;import static android.app.Activity.RESULT_CANCELED;
+;
 import static android.app.Activity.RESULT_OK;
-import static com.loopj.android.http.AsyncHttpClient.log;
 import static gun0912.tedbottompicker.TedBottomPicker.TAG;
 
 
@@ -111,8 +115,9 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
     TextView pickup_location, drop_location;
     Double finalfare;
     Place pickup, drop, s_drop, s_pic;
-    EditText mPickupPoint;
+    EditText mPickupPoint, mPickupPointLocation;
     private int POINT_PICKER_REQUEST = 12345;
+    private int POINTLocation_PICKER_REQUEST = 54321;
     Place point;
     String p = "";
     MapView mapView;
@@ -207,32 +212,52 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         final EditText etNotes = (EditText) mView.findViewById(R.id.etNotes);
 //                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                         mPickupPoint = (EditText) mView.findViewById(R.id.etPickupPoint);
+                        mPickupPointLocation = (EditText) mView.findViewById(R.id.etPickupPointLocation);
                         Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                         Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
                         Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
                         Checkbox2 = (CheckBox) mView.findViewById(R.id.checkBox2);
                         Checkbox.setVisibility(View.GONE);
                         Checkbox2.setVisibility(View.GONE);
+                        mPassengers.setVisibility(View.GONE);
 
                         mBuilder.setView(mView);
                         final android.app.AlertDialog dialog = mBuilder.create();
                         dialog.show();
-                        mPickupPoint.setOnClickListener(new View.OnClickListener() {
+                        mPickupPoint.setOnTouchListener(new View.OnTouchListener() {
                             @Override
-                            public void onClick(View view) {
-                                Places.initialize(getActivity(), getString(R.string.google_android_map_api_key));
-                                List<com.google.android.libraries.places.api.model.Place.Field> fields =
-                                        Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID,
-                                                com.google.android.libraries.places.api.model.Place.Field.NAME,
-                                                com.google.android.libraries.places.api.model.Place.Field.ADDRESS,
-                                                com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
-                                Intent intent = new Autocomplete.IntentBuilder(
-                                        AutocompleteActivityMode.FULLSCREEN, fields)
-                                        .build(getActivity());
-                                startActivityForResult(intent, POINT_PICKER_REQUEST);
+                            public boolean onTouch(View view, MotionEvent motionEvent) {
+                                int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
+
+                                if (action == MotionEvent.ACTION_DOWN) {
+                                    Places.initialize(getActivity(), getString(R.string.google_android_map_api_key));
+                                    List<com.google.android.libraries.places.api.model.Place.Field> fields =
+                                            Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID,
+                                                    com.google.android.libraries.places.api.model.Place.Field.NAME,
+                                                    com.google.android.libraries.places.api.model.Place.Field.ADDRESS,
+                                                    com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
+                                    Intent intent = new Autocomplete.IntentBuilder(
+                                            AutocompleteActivityMode.FULLSCREEN, fields)
+                                            .build(getActivity());
+                                    startActivityForResult(intent, POINT_PICKER_REQUEST);
+                                }
+                                return false;
                             }
                         });
-                        mPassengers.setVisibility(View.GONE);
+
+                        mPickupPointLocation.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View view, MotionEvent motionEvent) {
+                                int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
+
+                                if (action == MotionEvent.ACTION_DOWN) {
+                                    Intent intent = new Intent(getActivity(), GoogleMapsActivity.class);
+                                    startActivityForResult(intent, POINTLocation_PICKER_REQUEST);
+                                }
+                                return false;
+                            }
+                        });
+
                         mSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -240,8 +265,13 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                                     dialog.dismiss();
                                     String o = origin.latitude + "," + origin.longitude;
                                     String d = destination.latitude + "," + destination.longitude;
-                                    if (point != null)
-                                        p = String.valueOf(point.getLatLng().latitude) + "," + String.valueOf(point.getLatLng().longitude);
+                                    try {
+                                        if (point != null) {
+                                            p = String.valueOf(point.getLatLng().latitude) + "," + String.valueOf(point.getLatLng().longitude);
+                                        }
+                                    } catch (NullPointerException e) {
+                                        System.err.println("Null pointer exception");
+                                    }
                                     AddRide(SessionManager.getKEY(), pickup_address, drop_address, o, d, String.valueOf(finalfare), distance, dateandtime_val, mPickupPoint.getText().toString(), p, String.valueOf(etNotes.getText()));
                                     Log.d(TAG, "onClick: " + SessionManager.getKEY());
                                 } else {
@@ -752,27 +782,27 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     }
                 });
 
-                DriverAvatar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!String.valueOf(pass.avatar).isEmpty()) {
-                            Intent intent = new Intent(getActivity(), image_view.class);
-                            intent.putExtra("imageurl", String.valueOf(pass.avatar));
-                            startActivity(intent);
-                        }
-                    }
-                });
+//                DriverAvatar.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (!String.valueOf(pass.avatar).isEmpty()) {
+//                            Intent intent = new Intent(getActivity(), image_view.class);
+//                            intent.putExtra("imageurl", String.valueOf(pass.avatar));
+//                            startActivity(intent);
+//                        }
+//                    }
+//                });
 
-                DriverCar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!String.valueOf(pass.vehicle_info).isEmpty()) {
-                            Intent intent = new Intent(getActivity(), image_view.class);
-                            intent.putExtra("imageurl", String.valueOf(pass.vehicle_info));
-                            startActivity(intent);
-                        }
-                    }
-                });
+//                DriverCar.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (!String.valueOf(pass.vehicle_info).isEmpty()) {
+//                            Intent intent = new Intent(getActivity(), image_view.class);
+//                            intent.putExtra("imageurl", String.valueOf(pass.vehicle_info));
+//                            startActivity(intent);
+//                        }
+//                    }
+//                });
 
                 textView10.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -784,7 +814,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                             bundle.putString("request_type", "private");
                             UsersCommentsFragment postfragment = new UsersCommentsFragment();
                             postfragment.setArguments(bundle);
-                            ((List_provider) getActivity()).changeFragment(postfragment, "Requests");
+                            ((HomeActivity) getActivity()).changeFragment(postfragment, "Requests");
                         }
                     }
                 });
@@ -796,7 +826,7 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                         bundle.putSerializable("travel_id", pass.getTravelId());
                         NoteFragment noteFragment = new NoteFragment();
                         noteFragment.setArguments(bundle);
-                        ((List_provider) getActivity()).changeFragment(noteFragment, "fragment_note");
+                        ((HomeActivity) getActivity()).changeFragment(noteFragment, "fragment_note");
                     }
                 });
             }
@@ -852,6 +882,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     if (apply_code == true) {
                         btn_cobo.setEnabled(true);
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -950,8 +982,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
         params.put("drop_address", drop_address);
         params.put("date", pass.getDate());
         params.put("time", pass.getTime());
-        log.i("tag", "success by ibrahim");
-        log.i("tag", pass.getDate());
+        //log.i("tag", "success by ibrahim");
+        //log.i("tag", pass.getDate());
         //commited by ibrahim
         //params.put("time",pass.getDate());
         params.put("pickup_location", pickup_location);
@@ -991,6 +1023,8 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                     } else {
 //                        Toast.makeText(getActivity(), tryAgain, Toast.LENGTH_LONG).show();
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
 //                    Toast.makeText(getActivity(), tryAgain, Toast.LENGTH_LONG).show();
                 }
@@ -1091,22 +1125,38 @@ public class RequestFragment extends FragmentManagePermission implements OnMapRe
                 point = Autocomplete.getPlaceFromIntent(data);
                 mPickupPoint.setText(point.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                mPickupPointLocation.setText(point.getLatLng().toString());
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (requestCode == POINTLocation_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    String placeName = data.getStringExtra("placeName");
+                    String placeLatLong = data.getStringExtra("placeLatLong");
+                    p = placeLatLong;
+                    mPickupPoint.setText(placeName);
+                    mPickupPointLocation.setText(placeLatLong.toString());
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             }
         }
     }
 
     @Override
     public boolean onBackPressed() {
-        listProviderFragment fragobj = new listProviderFragment();
-        Toast.makeText(fragobj, "back pressed", Toast.LENGTH_SHORT).show();
-        this.startActivity(new Intent(getContext(), listProviderFragment.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+//        ListProviderFragment fragobj = new ListProviderFragment();
+//        Toast.makeText(fragobj, "back pressed", Toast.LENGTH_SHORT).show();
+//        this.startActivity(new Intent(getContext(), ListProviderFragment.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         return false;
     }
 
     @Override
     public int getBackPriority() {
-        return NORMAL_BACK_PRIORITY;
+        return 0;
     }
 }

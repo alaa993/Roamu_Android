@@ -392,7 +392,7 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
     public void onLocationChanged(Location location) {
         currentLatitude = location.getLatitude();
         currentLongitude = location.getLongitude();
-        Log.e("location", currentLatitude + "  " + currentLongitude);
+        //log.e("location", currentLatitude + "  " + currentLongitude);
         setCurrentLocation(currentLatitude, currentLongitude);
 
     }
@@ -424,7 +424,7 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
                 if (task.isSuccessful()){
                     FindCurrentPlaceResponse response = task.getResult();
                     /*for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                        Log.i(TAG, String.format("Place '%s' has likelihood: %f",
+                        //log.i(TAG, String.format("Place '%s' has likelihood: %f",
                                 placeLikelihood.getPlace().getName(),
                                 placeLikelihood.getLikelihood()));
                         myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Your Current Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)).snippet(placeLikelihood.getPlace().getAddress()));
@@ -438,7 +438,7 @@ public class MapView extends FragmentManagePermission implements OnMapReadyCallb
                     Exception exception = task.getException();
                     if (exception instanceof ApiException) {
                         ApiException apiException = (ApiException) exception;
-                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                        //log.e(TAG, "Place not found: " + apiException.getStatusCode());
                     }
                 }
             });}

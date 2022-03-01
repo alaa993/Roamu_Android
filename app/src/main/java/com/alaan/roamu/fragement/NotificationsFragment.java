@@ -75,11 +75,11 @@ public class NotificationsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_notifications, container, false);
         notifications = new ArrayList<>();
-        Log.i("ibrahim_uid", String.valueOf(SessionManager.getUser()));
+        //log.i("ibrahim_uid", String.valueOf(SessionManager.getUser()));
         try {
             databasePosts = FirebaseDatabase.getInstance().getReference("Notifications").child(SessionManager.getUser().getUser_id());
         } catch (Exception e) {
-            Log.i("ibrahim_e", e.getMessage());
+            //log.i("ibrahim_e", e.getMessage());
         }
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.notifications));
         view.setBackgroundColor(Color.WHITE);
@@ -107,7 +107,7 @@ public class NotificationsFragment extends Fragment {
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     //getting artist
-                    Log.i("ibrahim_notificatoni", postSnapshot.toString());
+                    //log.i("ibrahim_notificatoni", postSnapshot.toString());
                     Notification notification = postSnapshot.getValue(Notification.class);
                     notification.id = postSnapshot.getKey();
                     notifications.add(notification);
@@ -126,7 +126,7 @@ public class NotificationsFragment extends Fragment {
                             }
                         }, 50);
                     } catch (Exception e) {
-                        Log.e("Exception", e.getMessage());
+                        //log.e("Exception", e.getMessage());
                     }
                 }
             }

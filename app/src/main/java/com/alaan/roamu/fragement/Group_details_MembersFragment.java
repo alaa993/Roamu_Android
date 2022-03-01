@@ -79,7 +79,7 @@ public class Group_details_MembersFragment extends Fragment {
     private void getMemberList(int gruop_id) {
         final RequestParams params = new RequestParams();
         params.put("admin_id", gruop_id);
-        Log.i("ibrahim group id", String.valueOf(gruop_id));
+        //log.i("ibrahim group id", String.valueOf(gruop_id));
         Server.setHeader(SessionManager.getKEY());
         Server.get(Server.GET_MEBLIST, params, new JsonHttpResponseHandler() {
             @Override
@@ -93,14 +93,16 @@ public class Group_details_MembersFragment extends Fragment {
                     Gson gson = new GsonBuilder().create();
                     List<Group_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_membar>>() {
                     }.getType());
-                    Log.i("ibrahim list reply", response.getJSONArray("data").toString());
+                    //log.i("ibrahim list reply", response.getJSONArray("data").toString());
 //                        RecyclerView recyclerView = (RecyclerView)  rootView.findViewById(R.id.member_list);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);
                     Group_membar_Adapter group_membar_adapter = new Group_membar_Adapter(list);
                     recyclerView.setAdapter(group_membar_adapter);
                     group_membar_adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     //Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
             }

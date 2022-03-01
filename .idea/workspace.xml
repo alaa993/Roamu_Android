@@ -3,12 +3,12 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
+        <device id="pixel" />
         <device id="pixel_3" />
         <device id="Nexus 6" />
         <device id="Nexus 5X" />
         <device id="Nexus 7 2013" />
         <device id="pixel_3_xl" />
-        <device id="pixel" />
         <device id="pixel_2" />
         <target>android-28</target>
       </config>
@@ -19,7 +19,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0849051a-1acf-46bb-bd40-3e8860f91495" name="Default Changelist" comment="">
+    <list default="true" id="0849051a-1acf-46bb-bd40-3e8860f91495" name="Default Changelist" comment="last updated code">
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -32,47 +32,99 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_1_1_3_aar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_solver_1_1_3_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__de_hdodenhof_circleimageview_3_0_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/PostActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/GoogMatrixRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/GoogMatrixRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/MyFirebaseMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/MyFirebaseMessagingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/Server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/about_us.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/about_us.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/AddPostActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/AddPostActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/List_provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/List_provider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/List_provider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/RegisterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/Requst_ride.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/SplashActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/image_view.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/image_view.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/AcceptedRequestAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/AcceptedRequestAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/Group_membar_Adapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/Group_membar_Adapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyAcceptedRequestAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyAcceptedRequestAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyScheduledRequestsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/MyScheduledRequestsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/NotificationAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/NotificationAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PostList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PostAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PromoAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/PromoAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/search_d_adapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/search_d_adapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedDetailFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedRequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/AcceptedRequestFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Contact_usFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Contact_usFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Group_detailsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Group_detailsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Group_details_MembersFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Group_details_MembersFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Gruop_managment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/Gruop_managment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/HomeFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MapFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MapView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedDetailFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedRequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyAcceptedRequestFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyPlacesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyPlacesFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyScheduledRequestsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/MyScheduledRequestsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/NoteFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/NoteFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/NotificationsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/NotificationsFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/PostFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/PostFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/ProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/ProfileFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/RequestFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/UsersCommentsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/UsersCommentsFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/groups_driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/groups_driver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/lang.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/lang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/PendingRequestPojo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/PendingRequestPojo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ronded_button2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ronded_button2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/listProviderFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/ListProviderFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/platformFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/promo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/promoFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/CommentList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/adapter/CommentAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Fav_Places.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Fav_Places.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/UserProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseClients.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseClients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseRide.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseRide.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseTravel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/firebaseTravel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/promopojo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/pojo/promopojo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/privcy.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/privacyFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/car.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/car.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/customborder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/customborder.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/accepted_detail_fragmnet.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/accepted_detail_fragmnet.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/acceptedrequest_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/acceptedrequest_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_provider.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_provider.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_list_provider.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_post.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_requst_ride.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_addtravel_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact_us.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact_us.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_groups_driver.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_groups_driver.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_accepted_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_about_us.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_about_us.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_lang.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_lang.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_list_providers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_list_providers.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_platform.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_platform.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_post.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_post.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_artist_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_artist_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_privcy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_privcy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_artist_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/post_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/promo_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/promo_list.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/request_ride.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/request_ride.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/setting.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_custom_marker.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_custom_marker.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/my_navigation_items.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/my_navigation_items.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-ar/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,10 +168,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
         <option value="Class" />
+        <option value="valueResourceFile" />
       </list>
     </option>
   </component>
@@ -179,18 +231,22 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/values-ku" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-hdpi" />
       <recent name="$PROJECT_DIR$/app/src/main/java/com/alaan/roamu" />
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-      <recent name="$PROJECT_DIR$/app/src/main/assets/font" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.alaan.roamu.adapter" />
+      <recent name="com.alaan.roamu.pojo" />
+      <recent name="com.alaan.roamu.views" />
       <recent name="com.alaan.roamu.fragement" />
       <recent name="com.icanstudioz.taxicustomer.session" />
-      <recent name="com.icanstudioz.taxicustomer.adapter" />
-      <recent name="com.icanstudioz.taxicustomer.acitivities" />
     </key>
     <key name="android.template.2027590293">
+      <recent name="com.alaan.roamu.acitivities" />
+    </key>
+    <key name="android.template.531301599">
       <recent name="com.alaan.roamu.acitivities" />
     </key>
   </component>
@@ -310,64 +366,109 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="last updated code" />
+    <option name="LAST_COMMIT_MESSAGE" value="last updated code" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="245" y="200" key="#PSD" timestamp="1639344749971">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="245" y="200" key="#PSD/0.23.1440.877@0.23.1440.877" timestamp="1639344749971" />
-    <state x="533" y="184" key="#com.intellij.ide.util.MemberChooser" timestamp="1639322003133">
-      <screen x="52" y="23" width="1388" height="877" />
+    <state x="458" y="223" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1645291323387">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
+    <state x="458" y="223" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.23.1440.877@0.23.1440.877" timestamp="1645291323387" />
+    <state x="499" y="184" key="#com.intellij.ide.util.MemberChooser" timestamp="1645617555226">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="499" y="184" key="#com.intellij.ide.util.MemberChooser/0.23.1440.877@0.23.1440.877" timestamp="1645617555226" />
     <state x="533" y="184" key="#com.intellij.ide.util.MemberChooser/52.23.1388.877@52.23.1388.877" timestamp="1639322003133" />
-    <state x="458" y="215" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1639346297467">
+    <state x="432" y="150" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog" timestamp="1645289498624">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="458" y="215" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.877@0.23.1440.877" timestamp="1639346297467" />
-    <state x="534" y="259" key="AndroidCreateXmlResourceDialog" timestamp="1639556844155">
+    <state x="432" y="150" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog/0.23.1440.877@0.23.1440.877" timestamp="1645289498624" />
+    <state x="86" y="394" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1645262952877">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="534" y="259" key="AndroidCreateXmlResourceDialog/0.23.1440.877@0.23.1440.877" timestamp="1639556844155" />
+    <state x="86" y="394" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.23.1440.877@0.23.1440.877" timestamp="1645262952877" />
+    <state x="0" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1645262928713">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="0" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.877@0.23.1440.877" timestamp="1645262928713" />
+    <state x="458" y="215" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1645645894880">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="458" y="215" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.877@0.23.1440.877" timestamp="1645645894880" />
+    <state x="308" y="223" key="AndroidCreateResourceFileDialog" timestamp="1644220639467">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="308" y="223" key="AndroidCreateResourceFileDialog/0.23.1440.877@0.23.1440.877" timestamp="1644220639466" />
+    <state x="534" y="259" key="AndroidCreateXmlResourceDialog" timestamp="1645781403542">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="534" y="259" key="AndroidCreateXmlResourceDialog/0.23.1440.877@0.23.1440.877" timestamp="1645781403542" />
+    <state x="201" y="62" key="CommitChangelistDialog2" timestamp="1645629073935">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="201" y="62" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1645629073935" />
     <state x="508" y="210" key="FileChooserDialogImpl" timestamp="1639240678690">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="508" y="210" key="FileChooserDialogImpl/0.23.1440.877@0.23.1440.877" timestamp="1639240678690" />
-    <state width="1398" height="187" key="GridCell.Tab.0.bottom" timestamp="1639668635600">
+    <state width="1398" height="242" key="GridCell.Tab.0.bottom" timestamp="1646130599009">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="187" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1639668635600" />
-    <state width="1398" height="187" key="GridCell.Tab.0.center" timestamp="1639668635599">
+    <state width="1398" height="242" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1646130599009" />
+    <state width="1398" height="242" key="GridCell.Tab.0.center" timestamp="1646130599008">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="187" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1639668635599" />
-    <state width="1398" height="187" key="GridCell.Tab.0.left" timestamp="1639668635599">
+    <state width="1398" height="242" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1646130599008" />
+    <state width="1398" height="242" key="GridCell.Tab.0.left" timestamp="1646130599006">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="187" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1639668635599" />
-    <state width="1398" height="187" key="GridCell.Tab.0.right" timestamp="1639668635600">
+    <state width="1398" height="242" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1646130599006" />
+    <state width="1398" height="242" key="GridCell.Tab.0.right" timestamp="1646130599009">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state width="1398" height="187" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1639668635600" />
-    <state x="221" y="100" key="SettingsEditor" timestamp="1632731379029">
+    <state width="1398" height="242" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1646130599009" />
+    <state x="497" y="246" key="chooseDestDirectoryDialog" timestamp="1644219765994">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="221" y="100" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1632731379029" />
-    <state x="0" y="136" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1634406669887">
+    <state x="497" y="246" key="chooseDestDirectoryDialog/0.23.1440.877@0.23.1440.877" timestamp="1644219765994" />
+    <state x="335" y="79" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1645617434956">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="0" y="136" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1440.877@0.23.1440.877" timestamp="1634406669887" />
+    <state x="335" y="79" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1440.877@0.23.1440.877" timestamp="1645617434956" />
     <state x="473" y="194" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1639322010448">
       <screen x="52" y="23" width="1388" height="877" />
     </state>
     <state x="473" y="194" key="com.intellij.testIntegration.createTest.CreateTestDialog/52.23.1388.877@52.23.1388.877" timestamp="1639322010448" />
-    <state x="128" y="202" width="1121" height="646" key="find.popup" timestamp="1639672911415">
+    <state x="132" y="80" width="1121" height="646" key="find.popup" timestamp="1646129296392">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="128" y="202" width="1121" height="646" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1639672911415" />
+    <state x="132" y="80" width="1121" height="646" key="find.popup/0.23.1440.877@0.23.1440.877" timestamp="1646129296392" />
     <state x="216" y="175" width="1081" height="646" key="find.popup/52.23.1388.877@52.23.1388.877" timestamp="1639322566512" />
     <state x="385" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1639302110695">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="385" y="213" width="670" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1639302110695" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/fragement/SendMoneyFragment.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/alaan/roamu/acitivities/GoogleMapsActivity.java</url>
+          <line>428</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="masterDetails">
     <states>

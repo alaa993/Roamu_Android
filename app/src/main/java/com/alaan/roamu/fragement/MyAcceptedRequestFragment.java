@@ -111,6 +111,7 @@ public class MyAcceptedRequestFragment extends Fragment implements BackFragment 
                 super.onStart();
                 swipeRefreshLayout.setRefreshing(true);
             }
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -134,6 +135,8 @@ public class MyAcceptedRequestFragment extends Fragment implements BackFragment 
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }

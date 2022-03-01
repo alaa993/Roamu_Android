@@ -72,7 +72,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         ImageView PostAvatar = (ImageView) listViewItem.findViewById(R.id.Notificatoin_image);
         Notification notification = notifications.get(position);
 
-        Log.i("ibrahim_1", notification.toString());
+        //log.i("ibrahim_1", notification.toString());
         textViewText.setText(notification.text);
         try {
             if (notification.text.contains("_5_")) {
@@ -107,7 +107,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
                 String UserName = dataSnapshot.child("username").getValue(String.class);
-//                Log.i("ibrahim",UserName);
+//                //log.i("ibrahim",UserName);
 
                 if (photoURL != null) {
                     Glide.with(NotificationAdapter.this.getContext()).load(photoURL).apply(new RequestOptions().error(R.drawable.images)).into(PostAvatar);
@@ -122,9 +122,14 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         });
         listViewItem.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (notification.ride_id != "-2") {
-                    GetRides(String.valueOf(notification.ride_id), notification.id);
+                try {
+                    if (notification.ride_id != "-2") {
+                        GetRides(String.valueOf(notification.ride_id), notification.id);
+                    }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 }
+
             }
         });
 
@@ -161,7 +166,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.e("success", response.toString());
+                //log.e("success", response.toString());
                 try {
                     Gson gson = new GsonBuilder().create();
                     List<PendingRequestPojo> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<PendingRequestPojo>>() {
@@ -173,8 +178,12 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                     detailFragment.setArguments(bundle);
 
                     ((HomeActivity) getContext()).changeFragment(detailFragment, "Passenger Information");
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                } catch (IndexOutOfBoundsException e) {
+                    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
                 } catch (JSONException e) {
-                    Log.e("Get Data", e.getMessage());
+                    //log.e("Get Data", e.getMessage());
                 }
             }
         });

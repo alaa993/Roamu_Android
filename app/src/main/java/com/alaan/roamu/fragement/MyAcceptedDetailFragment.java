@@ -246,12 +246,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             ride_status = rideJson.getStatus();
             payment_status = rideJson.getPayment_status();
             payment_mode = rideJson.getPayment_mode();
-//            Log.i("ibrahim", "payment_status");
-//            Log.i("ibrahim", "rideJson.getPayment_status()");
-//            Log.i("ibrahim", payment_status);
-//            Log.i("ibrahim", payment_mode);
+//            //log.i("ibrahim", "payment_status");
+//            //log.i("ibrahim", "rideJson.getPayment_status()");
+//            //log.i("ibrahim", payment_status);
+//            //log.i("ibrahim", payment_mode);
 
-//            Log.i("ibrahim", rideJson.getRide_id());
+//            //log.i("ibrahim", rideJson.getRide_id());
             databaseRides = FirebaseDatabase.getInstance().getReference("rides").child(rideJson.getRide_id());
             databaseTravelRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
         }
@@ -301,15 +301,15 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-//                Log.i("ibrahim ride", "----------");
+//                //log.i("ibrahim ride", "----------");
                 travel_status = fbRide.travel_status;
                 ride_status = fbRide.ride_status;
                 payment_status = fbRide.payment_status;
                 payment_mode = fbRide.payment_mode;
-//                Log.i("ibrahim", "payment_status");
-//                Log.i("ibrahim", "databaseRides");
-//                Log.i("ibrahim", payment_status);
-//                Log.i("ibrahim", payment_mode);
+//                //log.i("ibrahim", "payment_status");
+//                //log.i("ibrahim", "databaseRides");
+//                //log.i("ibrahim", payment_status);
+//                //log.i("ibrahim", payment_mode);
                 setupData();
             }
 
@@ -388,28 +388,28 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             dateandtime.setText(rideJson.getDate());
 
             if (rideJson.getpickup_location() != null && rideJson.getdrop_location() != null) {
-//                Log.i("ibrahim", "inside");
-//                Log.i("ibrahim", rideJson.getpickup_location());
-//                Log.i("ibrahim", rideJson.getdrop_location());
+//                //log.i("ibrahim", "inside");
+//                //log.i("ibrahim", rideJson.getpickup_location());
+//                //log.i("ibrahim", rideJson.getdrop_location());
 
                 String[] pickuplatlong = rideJson.getpickup_location().split(",");
                 double pickuplatitude = Double.parseDouble(pickuplatlong[0]);
                 double pickuplongitude = Double.parseDouble(pickuplatlong[1]);
                 origin = new LatLng(pickuplatitude, pickuplongitude);
 
-//                Log.i("ibrahim", origin.toString());
+//                //log.i("ibrahim", origin.toString());
 
                 String[] droplatlong = rideJson.getdrop_location().split(",");
                 double droplatitude = Double.parseDouble(droplatlong[0]);
                 double droplongitude = Double.parseDouble(droplatlong[1]);
                 destination = new LatLng(droplatitude, droplongitude);
-//                Log.i("ibrahim", destination.toString());
+//                //log.i("ibrahim", destination.toString());
             }
 
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Log.i("ibrahim", "mobile call function");
+//                    //log.i("ibrahim", "mobile call function");
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
@@ -469,11 +469,13 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 } else {
                     btn_complete.setText(getString(R.string.complete_ride));
                     btn_complete.setVisibility(View.VISIBLE);
+                    btn_cancel.setVisibility(View.GONE);
                     trackRide.setVisibility(View.GONE);
 //                    mobilenumber_row.setVisibility(View.VISIBLE);
                 }
                 if (!payment_status.equals("PAID") && payment_mode.equals("OFFLINE")) {
                     btn_complete.setVisibility(View.GONE);
+                    btn_cancel.setVisibility(View.GONE);
                 } else {
                 }
             }
@@ -529,6 +531,43 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                     }
                                 });
 
+                            } else if (which == 1) {
+                                SendMoneyToWallet(SessionManager.getUserId(), rideJson.getDriver_id(), rideJson.getAmount());
+                                RequestParams params = new RequestParams();
+                                params.put("ride_id", rideJson.getRide_id());
+                                params.put("payment_mode", "OFFLINE");
+                                Server.setContetntType();
+                                Server.setHeader(SessionManager.getKEY());
+                                Server.post("api/user/rides", params, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onStart() {
+//                                        swipeRefreshLayout.setRefreshing(true);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        super.onSuccess(statusCode, headers, response);
+                                        updateRideFirebase(travel_status, ride_status, payment_status, "OFFLINE");
+                                        updateNotificationFirebase("offline_request");
+                                        updateTravelCounterFirebase();
+                                        rideJson.setPayment_mode("OFFLINE");
+                                        btn_payment.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity(), getString(R.string.payment_update), Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        super.onFailure(statusCode, headers, responseString, throwable);
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        super.onFinish();
+                                        if (getActivity() != null) {
+//                                            swipeRefreshLayout.setRefreshing(false);
+                                        }
+                                    }
+                                });
                             } else {
                                 MakePayment();
                             }
@@ -573,12 +612,12 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     DrawableCompat.setTintList(DrawableCompat.wrap(switchCompat.getThumbDrawable()), new ColorStateList(states, thumbColors));
 
                     if (isChecked) {
-                        Log.i("ibrhim", "switchCompat");
-                        Log.i("ibrhim", "1");
+                        //log.i("ibrhim", "switchCompat");
+                        //log.i("ibrhim", "1");
                         travel_type_change(rideJson.getRide_id(), "1", false);
                     } else {
-                        Log.i("ibrhim", "switchCompat");
-                        Log.i("ibrhim", "0");
+                        //log.i("ibrhim", "switchCompat");
+                        //log.i("ibrhim", "0");
                         travel_type_change(rideJson.getRide_id(), "0", false);
                     }
 
@@ -590,6 +629,68 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         });
     }
 
+    public void SendMoneyToWallet(String wallet_id, String wallet_id2, String amount) {
+        RequestParams params = new RequestParams();
+        params.put("wallet_id", wallet_id);
+        params.put("wallet_id2", wallet_id2);
+        params.put("amount", amount);
+        params.put("transaction_type_id", "2");
+        params.put("transaction_type_id2", "1");
+        params.put("status_type_id", "2");
+
+        Server.setHeader(SessionManager.getKEY());
+        Server.setContentType();
+
+        Server.get("api/user/addBalanceUserToWallets/format/json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+//                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                //log.i("response", response.toString());
+                try {
+                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+                        String data = response.getString("message");
+                        if (data.contains("transactionSuccess")) {
+                            String resourceAppStatusString = "message_".concat(data);
+                            //log.i("resourceAppStatusString", resourceAppStatusString);
+                            int messageId = getResourceId(resourceAppStatusString, "string", "com.alaan.roamu");
+                            String message = getString(messageId);
+
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), data, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), R.string.sonething_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                } catch (JSONException e) {
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+//                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private int getResourceId(String pVariableName, String pResourceName, String pPackageName) {
+        try {
+            return getResources().getIdentifier(pVariableName, pResourceName, pPackageName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     public void updateTravelCounterFirebase() {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id());
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -597,9 +698,14 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseTravel fbTravel = dataSnapshot.getValue(firebaseTravel.class);
                 if (fbTravel != null) {
-                    Log.i("ibrahim", "fbTravel");
-                    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("OFFLINE");
-                    databaseRef.setValue(fbTravel.Counters.OFFLINE + 1);
+                    //log.i("ibrahim", "fbTravel");
+                    try {
+                        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("OFFLINE");
+                        databaseRef.setValue(fbTravel.Counters.OFFLINE + 1);
+                    } catch (NullPointerException e) {
+                        System.err.println("Null pointer exception");
+                    }
+
                 }
             }
 
@@ -645,7 +751,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             mobilenumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Log.i("ibrahim", "mobile call function");
+//                    //log.i("ibrahim", "mobile call function");
                     askCompactPermission(PermissionUtils.Manifest_CALL_PHONE, new PermissionResult() {
                         @Override
                         public void permissionGranted() {
@@ -743,13 +849,13 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.i("ibrahim", String.valueOf(ratingBar.getRating()));
-//                Log.i("ibrahim", String.valueOf(fare_rating.getRating()));
-//                Log.i("ibrahim getDriver_id", rideJson.getDriver_id());
-//                Log.i("ibrahim getUser_id", rideJson.getUser_id());
-//                Log.i("ibrahim getTravel_id", rideJson.getTravel_id());
+//                //log.i("ibrahim", String.valueOf(ratingBar.getRating()));
+//                //log.i("ibrahim", String.valueOf(fare_rating.getRating()));
+//                //log.i("ibrahim getDriver_id", rideJson.getDriver_id());
+//                //log.i("ibrahim getUser_id", rideJson.getUser_id());
+//                //log.i("ibrahim getTravel_id", rideJson.getTravel_id());
                 sendRating(ratingBar.getRating() * 2, fare_rating.getRating() * 2);
-//                Log.i("ibrahim", "complete");
+//                //log.i("ibrahim", "complete");
                 if (etComments.getText().toString().length() > 0) {
                     AddComment(etComments.getText().toString());
                 }
@@ -759,7 +865,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.i("ibrahim", "cancel");
+//                //log.i("ibrahim", "cancel");
                 dialog.cancel();
             }
         });
@@ -791,6 +897,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                     } else {
                         Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
@@ -800,20 +908,20 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
 
-                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+                //log.e("FAIl", throwable.toString() + ".." + errorResponse);
             }
 
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+                //log.e("FAIl", throwable.toString() + ".." + errorResponse);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("FAIl", throwable.toString() + ".." + responseString);
+                //log.e("FAIl", throwable.toString() + ".." + responseString);
             }
 
             @Override
@@ -993,6 +1101,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                             }
                         }
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
@@ -1034,16 +1144,23 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                 firebaseTravel fbTravel = dataSnapshot.getValue(firebaseTravel.class);
                 if (fbTravel != null) {
                     if (status.contains("ACCEPTED")) {
-                        Log.i("ibrahim", "fbTravel");
-                        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
-                        databaseRef.setValue(fbTravel.Counters.ACCEPTED + 1);
+                        try {
+                            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
+                            databaseRef.setValue(fbTravel.Counters.ACCEPTED + 1);
+                        } catch (NullPointerException e) {
+                            System.err.println("Null pointer exception");
+                        }
                     } else if (status.contains("COMPLETED")) {
-                        Log.i("ibrahim", "fbTravel");
-                        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("COMPLETED");
-                        databaseRef.setValue(fbTravel.Counters.COMPLETED + 1);
+                        //log.i("ibrahim", "fbTravel");
+                        try {
+                            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("COMPLETED");
+                            databaseRef.setValue(fbTravel.Counters.COMPLETED + 1);
 
-                        DatabaseReference databaseRef1 = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
-                        databaseRef1.setValue(fbTravel.Counters.ACCEPTED - 1);
+                            DatabaseReference databaseRef1 = FirebaseDatabase.getInstance().getReference("Travels").child(rideJson.getTravel_id()).child("Counters").child("ACCEPTED");
+                            databaseRef1.setValue(fbTravel.Counters.ACCEPTED - 1);
+                        } catch (NullPointerException e) {
+                            System.err.println("Null pointer exception");
+                        }
                     }
                 }
             }
@@ -1071,8 +1188,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim", "reponse");
-                Log.i("ibrahim", response.toString());
+                //log.i("ibrahim", "reponse");
+                //log.i("ibrahim", response.toString());
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         if (response.has("data") && response.getString("data").equalsIgnoreCase("true")) {
@@ -1082,8 +1199,10 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         }
                     } else {
 //                        Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
-                        Log.i("ibrahim", "else not success");
+                        //log.i("ibrahim", "else not success");
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
@@ -1157,16 +1276,18 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-//                Log.i("ibrahim",response.toString());
+//                //log.i("ibrahim",response.toString());
 //                try {
 //                    if (response.has("status") && response.getString("status").equals("success")) {
 ////                        sendStatus(rideJson.getRide_id(), "COMPLETED");
-//                        //Log.i("ibrahim","complete travel");
+//                        ////log.i("ibrahim","complete travel");
 //                    } else {
 //                        //String error = response.getString("data");
 //                        //Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 //                    }
-//                } catch (JSONException e) {
+//                } catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
 //                    e.printStackTrace();
 //                    Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 //                }
@@ -1182,13 +1303,13 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 //                Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
-//                Log.i("ibrahim", "Failure");
+//                //log.i("ibrahim", "Failure");
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-//                Log.i("ibrahim", "onFinish");
+//                //log.i("ibrahim", "onFinish");
                 sendStatus(rideJson.getRide_id(), "COMPLETED");
                 if (getActivity() != null) {
 //                    swipeRefreshLayout.setRefreshing(false);
@@ -1240,6 +1361,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                 .toString(4));
                         Updatepayemt(rideJson.getRide_id(), "PAID");
 
+                    } catch (NullPointerException e) {
+                        System.err.println("Null pointer exception");
                     } catch (JSONException e) {
 
                         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
@@ -1257,7 +1380,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                         .getParcelableExtra(PayPalFuturePaymentActivity.EXTRA_RESULT_AUTHORIZATION);
                 if (auth != null) {
 //                    try {
-////                        Log.i("FuturePaymentExample", auth.toJSONObject().toString(4));
+////                        //log.i("FuturePaymentExample", auth.toJSONObject().toString(4));
 //
 //                        String authorization_code = auth.getAuthorizationCode();
 ////                        Log.d("FuturePaymentExample", authorization_code);
@@ -1266,12 +1389,14 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 //                        Toast.makeText(getActivity(),
 //                                "Future Payment code received from PayPal",
 //                                Toast.LENGTH_LONG).show();*/
-////                        Log.e("paypal", "future Payment code received from PayPal  :" + authorization_code);
+////                        //log.e("paypal", "future Payment code received from PayPal  :" + authorization_code);
 //
 //                    }
-//                    catch (JSONException e) {
+//                    catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
 //                        Toast.makeText(getActivity(), "failure Occurred", Toast.LENGTH_LONG).show();
-//                        Log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
+//                        //log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
 //                    }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -1391,9 +1516,9 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 fbTravel = dataSnapshot.getValue(firebaseTravel.class);
-//                Log.i("ibrahim", fbTravel.toString());
-//                Log.i("ibrahim_travel", fbTravel.driver_id);
-//                Log.i("ibrahim_travel", fbTravel.Clients.toString());
+//                //log.i("ibrahim", fbTravel.toString());
+//                //log.i("ibrahim_travel", fbTravel.driver_id);
+//                //log.i("ibrahim_travel", fbTravel.Clients.toString());
                 drawMap(fbTravel);
             }
 
@@ -1405,7 +1530,7 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     }
 
     void isStarted() {
-//        Log.i("ibrahim", "isStarted");
+//        //log.i("ibrahim", "isStarted");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Tracking/" + rideJson.getRide_id());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1776,6 +1901,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                                             txt_timedistance.setText(obj5.get("text").toString());
                                                             distancematrix_informations.setVisibility(View.VISIBLE);
                                                             distancematrix_informations.startAnimation(animFadeIn);
+                                                        } catch (NullPointerException e) {
+                                                            System.err.println("Null pointer exception");
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
                                                         }
@@ -1796,7 +1923,6 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                             }
                         }
                     });
-
                     myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
@@ -1833,6 +1959,8 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                                                             txt_timedistance.setText(obj5.get("text").toString());
                                                             distancematrix_informations.setVisibility(View.VISIBLE);
                                                             distancematrix_informations.startAnimation(animFadeIn);
+                                                        } catch (NullPointerException e) {
+                                                            System.err.println("Null pointer exception");
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
                                                         }
@@ -1855,15 +1983,16 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
                             return true;
                         }
                     });
+
                     databaseTravelRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             fbTravel = dataSnapshot.getValue(firebaseTravel.class);
 
-//                            Log.i("ibrahim", dataSnapshot.toString());
-//                            Log.i("ibrahim", fbTravel.toString());
-//                            Log.i("ibrahim_travel1", fbTravel.driver_id);
-//                            Log.i("ibrahim_travel1", fbTravel.clients.toString());
+//                            //log.i("ibrahim", dataSnapshot.toString());
+//                            //log.i("ibrahim", fbTravel.toString());
+//                            //log.i("ibrahim_travel1", fbTravel.driver_id);
+//                            //log.i("ibrahim_travel1", fbTravel.clients.toString());
                             drawMap(fbTravel);
                         }
 
@@ -1885,18 +2014,18 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
     public void drawMap(firebaseTravel fbTravel) {
         try {
             @SuppressLint("MissingPermission") android.location.Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//            Log.i("ibrahim", "drawRoute-1");
+//            //log.i("ibrahim", "drawRoute-1");
             if (location == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             } else {
                 currentLatitude = location.getLatitude();
                 currentLongitude = location.getLongitude();
-//                Log.i("ibrahim", "drawRoute0");
+//                //log.i("ibrahim", "drawRoute0");
                 if (myMap != null) {
                     myMap.clear();
                     my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("You are here.").icon(BitmapDescriptorFactory.fromResource(R.drawable.user_default)));
                     my_marker.showInfoWindow();
-//                    Log.i("ibrahim", "drawRoute");
+//                    //log.i("ibrahim", "drawRoute");
                     for (Map.Entry<String, String> entry : fbTravel.Clients.entrySet()) {
                         String key = entry.getKey();
                         String value = entry.getValue();
@@ -1918,20 +2047,20 @@ public class MyAcceptedDetailFragment extends FragmentManagePermission
 
                             }
                         });
-//                        Log.i("ibrahim", value.toString());
+//                        //log.i("ibrahim", value.toString());
                     }
 
                     databaseDriverLocation = FirebaseDatabase.getInstance().getReference("Location").child(fbTravel.driver_id);
                     databaseDriverLocation.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-//                            Log.i("ibrahim","inside_dataSnapshot");
+//                            //log.i("ibrahim","inside_dataSnapshot");
                             if (dataSnapshot != null) {
-//                                Log.i("ibrahim","dataSnapshot");
-//                                Log.i("ibrahim",dataSnapshot.toString());
+//                                //log.i("ibrahim","dataSnapshot");
+//                                //log.i("ibrahim",dataSnapshot.toString());
                                 firebaseClients Driver = dataSnapshot.getValue(firebaseClients.class);
-//                                Log.i("ibrahim","dataSnapshot");
-//                                Log.i("ibrahim",Driver.latitude.toString() + Driver.longitude.toString());
+//                                //log.i("ibrahim","dataSnapshot");
+//                                //log.i("ibrahim",Driver.latitude.toString() + Driver.longitude.toString());
 
                                 my_marker = myMap.addMarker(new MarkerOptions().position(new LatLng(Driver.latitude, Driver.longitude)).title("Driver").icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));
 

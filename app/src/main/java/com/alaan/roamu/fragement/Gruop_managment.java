@@ -101,7 +101,7 @@ public class Gruop_managment extends Fragment implements AdapterView.OnItemSelec
                     txt_status.setTextColor(getResources().getColor(R.color.red));
                 }
                 txt_vehicle.setText(pojo.getDriver_vehicle_no());
-                log.e("ss",""+pojo.getDriver_mobile());
+                //log.e("ss",""+pojo.getDriver_mobile());
 
             }
         }
@@ -168,7 +168,9 @@ public class Gruop_managment extends Fragment implements AdapterView.OnItemSelec
                         Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 
                     Toast.makeText(getActivity(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }

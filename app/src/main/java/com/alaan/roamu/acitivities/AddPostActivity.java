@@ -1,17 +1,13 @@
 package com.alaan.roamu.acitivities;
 
-import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alaan.roamu.PostActivity;
 import com.alaan.roamu.R;
-import com.alaan.roamu.pojo.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,13 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class AddPostActivity extends AppCompatActivity {
 

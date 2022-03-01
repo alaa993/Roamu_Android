@@ -1,35 +1,20 @@
 package com.alaan.roamu.fragement;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.location.Address;
-import android.location.Geocoder;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -50,44 +35,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.akexorcist.googledirection.DirectionCallback;
-import com.akexorcist.googledirection.model.Direction;
 import com.alaan.roamu.Server.Server;
-import com.alaan.roamu.acitivities.List_provider;
-import com.fxn.stash.Stash;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.ApiException;
+import com.alaan.roamu.acitivities.GoogleMapsActivity;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.OpeningHours;
-import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.model.PlusCode;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -95,8 +52,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
 import com.alaan.roamu.custom.CheckConnection;
-import com.alaan.roamu.custom.GPSTracker;
-import com.alaan.roamu.pojo.NearbyData;
 import com.alaan.roamu.pojo.Pass;
 import com.alaan.roamu.session.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,8 +64,6 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.thebrownarrow.permissionhelper.FragmentManagePermission;
-import com.thebrownarrow.permissionhelper.PermissionResult;
 import com.thebrownarrow.permissionhelper.PermissionUtils;
 
 import net.skoumal.fragmentback.BackFragment;
@@ -127,11 +80,9 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static com.alaan.roamu.fragement.lang.setLocale;
-import static com.loopj.android.http.AsyncHttpClient.log;
 import static com.mapbox.mapboxsdk.Mapbox.getApplicationContext;
 
 public class HomeFragment extends Fragment implements BackFragment, AdapterView.OnItemSelectedListener {
@@ -139,13 +90,14 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     private String driver_id, passanger_value, bag_value, smoke_value, date_time_value, time_value;
     private String cost;
     private String unit;
-    EditText mPickupPoint;
+    EditText mPickupPoint, mPickupPointLocation;
     private int PLACE_PICKER_REQUEST = 7896;
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
     private int PLACE_search_AUTOCOMPLETE_REQUEST_CODE = 7777;
     private int PLACE_search_pic_AUTOCOMPLETE_REQUEST_CODE = 7778;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private int POINT_PICKER_REQUEST = 12345;
+    private int POINTLocation_PICKER_REQUEST = 54321;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     //    private Double currentLatitude;
@@ -161,6 +113,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     Boolean flag = false;
     GoogleMap myMap;
     Button custom_request, search_box_custom;
+    Button map_btn, promo_btn;
     ImageView current_location, clear;
     private RelativeLayout header, footer, search_box;
     Animation animFadeIn, animFadeOut;
@@ -180,7 +133,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
     ProgressBar progressBar;
     private PlacesClient placesClient;
     RecyclerView recyclerView;
-    private CheckBox Checkbox,Checkbox2;
+    private CheckBox Checkbox, Checkbox2;
 
     TextView NS_car_type;
     Spinner droplist;
@@ -228,7 +181,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             linear_request.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("ibrahim", "linear_request");
+                    //log.i("ibrahim", "linear_request");
                     if (CheckConnection.haveNetworkConnection(getActivity())) {
                         if (pickup_location == null || drop == null) {
                             Toast.makeText(getActivity(), getString(R.string.invalid_location), Toast.LENGTH_LONG).show();
@@ -264,6 +217,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                             final EditText etNotes = (EditText) mView.findViewById(R.id.etNotes);
 //                            final EditText mPrice = (EditText) mView.findViewById(R.id.etPrice);
                             mPickupPoint = (EditText) mView.findViewById(R.id.etPickupPoint);
+                            mPickupPointLocation = (EditText) mView.findViewById(R.id.etPickupPointLocation);
                             Button mSubmit = (Button) mView.findViewById(R.id.btnSubmitDialog);
                             Button mCancel = (Button) mView.findViewById(R.id.btnCancelDialog);
                             Checkbox = (CheckBox) mView.findViewById(R.id.checkBox);
@@ -271,25 +225,44 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                             mBuilder.setView(mView);
                             final AlertDialog dialog = mBuilder.create();
                             dialog.show();
-                            mPickupPoint.setOnClickListener(new View.OnClickListener() {
+
+                            mPickupPoint.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
-                                public void onClick(View view) {
-                                    Places.initialize(getActivity(), getString(R.string.google_android_map_api_key));
-                                    List<com.google.android.libraries.places.api.model.Place.Field> fields =
-                                            Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID,
-                                                    com.google.android.libraries.places.api.model.Place.Field.NAME,
-                                                    com.google.android.libraries.places.api.model.Place.Field.ADDRESS,
-                                                    com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
-                                    Intent intent = new Autocomplete.IntentBuilder(
-                                            AutocompleteActivityMode.FULLSCREEN, fields)
-                                            .build(getActivity());
-                                    startActivityForResult(intent, POINT_PICKER_REQUEST);
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
+
+                                    if (action == MotionEvent.ACTION_DOWN) {
+                                        Places.initialize(getActivity(), getString(R.string.google_android_map_api_key));
+                                        List<com.google.android.libraries.places.api.model.Place.Field> fields =
+                                                Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID,
+                                                        com.google.android.libraries.places.api.model.Place.Field.NAME,
+                                                        com.google.android.libraries.places.api.model.Place.Field.ADDRESS,
+                                                        com.google.android.libraries.places.api.model.Place.Field.LAT_LNG);
+                                        Intent intent = new Autocomplete.IntentBuilder(
+                                                AutocompleteActivityMode.FULLSCREEN, fields)
+                                                .build(getActivity());
+                                        startActivityForResult(intent, POINT_PICKER_REQUEST);
+                                    }
+                                    return false;
+                                }
+                            });
+
+                            mPickupPointLocation.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction() & MotionEvent.ACTION_MASK;
+
+                                    if (action == MotionEvent.ACTION_DOWN) {
+                                        Intent intent = new Intent(getActivity(), GoogleMapsActivity.class);
+                                        startActivityForResult(intent, POINTLocation_PICKER_REQUEST);
+                                    }
+                                    return false;
                                 }
                             });
                             mSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (!mPassengers.getText().toString().isEmpty() && !mPickupPoint.getText().toString().isEmpty()) {
+                                    if (!mPassengers.getText().toString().isEmpty()) {
                                         dialog.dismiss();
                                         String from_add = s_pic.getLatLng().latitude + "," + s_pic.getLatLng().longitude;
                                         String to_add = s_drop.getLatLng().latitude + "," + s_drop.getLatLng().longitude;
@@ -371,31 +344,41 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             search_box_custom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("ibrahim", "search_box_custom");
+                    //log.i("ibrahim", "search_box_custom");
 //                    onRefresh();
 //                    if (currentLatitude != null && !currentLatitude.equals(0.0) && currentLongitude != null && !currentLongitude.equals(0.0)) {
-                    Intent intent = new Intent(getActivity(), List_provider.class);
-//                        intent.putExtra("cureentlatitude", String.valueOf(currentLatitude));
-//                        intent.putExtra("currentLongitude", String.valueOf(currentLongitude));
-                    intent.putExtra("search_pich_location", String.valueOf(search_pich_location.getText().toString()));
-                    intent.putExtra("search_drop_location", String.valueOf(search_drop_location.getText().toString()));
-                    intent.putExtra("car_type", carType);
+//                    Intent intent = new Intent(getActivity(), List_provider.class);
+////                        intent.putExtra("cureentlatitude", String.valueOf(currentLatitude));
+////                        intent.putExtra("currentLongitude", String.valueOf(currentLongitude));
+//                    intent.putExtra("search_pich_location", String.valueOf(search_pich_location.getText().toString()));
+//                    intent.putExtra("search_drop_location", String.valueOf(search_drop_location.getText().toString()));
+//                    intent.putExtra("car_type", carType);
 
-                    if (smoke_value != null) {
-                        intent.putExtra("smoke_value", String.valueOf(smoke_value));
+                    if (CheckConnection.haveNetworkConnection(getActivity())) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("search_pich_location", String.valueOf(search_pich_location.getText().toString()));
+                        bundle.putSerializable("search_drop_location", String.valueOf(search_drop_location.getText().toString()));
+                        bundle.putSerializable("car_type", carType);
+                        ListProviderFragment listProviderFragment = new ListProviderFragment();
+                        listProviderFragment.setArguments(bundle);
+                        if (smoke_value != null) {
+                            bundle.putSerializable("smoke_value", String.valueOf(smoke_value));
+                        }
+                        if (smoke_value != null) {
+                            bundle.putSerializable("date_time_value", String.valueOf(date_time_value));
+                        }
+                        if (passanger_value != null) {
+                            bundle.putSerializable("passanger_value", String.valueOf(passanger_value));
+                        }
+                        if (bag_value != null) {
+                            bundle.putSerializable("bag_value", String.valueOf(bag_value));
+                        }
+                        s_pic = null;
+                        s_drop = null;
+                        ((HomeActivity) getActivity()).changeFragment(listProviderFragment, getString(R.string.home));
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
                     }
-                    if (smoke_value != null) {
-                        intent.putExtra("date_time_value", String.valueOf(date_time_value));
-                    }
-                    if (passanger_value != null) {
-                        intent.putExtra("passanger_value", String.valueOf(passanger_value));
-                    }
-                    if (bag_value != null) {
-                        intent.putExtra("bag_value", String.valueOf(bag_value));
-                    }
-                    startActivity(intent);
-                    s_pic = null;
-                    s_drop = null;
 //                    }
                 }
             });
@@ -409,6 +392,28 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
 //                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
 //                }
 //            });
+
+            map_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (CheckConnection.haveNetworkConnection(getActivity())) {
+                        ((HomeActivity) getActivity()).changeFragment(new MapFragment(), getString(R.string.home));
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            promo_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (CheckConnection.haveNetworkConnection(getActivity())) {
+                        ((HomeActivity) getActivity()).changeFragment(new promoFragment(), getString(R.string.promocodes));
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.network), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
         } catch (InflateException e) {
         }
@@ -430,7 +435,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                 pickup_location.setText(pickup.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
-                Log.e(TAG, status.toString());
+                //log.e(TAG, status.toString());
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
@@ -445,7 +450,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             if (resultCode == RESULT_OK) {
                 s_drop = Autocomplete.getPlaceFromIntent(data);
                 search_drop_location.setText(s_drop.getName());
-                Log.e(TAG, "search_drop: " + PLACE_search_AUTOCOMPLETE_REQUEST_CODE);
+                //log.e(TAG, "search_drop: " + PLACE_search_AUTOCOMPLETE_REQUEST_CODE);
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -462,9 +467,24 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
             if (resultCode == RESULT_OK) {
                 point = Autocomplete.getPlaceFromIntent(data);
                 mPickupPoint.setText(point.getName());
+                mPickupPointLocation.setText(point.getLatLng().toString());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(getActivity(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+        if (requestCode == POINTLocation_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    String placeName = data.getStringExtra("placeName");
+                    String placeLatLong = data.getStringExtra("placeLatLong");
+                    p = placeLatLong;
+                    mPickupPoint.setText(placeName);
+                    mPickupPointLocation.setText(placeLatLong);
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             }
         }
     }
@@ -573,6 +593,10 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
         drop_location = (TextView) rootView.findViewById(R.id.drop_location);
         linear_pickup = (RelativeLayout) rootView.findViewById(R.id.linear_pickup);
         relative_drop = (RelativeLayout) rootView.findViewById(R.id.relative_drop);
+
+        map_btn = (Button) rootView.findViewById(R.id.map_btn);
+        promo_btn = (Button) rootView.findViewById(R.id.promo_btn);
+
 
         NS_car_type = (TextView) rootView.findViewById(R.id.NS_car_type);
         droplist = (Spinner) rootView.findViewById(R.id.carTypeSpinner);
@@ -763,12 +787,12 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         if (Locale.getDefault().getLanguage().equals("ar")) {
-                            Log.i("lang_ibrahim", "arabic");
-                            Log.i("lang_ibrahim", Locale.getDefault().getLanguage());
+                            //log.i("lang_ibrahim", "arabic");
+                            //log.i("lang_ibrahim", Locale.getDefault().getLanguage());
                             date_time_value = String.format("%02d-%02d-%04d", dayOfMonth, 1 + monthOfYear, year);
                         } else {
-                            Log.i("lang_ibrahim", "english");
-                            Log.i("lang_ibrahim", Locale.getDefault().getLanguage());
+                            //log.i("lang_ibrahim", "english");
+                            //log.i("lang_ibrahim", Locale.getDefault().getLanguage());
                             date_time_value = String.format("%04d-%02d-%02d", year, 1 + monthOfYear, dayOfMonth);
                         }
 
@@ -822,7 +846,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
 //                                Exception exception = task.getException();
 //                                if (exception instanceof ApiException) {
 //                                    ApiException apiException = (ApiException) exception;
-//                                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+//                                    //log.e(TAG, "Place not found: " + apiException.getStatusCode());
 //                                }
 //                            }
 //                        });
@@ -1352,6 +1376,8 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.try_again), Toast.LENGTH_LONG).show();
                     }
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.try_again), Toast.LENGTH_LONG).show();
                 }
@@ -1428,7 +1454,7 @@ public class HomeFragment extends Fragment implements BackFragment, AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.i("ibrahim", status_arr[i]);
+        //log.i("ibrahim", status_arr[i]);
         carType = status_Content_arr[i];
     }
 

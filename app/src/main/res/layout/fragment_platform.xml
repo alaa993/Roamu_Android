@@ -4,7 +4,7 @@
     android:layoutDirection="inherit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragement.platform">
+    tools:context=".fragement.platformFragment">
 
 <!--    android:background="@drawable/bg"-->
 <!--    android:backgroundTint="#40FFFFFF"-->

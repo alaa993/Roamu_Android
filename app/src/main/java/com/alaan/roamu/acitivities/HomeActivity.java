@@ -39,8 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alaan.roamu.BuildConfig;
-import com.alaan.roamu.about_us;
+import com.alaan.roamu.fragement.about_us;
 import com.alaan.roamu.custom.GPSTracker;
 import com.alaan.roamu.fragement.Contact_usFragment;
 import com.alaan.roamu.fragement.MapFragment;
@@ -49,11 +48,13 @@ import com.alaan.roamu.fragement.MyScheduledRequestsFragment;
 import com.alaan.roamu.fragement.NominateDriverFragment;
 import com.alaan.roamu.fragement.NotificationsFragment;
 import com.alaan.roamu.fragement.ProfitFragment;
+import com.alaan.roamu.fragement.WalletManagerFragment;
 import com.alaan.roamu.fragement.groups_driver;
 import com.alaan.roamu.fragement.lang;
-import com.alaan.roamu.fragement.platform;
+import com.alaan.roamu.fragement.platformFragment;
+import com.alaan.roamu.fragement.promoFragment;
 import com.alaan.roamu.pojo.Notification;
-import com.alaan.roamu.privcy;
+import com.alaan.roamu.fragement.privacyFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.fxn.stash.Stash;
@@ -71,7 +72,6 @@ import com.alaan.roamu.custom.CheckConnection;
 import com.alaan.roamu.fragement.AcceptedRequestFragment;
 import com.alaan.roamu.fragement.HomeFragment;
 import com.alaan.roamu.fragement.ProfileFragment;
-import com.alaan.roamu.fragement.promo;
 import com.alaan.roamu.pojo.User;
 import com.alaan.roamu.session.SessionManager;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -89,6 +89,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -218,9 +219,9 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         AcceptedRequestFragment acceptedRequestFragment = new AcceptedRequestFragment();
         MyScheduledRequestsFragment myScheduledRequestsFragment = new MyScheduledRequestsFragment();
-        platform platform = new platform();
+        platformFragment platform = new platformFragment();
         MyAcceptedRequestFragment myAcceptedRequestFragment;
-//        promo promo = new promo();
+//        promoFragment promoFragment = new promoFragment();
 
         Bundle bundle;
 //        getVisibleFragment();
@@ -246,12 +247,17 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
             case R.id.privacy_policy:
                 addPost.setVisibility(View.GONE);
-                changeFragment(new privcy(), getString(R.string.pricvys));
+                changeFragment(new privacyFragment(), getString(R.string.pricvys));
                 break;
 
             case R.id.profit:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new ProfitFragment(), getString(R.string.pricvys));
+                break;
+
+            case R.id.promo:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new promoFragment(), getString(R.string.promocodes));
                 break;
 
             case R.id.lang:
@@ -297,6 +303,11 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 changeFragment(myAcceptedRequestFragment, "Requests");
                 break;
 
+            case R.id.nav_wallet_manager:
+                addPost.setVisibility(View.GONE);
+                changeFragment(new WalletManagerFragment(), "myWallet");
+                break;
+
             case R.id.profile:
                 addPost.setVisibility(View.GONE);
                 changeFragment(new ProfileFragment(), getString(R.string.profile));
@@ -314,10 +325,19 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
 
             case R.id.shareApp:
                 try {
+                    int randomNum = 0;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        randomNum = ThreadLocalRandom.current().nextInt(9999, 9999999 + 1);
+                        ApplyPromoCode(randomNum);
+                    }
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "roamu");
                     String shareMessage = "\nLet me recommend you this application\n\n";
+                    if (randomNum > 0) {
+                        shareMessage = shareMessage + "You will have your dissacount when you install roamu" + "\n\n";
+                        shareMessage = shareMessage + "please enter this coupan after installing roamu: " + randomNum + "\n\n";
+                    }
                     shareMessage = shareMessage + "http://onelink.to/ve7c4k" + "\n\n";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, "choose one"));
@@ -505,7 +525,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 toolbar.setTitle((Html.fromHtml(String.valueOf(s))));
             }
         } catch (Exception e) {
-            Log.e("catch", e.toString());
+            //log.e("catch", e.toString());
         }
     }
 
@@ -515,7 +535,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
         if (fragments != null) {
             for (Fragment fragment : fragments) {
                 if (fragment != null && fragment.isVisible())
-                    Log.i("ibrahim_visible", fragment.toString());
+                    //log.i("ibrahim_visible", fragment.toString());
                 return fragment;
             }
         }
@@ -584,8 +604,8 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
     }
 
     public void updateNotificationFirebase(String user_id) {
-        Log.i("ibrahim", "updateNotificationFirebase");
-        Log.i("ibrahim", user_id);
+        //log.i("ibrahim", "updateNotificationFirebase");
+        //log.i("ibrahim", user_id);
 //        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification_id).child("readStatus");
 //        databaseRef.setValue("1");
 
@@ -596,7 +616,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Notification notification = postSnapshot.getValue(Notification.class);
                     notification.id = postSnapshot.getKey();
-                    Log.i("ibrahim", notification.id);
+                    //log.i("ibrahim", notification.id);
                     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Notifications").child(user_id).child(notification.id).child("readStatus");
                     databaseRef.setValue("1");
                 }
@@ -705,7 +725,44 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
                 }
             });
         } catch (Exception e) {
-            Log.i("ibrahim_e", e.getMessage());
+            //log.i("ibrahim_e", e.getMessage());
         }
+    }
+
+    public void ApplyPromoCode(int code) {
+        RequestParams params = new RequestParams();
+        params.put("promocode", code);
+        params.put("wallet_id", SessionManager.getUserId());
+        Server.setHeader(SessionManager.getKEY());
+        Server.setContentType();
+        String Url = "";
+
+        Server.get("api/user/applyPromoCode/format/json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+//                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                //log.i("response", response.toString());
+//                try {
+//                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
+//                        String data = response.getString("message");
+//                    }
+//                } catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
+//                }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+//                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

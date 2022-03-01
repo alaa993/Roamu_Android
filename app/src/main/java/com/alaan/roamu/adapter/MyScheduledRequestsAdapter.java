@@ -301,7 +301,7 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
     }
 
     public void travel_type_change(final MyScheduledRequestsAdapter.Holder holder, String ride_id, String status, Boolean what) {
-        Log.i("ibrahim","travel_type_change");
+        //log.i("ibrahim","travel_type_change");
 
         RequestParams params = new RequestParams();
         params.put("ride_id", ride_id);
@@ -313,7 +313,7 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
-                        Log.i("ibrahim","status");
+                        //log.i("ibrahim","status");
 
                         if (response.has("ride_id")) {
                             String ride_id = response.getString("ride_id");
@@ -334,7 +334,9 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
                     } else {
 //                        Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 //                    Toast.makeText(getContext(), getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
             }
@@ -343,20 +345,20 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
 
-                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+                //log.e("FAIl", throwable.toString() + ".." + errorResponse);
             }
 
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.e("FAIl", throwable.toString() + ".." + errorResponse);
+                //log.e("FAIl", throwable.toString() + ".." + errorResponse);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.e("FAIl", throwable.toString() + ".." + responseString);
+                //log.e("FAIl", throwable.toString() + ".." + responseString);
             }
 
             @Override
@@ -398,8 +400,8 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("ibrahim", "response.toString()");
-                Log.i("ibrahim", response.toString());
+                //log.i("ibrahim", "response.toString()");
+                //log.i("ibrahim", response.toString());
                 try {
                     Gson gson = new GsonBuilder().create();
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
@@ -413,7 +415,9 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
                         String data = response.getJSONObject("data").toString();
 //                        Toast.makeText(getActivity(), data, Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                 }
             }
 
@@ -449,7 +453,9 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
                         String data = response.getJSONObject("data").toString();
 //                        Toast.makeText(getActivity(), data, Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                 }
             }
 
@@ -476,7 +482,7 @@ public class MyScheduledRequestsAdapter extends RecyclerView.Adapter<MyScheduled
 
 //                        date_time = String.format("%04d-%02d-%02d", year, 1 + monthOfYear, dayOfMonth);
                         date_time = formatDateWithPattern1(String.format("%04d-%02d-%02d", year, 1 + monthOfYear, dayOfMonth));
-                        Log.i("ibrahim", date_time);
+                        //log.i("ibrahim", date_time);
                         //date_time = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         tiemPicker(view);
                     }

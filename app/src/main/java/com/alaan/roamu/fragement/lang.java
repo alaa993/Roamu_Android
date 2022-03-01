@@ -13,10 +13,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.alaan.roamu.R;
+import com.alaan.roamu.Server.Server;
 import com.alaan.roamu.acitivities.HomeActivity;
+import com.alaan.roamu.session.SessionManager;
 import com.fxn.stash.Stash;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -40,7 +48,7 @@ public class lang extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    Button b1, b2;
+    Button b1, b2, b3;
     View view;
 
 
@@ -54,14 +62,16 @@ public class lang extends Fragment {
 
         b1 = view.findViewById(R.id.b1en);
         b2 = view.findViewById(R.id.b2ar);
+        b3 = view.findViewById(R.id.b3ka);
 
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setLocale("en", getActivity());
-                getActivity().recreate();
+                updateLanguage("2", "en");
                 Stash.put("TAG_LANG", "en");
+                getActivity().recreate();
 
             }
         });
@@ -69,10 +79,20 @@ public class lang extends Fragment {
             @Override
             public void onClick(View view) {
                 setLocale("ar", getActivity());
-                getActivity().recreate();
+                updateLanguage("1", "ar");
                 Stash.put("TAG_LANG", "ar");
+                getActivity().recreate();
 
+            }
+        });
 
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("ku", getActivity());
+                updateLanguage("3", "ku");
+                Stash.put("TAG_LANG", "ku");
+                getActivity().recreate();
             }
         });
 
@@ -183,5 +203,32 @@ public class lang extends Fragment {
         LANGUAGE = lang;
         setLocale(lang, context);
 
+    }
+
+    private void updateLanguage(String lang_nu, String lang_text) {
+        RequestParams params = new RequestParams();
+        params.put("user_id", SessionManager.getUserId());
+        params.put("lang_nu", lang_nu);
+        params.put("lang_text", lang_text);
+        Server.setHeader(SessionManager.getKEY());
+        Server.setContentType();
+        Server.post("api/user/updateLang/format/json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+//                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+//                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

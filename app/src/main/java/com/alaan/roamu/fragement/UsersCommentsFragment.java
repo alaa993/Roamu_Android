@@ -1,5 +1,6 @@
 package com.alaan.roamu.fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alaan.roamu.R;
 import com.alaan.roamu.acitivities.HomeActivity;
-import com.alaan.roamu.acitivities.List_provider;
 import com.alaan.roamu.pojo.Comment;
-import com.alaan.roamu.pojo.CommentList;
-import com.alaan.roamu.pojo.PendingRequestPojo;
+import com.alaan.roamu.adapter.CommentAdapter;
 import com.alaan.roamu.session.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,15 +26,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+
+import net.skoumal.fragmentback.BackFragment;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
-public class UsersCommentsFragment extends Fragment {
+public class UsersCommentsFragment extends Fragment implements BackFragment {
 
     View view;
     ListView listViewPosts;
@@ -64,19 +66,18 @@ public class UsersCommentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        Log.i("ibrahim", SessionManager.getUserId());
+        //log.i("ibrahim", SessionManager.getUserId());
         view = inflater.inflate(R.layout.fragment_users_comments, container, false);
         bundle = getArguments();
         if (bundle != null) {
             if(bundle.getSerializable("request_type").equals("private")){
 
             }
-//                ((List_provider) getActivity()).fontToTitleBar(getString(R.string.userComments));
             else
                 ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.userComments));
             Driver_id = (String) bundle.getSerializable("data");
-            Log.i("ibrahim", "bundle");
-            Log.i("ibrahim", Driver_id);
+            //log.i("ibrahim", "bundle");
+            //log.i("ibrahim", Driver_id);
 
         }
 
@@ -84,7 +85,7 @@ public class UsersCommentsFragment extends Fragment {
         databasePost = FirebaseDatabase.getInstance().getReference("private_posts").child(Driver_id);
         databaseComments = FirebaseDatabase.getInstance().getReference("private_posts").child(Driver_id).child("Comments");
         listViewPosts = (ListView) view.findViewById(R.id.Post_listViewComments1);
-        log.i("tag", "success by ibrahim");
+        //log.i("tag", "success by ibrahim");
 
 
         return view;
@@ -107,7 +108,7 @@ public class UsersCommentsFragment extends Fragment {
                     comments.add(Comment);
                 }
            //creating adapter
-                CommentList commentAdapter = new CommentList(UsersCommentsFragment.this.getActivity(), comments);
+                CommentAdapter commentAdapter = new CommentAdapter(UsersCommentsFragment.this.getActivity(), comments);
                 //attaching adapter to the listview
                 listViewPosts.setAdapter(commentAdapter);
             }
@@ -129,8 +130,8 @@ public class UsersCommentsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String UserName = dataSnapshot.child("username").getValue(String.class);
                 String photoURL = dataSnapshot.child("photoURL").getValue(String.class);
-                log.i("tag", "success by ibrahim");
-                log.i("tag", UserName);
+                //log.i("tag", "success by ibrahim");
+                //log.i("tag", UserName);
                 // Firebase code here
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("private_posts").child(Driver_id).child("Comments").push();
                 Map<String, Object> author = new HashMap<>();
@@ -162,5 +163,15 @@ public class UsersCommentsFragment extends Fragment {
     public void onPause() {
         super.onPause();
         databaseComments.removeEventListener(listener);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
+    public int getBackPriority() {
+        return 0;
     }
 }

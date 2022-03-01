@@ -255,7 +255,7 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
                 }
             }
         } catch (Exception e) {
-            Log.e("tag", "Inflate exception   " + e.toString());
+            //log.e("tag", "Inflate exception   " + e.toString());
         }
         NearBy();
         return rootView;
@@ -268,11 +268,29 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
     @Override
     public void onPause() {
         super.onPause();
+        database_fav_places.removeEventListener(listener_fav_places);
         try {
             if (getActivity() != null && mMapView != null) {
+                Log.i("ibrahim", "onPause");
                 mMapView.onPause();
             }
         } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            if (getActivity() != null && mMapView != null) {
+                Log.i("ibrahim", "onResume");
+                mMapView.onResume();
+            }
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.connect();
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -328,20 +346,6 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            if (mMapView != null) {
-                mMapView.onResume();
-            }
-            if (mGoogleApiClient != null) {
-                mGoogleApiClient.connect();
-            }
-        } catch (Exception e) {
-
-        }
-    }
 
     @Override
     public void onDestroyView() {
@@ -353,6 +357,7 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
         myMap = googleMap;
         myMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
         myMap.setMaxZoomPreference(80);
+//        NearBy();
         myMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -380,6 +385,7 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
         });
         if (myMap != null) {
             tunonGps();
+
         }
     }
 
@@ -469,7 +475,7 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
                                 Exception exception = task.getException();
                                 if (exception instanceof ApiException) {
                                     ApiException apiException = (ApiException) exception;
-                                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                                    //log.e(TAG, "Place not found: " + apiException.getStatusCode());
                                 }
                             }
                         });
@@ -591,21 +597,43 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
     }
 
     public void NearBy() {
-        myMap.clear();
+        Log.i("ibrahim", "ibrahim");
+//        myMap.clear();
         database_fav_places = FirebaseDatabase.getInstance().getReference("Fav_Places").child(SessionManager.getUserId());
         listener_fav_places = database_fav_places.addValueEventListener(new ValueEventListener() {
             @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    if (dataSnapshot.getChildren() != null) {
+//                        Fav_Places fav_places = postSnapshot.getValue(Fav_Places.class);
+//                        fav_places.id = postSnapshot.getKey();
+//                        fav_places_list.add(fav_places);
+//                        Log.i("ibrahim", "ibrahim123");
+//                        for (int i = 0; i < fav_places_list.size(); i++) {
+//                            Log.i("ibrahim", String.valueOf(i));
+//                            origin = new LatLng(fav_places_list.get(i).latitude, fav_places_list.get(i).longitude);
+//                            Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title(getString(R.string.place_name)).snippet(fav_places_list.get(i).name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//                            myMarker.showInfoWindow();
+//                            markers.add(myMarker);
+//                        }
+//                    }
+//                }
+//            }
+
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Fav_Places fav_places = postSnapshot.getValue(Fav_Places.class);
-                    fav_places.id = postSnapshot.getKey();
-                    fav_places_list.add(fav_places);
-                }
-                for (int i = 0; i < fav_places_list.size(); i++) {
-                    origin = new LatLng(fav_places_list.get(i).latitude, fav_places_list.get(i).longitude);
-                    Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title(getString(R.string.place_name)).snippet(fav_places_list.get(i).name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    myMarker.showInfoWindow();
-                    markers.add(myMarker);
+                    if (dataSnapshot.getChildren() != null) {
+                        Fav_Places fav_places = postSnapshot.getValue(Fav_Places.class);
+                        fav_places.id = postSnapshot.getKey();
+                        fav_places_list.add(fav_places);
+                        Log.i("ibrahim", "ibrahim123");
+                        Log.i("ibrahim", fav_places.id);
+                        Log.i("ibrahim", fav_places.name);
+                        origin = new LatLng(fav_places.latitude, fav_places.longitude);
+                        Marker myMarker = myMap.addMarker(new MarkerOptions().position(new LatLng(origin.latitude, origin.longitude)).title(getString(R.string.place_name)).snippet(fav_places.name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        myMarker.showInfoWindow();
+                        markers.add(myMarker);
+                    }
                 }
             }
 
@@ -735,9 +763,9 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.i("ibrahim", "insideMarker");
-        Log.i("ibrahim", String.valueOf(markers.size()));
-        Log.i("ibrahim", String.valueOf(marker.getTitle()));
+        //log.i("ibrahim", "insideMarker");
+        //log.i("ibrahim", String.valueOf(markers.size()));
+        //log.i("ibrahim", String.valueOf(marker.getTitle()));
 
         if (dialog_insert_fav_place.getVisibility() == View.VISIBLE) {
             dialog_insert_fav_place.startAnimation(animFadeOut);
@@ -755,11 +783,11 @@ public class MyPlacesFragment extends FragmentManagePermission implements OnMapR
                 @Override
                 public void onClick(final DialogInterface dialog, int which) {
                     for (int i = 0; i < markers.size(); i++) {
-                        Log.i("ibrahim_i", String.valueOf(i));
+                        //log.i("ibrahim_i", String.valueOf(i));
                         if (marker.equals(markers.get(i))) {
-                            Log.i("ibrahim", "insideMarker");
-                            Log.i("ibrahim", "" + i);
-                            Log.i("ibrahim", fav_places_list.get(i).id);
+                            //log.i("ibrahim", "insideMarker");
+                            //log.i("ibrahim", "" + i);
+                            //log.i("ibrahim", fav_places_list.get(i).id);
                             FirebaseDatabase.getInstance().getReference("Fav_Places").child(SessionManager.getUserId()).child(fav_places_list.get(i).id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@afu.org.checkerframework.checker.nullness.qual.NonNull Task<Void> task) {

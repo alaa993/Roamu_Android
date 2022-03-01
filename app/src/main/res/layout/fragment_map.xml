@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layoutDirection="ltr"
-
-android:layout_height="match_parent"
-android:orientation="vertical">
-
-<com.google.android.gms.maps.MapView
-    android:id="@+id/fm_mapview"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:visibility="visible" />
-
-<RelativeLayout
-    android:id="@+id/footer2"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:layout_margin="30dp"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
 
-    android:visibility="visible">
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/fm_mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible" />
 
-</RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/fourty_five"
+        android:visibility="gone" />
 
-<RelativeLayout
-    android:id="@+id/header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="20dip"
-    android:visibility="visible">
+    <RelativeLayout
+        android:id="@+id/footer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp"
+        android:visibility="visible">
 
-    <include
-        layout="@layout/header"
-        android:id="@+id/header_search"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <include
-        android:visibility="gone"
-        layout="@layout/footer"
-        android:layout_below="@+id/header_search"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_gravity="top"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dip"
+        android:visibility="visible">
 
-</RelativeLayout>
+        <include
+            android:id="@+id/header_search"
+            layout="@layout/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-<RelativeLayout
-    android:id="@+id/footer"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="10dp"
+        <include
+            layout="@layout/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_search"
+            android:visibility="gone" />
 
-    android:layout_marginBottom="0dip"
-    android:visibility="gone">
+    </RelativeLayout>
 
-    <include
-        android:visibility="visible"
-        android:id="@+id/driver_ern"
-        layout="@layout/travel_information"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dip"
+        android:visibility="gone">
 
+        <include
+            android:id="@+id/driver_ern"
+            layout="@layout/travel_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
 
-</RelativeLayout>
+        <include
+            android:id="@+id/driver_ern1"
+            layout="@layout/distancematrix_informations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/driver_ern"
+            android:visibility="visible" />
 
+    </RelativeLayout>
 </FrameLayout>

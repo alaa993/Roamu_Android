@@ -69,15 +69,15 @@ public class Group_detailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_group_details, container, false);
         ((HomeActivity) getActivity()).fontToTitleBar(getString(R.string.my_groups));
         recyclerView = (RecyclerView) rootView.findViewById(R.id.Group_details_list);
-        Log.i("ibrahim", "inside view");
+        //log.i("ibrahim", "inside view");
         getGroupList(Integer.parseInt(SessionManager.getUserId()));
-        Log.i("ibrahim", "inside view1");
+        //log.i("ibrahim", "inside view1");
         return rootView;
     }
 
     private void getGroupList(int driver_id) {
-        Log.i("ibrahim", "inside getGroupList");
-        Log.i("ibrahim", String.valueOf(driver_id));
+        //log.i("ibrahim", "inside getGroupList");
+        //log.i("ibrahim", String.valueOf(driver_id));
 
         final RequestParams params = new RequestParams();
         params.put("user_id", driver_id);
@@ -96,10 +96,10 @@ public class Group_detailsFragment extends Fragment {
                     Gson gson = new GsonBuilder().create();
                     List<Group_List_membar> list = gson.fromJson(response.getJSONArray("data").toString(), new TypeToken<List<Group_List_membar>>() {
                     }.getType());
-//                    Log.i("ibrahim list reply", response.getJSONArray("data").toString());
-//                    Log.i("ibrahim list reply", list.get(0).group_name);
-//                    Log.i("ibrahim list reply", list.get(0).name);
-//                    Log.i("ibrahim list reply", String.valueOf(list.get(0).group_id));
+//                    //log.i("ibrahim list reply", response.getJSONArray("data").toString());
+//                    //log.i("ibrahim list reply", list.get(0).group_name);
+//                    //log.i("ibrahim list reply", list.get(0).name);
+//                    //log.i("ibrahim list reply", String.valueOf(list.get(0).group_id));
 
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(linearLayoutManager);
@@ -107,7 +107,9 @@ public class Group_detailsFragment extends Fragment {
                     recyclerView.setAdapter(group_details_member_adapter);
                     group_details_member_adapter.notifyDataSetChanged();
 
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                 }
             }
 

@@ -118,6 +118,7 @@
     <string-array name="payment_mode">
         <item>الدفع نقداً</item>
         <item>الدفع الإلكتروني</item>
+        <item>الدفع عن طريق المحفظة</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -209,23 +210,24 @@
     <string name="Howmanyseatsyouwant">عدد المسافرين</string>
     <string name="applycoupon">تطبيق الكوبون</string>
     <string name="promocodes">الخصومات</string>
+    <string name="promo">الخصومات</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <!--    // by ibrahim-->
     <string name="phone">هاتف</string>
     <!--    // by ibrahim-->
-    <string name="about_us"><![CDATA["عن التطبيق
+    <string name="about_us">عن التطبيق
 يعمل التطبيق في مجال التنقل التشاركي ، مع ميزة رائدة في هذا النوع من التنقل ، إذ منحنا كلا من صاحب وسيلة النقل و المستخدم فرصة الحجز لدى الآخر بحرية تامة   و عندما يرغب المسافر الذهاب إلى منطقة داخل مدينته أو إلى مدينة اخرى يبحث عن وسائل النقل المتاحة في الوقت المناسب له ، و يختار ما يرى أنها مناسبة لرحلته من بين السيارات المتاحة ، و للكابتن حرية الموافقة أو الاعتذار بعد مشاهدة ملف المسافر.
 و يبحث الكابتن عن الراغبين بالسفر في التوقيت الذي يغادر به و الوجهة المقررة ، و يختار المسافرين المناسبين للسفر معه ، و تكون الموافقة النهائية  للمسافر نفسه بعد الاطلاع على ملف الكابتن و تقييمه من قبل الآخرين.
 التقييم في التطبيق لا يقتصر على  المركبة  واداء الكابتن فقط ، بل اضفنا تقييما للأجرة التي يحددها صاحب السيارة ، و هدفنا  من ذلك تقديم افضل الأسعار و خدمة متميزة للمسافرين مع التطبيق.
 يكون المسافر على اطلاع قبل الحجز على مواصفات المركبة و عدد الحقائب المسموح بها ، و فيما إذا كان مسموحا بالتدخين خلال الرحلة من عدمه.
-"]]></string>
-    <string name="pricvy">"الأحكام العامة
+</string>
+    <string name="pricvy">الأحكام العامة
 نقصد بالأحكام العامة ، ما يتعلق بالخدمات المقدمة لكل من المستخدمين و اصحاب السيارات.
 نحرص على توضيح طبيعة الخدمة المقدمة ، و التي تتوافق و متطلبات النقل التشاركي المتعارف عليه في دول العالم ، و بقدر ما نحرص على تقديم خدمات متقدمة و متكاملة  نؤكد أن بلوغ هذا الهدف يقتضي تعاونا تاما من قبل اصحاب السيارات و المستخدمين في آن واحد ، و على جميع الاطراف الايمان بأن الجميع شركاء في هذه الخدمة ، و أن نجاحها يعتمد على نوع التعاون و طبيعته ، و أن تحقيق مجموعة الأهداف التي نصبوا إليها ، لن يتحقق بدون فهم طبيعة عملنا و عمق الاهداف و اهميتها وضرورة تطوير هذه الخدمات.
 يسعى التنقل التشاركي إلى تحقيق هدف رئيسي يرتبط بتوفير وسائط تنقل مريحة و متميزة ،  ليقلل الناس من استخدام مركباتهم الخاصة ، ما يسهم في خدمة البيئة و ذلك بالتقليل من التلوث ، و توفير وسائط تنقل جماعية بأسعار تنافسية ، و يسهم في التقليل من استهلاك المحروقات .
 أن اشاعة التنقل التشاركي وفق الاهداف التي ذكرناها أعلاه ، تدفع بجميع اطراف هذه الخدمة للحرص على التعاون و الارتقاء بالتنقل إلى درجات متميزة .
-"</string>
+</string>
     <string name="passenger_info">معلومات الرحلة</string>
     <string name="payment_hbeen_cancelled">paymnet cancelled</string>
     <string name="about_uss">عن التطبيق</string>
@@ -238,7 +240,7 @@
     <string name="privacy_menu">الأحكام العامة</string>
 
     <!--    // by ibrahim-->
-    <string name="enter_number_of_passengers_trip_price">أدخل عدد الركاب وسعر المقعد الواحد</string>
+    <string name="enter_number_of_passengers_trip_price">الرجاء إدخال المعلومات المطلوبة</string>
     <string name="number_of_passengers_1">عدد الركاب، 1</string>
     <string name="number_of_passengers">عدد الركاب</string>
     <string name="trip_price">سعر المقعد الواحد</string>
@@ -278,6 +280,7 @@
     <string name="notification_6">تم الدفع</string>
     <string name="notification_7">اختاركم للسفر معكم</string>
     <string name="notification_8">تم ارسال الطلب وسيصلكم التأكيد في أقرب وقت</string>
+    <string name="notification_9">تم تأكيد الطلب</string>
     <string name="trip_detail">تفاصيل الرحلة</string>
     <string name="about_driver">عن الكابتن</string>
     <string name="my_requests">رحلاتي</string>
@@ -380,6 +383,40 @@
     <string name="place_type">نوع المكان</string>
     <string name="place_added_successfully">تمت إضافة المكان بنجاح</string>
     <string name="my_sechduled_travels">رحلاتي المجدولة</string>
+
+    <string name="WalletVC_Title">المحفظة الشخصية</string>
+    <string name="WalletItem0">شحن الحساب</string>
+    <string name="WalletItem1">إرسال نقود</string>
+    <string name="WalletItem2">سحب المبلغ</string>
+    <string name="WalletItem3">قائمة المعاملات</string>
+    <string name="charge_code">رمز الشحن</string>
+    <string name="amount">المبلغ</string>
+    <string name="wallet_id">معرف المحفظة</string>
+    <string name="request">طلب</string>
+    <string name="transaction_type">نوع المعاملة</string>
+    <string name="sender">المرسل</string>
+    <string name="reciver">المستقبل</string>
+    <string name="transaction_date">تاريخ المعاملة</string>
+    <string name="Kurdish">الكردية</string>
+
+    <string name="message_transactionSuccess">تم إرسال النقود بنجاح!</string>
+    <string name="message_transactionFail">تعذر إرسال النقود ، يرجى المحاولة مرة أخرى لاحقًا!</string>
+
+    <string name="message_chargeSuccess">تم شحن الحساب بنجاح!</string>
+    <string name="message_chargeFail">تعذر شحن الحساب ، يرجى المحاولة مرة أخرى لاحقًا!</string>
+    <string name="sonething_went_wrong">هناك شئ خاطئ، يرجى المحاولة فى وقت لاحق</string>
+    <string name="balance">الرصيد</string>
+    <string name="share_application_to_friends_h">!اربح ١٠٠ دينار عند ترشيح روميو لأحد أصدقائك</string>
+    <string name="share_application_to_friends_d">
+        1- أرسل رابط الدعوة لصديقك
+        \n2- يقوم صديقك بتحميل تطبيق روميو على جهازه
+        \n3- يدخل صديقك رمز الترويج
+        \n4- ستحصل على 100 دينار رصيد مجاني وسيحصل صديقك على 100 دينار رصيد مجاني
+    </string>
+    <string name="my_pickupPointLocation">موقع نقطة الالتقاط على الخريطة (اختياري)</string>
+    <string name="add_a_comment">اضف تعليق...</string>
+    <string name="confirm_search">تأكيد</string>
+    <string name="address">العنوان</string>
 
 
 </resources>

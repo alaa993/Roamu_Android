@@ -64,7 +64,7 @@ public class LoginActivity extends ActivityManagePermission {
     Context context;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    Button b1, b2;
+    Button b1, b2, b3;
     public static String LANGUAGE = "ar";
 
 
@@ -163,6 +163,7 @@ public class LoginActivity extends ActivityManagePermission {
 
         b1 = findViewById(R.id.b1en);
         b2 = findViewById(R.id.b2ar);
+        b3 = findViewById(R.id.b3ku);
 
 
         b1.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +181,16 @@ public class LoginActivity extends ActivityManagePermission {
                 setLocale("ar", LoginActivity.this);
                 LoginActivity.this.recreate();
                 Stash.put("TAG_LANG", "ar");
+
+
+            }
+        });
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("ku", LoginActivity.this);
+                LoginActivity.this.recreate();
+                Stash.put("TAG_LANG", "ku");
 
 
             }
@@ -289,7 +300,9 @@ public class LoginActivity extends ActivityManagePermission {
 //                        Toast.makeText(LoginActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
 
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     Toast.makeText(LoginActivity.this, getString(R.string.contact_admin), Toast.LENGTH_LONG).show();
                 }
             }
@@ -332,7 +345,9 @@ public class LoginActivity extends ActivityManagePermission {
 
 
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     Toast.makeText(LoginActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
             }

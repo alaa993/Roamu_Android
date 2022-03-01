@@ -40,8 +40,8 @@ public class MyAcceptedRequestAdapter extends RecyclerView.Adapter<MyAcceptedReq
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
         final PendingRequestPojo pojo = list.get(position);
-        Log.i("ibrahim_pojo", pojo.toString());
-        Log.i("ibrahim_pojo", pojo.getTravel_status());
+        //log.i("ibrahim_pojo", pojo.toString());
+        //log.i("ibrahim_pojo", pojo.getTravel_status());
 
         holder.from_add.setText(pojo.getpickup_address());
         holder.to_add.setText(pojo.getDrop_address());
@@ -56,7 +56,7 @@ public class MyAcceptedRequestAdapter extends RecyclerView.Adapter<MyAcceptedReq
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseRide fbRide = dataSnapshot.getValue(firebaseRide.class);
-                Log.i("ibrahim ride", "----------");
+                //log.i("ibrahim ride", "----------");
                 holder.status.setText(fbRide.ride_status);
             }
 

@@ -10,6 +10,11 @@ public class Fav_Places {
 
 
     public Fav_Places() {
+        this.uid = uid;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+        this.name = "";
+        this.type = "";
     }
 
     public Fav_Places(String uid, Double latitude, Double longitude, String name, String type) {

@@ -230,7 +230,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                                 }
                             } catch (IOException | IllegalArgumentException e) {
                                 //  e.printStackTrace();
-                                Log.e("data", e.toString());
+                                //log.e("data", e.toString());
                             }
                         } else {
                             latitude = "0.0";
@@ -286,16 +286,16 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         int write = ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (fine == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission1", "fine");
+            //log.e("permission1", "fine");
             return true;
 
         }
         if (read == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission2", "coarse");
+            //log.e("permission2", "coarse");
             return true;
         }
         if (write == PackageManager.PERMISSION_GRANTED) {
-            Log.e("permission2", "coarse");
+            //log.e("permission2", "coarse");
             return true;
         } else {
             return false;
@@ -308,7 +308,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("permisson", "granted");
+                    //log.e("permisson", "granted");
                     TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(RegisterActivity.this)
                             .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                                 @Override
@@ -409,9 +409,9 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 //        RequestParams params = new RequestParams();
 //        if (imageFile != null) {
 //            try {
-//                log.i("Message", "ibrahim-------------------imageFile");
-//                log.i("type", type);
-//                log.i("imageFile", imageFile.toString());
+//                //log.i("Message", "ibrahim-------------------imageFile");
+//                //log.i("type", type);
+//                //log.i("imageFile", imageFile.toString());
 //
 //                if (type.equals("jpg")) {
 //                    params.put("avatar", imageFile, "image/jpeg");
@@ -429,17 +429,17 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 //            }
 //        }
 //        Server.setHeader(SessionManager.getKEY());
-//        log.i("Message", "ibrahim-------------------userid");
-//        log.i("Message", SessionManager.getUserId());
-//        log.i("Message", "ibrahim-------------------userid");
+//        //log.i("Message", "ibrahim-------------------userid");
+//        //log.i("Message", SessionManager.getUserId());
+//        //log.i("Message", "ibrahim-------------------userid");
 //
 //        params.put("user_id", SessionManager.getUserId());
 //        Server.post("api/user/uploadimage/format/json", params, new JsonHttpResponseHandler() {
 //            @Override
 //            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 //                super.onSuccess(statusCode, headers, response);
-//                log.i("successfully", "ibrahim---------------------------------------------------");
-//                Log.e("success", response.toString());
+//                //log.i("successfully", "ibrahim---------------------------------------------------");
+//                //log.e("success", response.toString());
 //
 //                try {
 //                    if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
@@ -457,9 +457,11 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 ////                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
 //
 //                    }
-//                } catch (JSONException e) {
-//                    log.i("Fail", "ibrahim-------------------");
-//                    Log.e("catch", e.toString());
+//                } catch (NullPointerException e) {
+//                    System.err.println("Null pointer exception");
+//                }catch (JSONException e) {
+//                    //log.i("Fail", "ibrahim-------------------");
+//                    //log.e("catch", e.toString());
 //                    Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
 //
 //                }
@@ -474,7 +476,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 //            @Override
 //            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 //                super.onFailure(statusCode, headers, responseString, throwable);
-//                Log.e("fail", responseString);
+//                //log.e("fail", responseString);
 //
 //                Toast.makeText(RegisterActivity.this, getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
 //
@@ -510,7 +512,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.e("success", response.toString());
+                //log.e("success", response.toString());
                 try {
                     if (response.has("status") && response.getString("status").equalsIgnoreCase("success")) {
                         String url = response.getJSONObject("data").getString("avatar");
@@ -544,7 +546,9 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 //                            Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
                         }
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 //                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterActivity.this, getString(R.string.error_occurred), Toast.LENGTH_LONG).show();
                 }
@@ -565,10 +569,10 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 //        pd.setMessage("Uploading");
 //        pd.show();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        Log.i("data", "ibrahim----------------------------------------------------1");
+        //log.i("data", "ibrahim----------------------------------------------------1");
         if (mImageUri != null) {
             final StorageReference fileRef = storageRef.child(System.currentTimeMillis() + ".jpeg");
-            Log.i("data", "ibrahim----------------------------------------------------2");
+            //log.i("data", "ibrahim----------------------------------------------------2");
             uploadTask = fileRef.putFile(mImageUri);
             uploadTask.continueWithTask(new Continuation() {
                 @Override
@@ -576,8 +580,8 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
-                    Log.i("data", "ibrahim----------------------------------------------------3");
-                    Log.i("data", fileRef.getDownloadUrl().toString());
+                    //log.i("data", "ibrahim----------------------------------------------------3");
+                    //log.i("data", fileRef.getDownloadUrl().toString());
                     return fileRef.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -586,8 +590,8 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         String url = downloadUri.toString();
-                        Log.i("data", "ibrahim----------------------------------------------------4");
-                        Log.i("data", url);
+                        //log.i("data", "ibrahim----------------------------------------------------4");
+                        //log.i("data", url);
 //                        FirebaseDatabase.getInstance().getReference().child("users/profile").child(fUser.getUid()).child("photoURL").setValue(url);
 //                        pd.dismiss();
                     } else {
@@ -736,7 +740,9 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                     } else {
 //                        Toast.makeText(RegisterActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
                     Toast.makeText(RegisterActivity.this, "error occurred", Toast.LENGTH_LONG).show();
                 }
             }
@@ -767,7 +773,7 @@ public class RegisterActivity extends ActivityManagePermission implements Google
         // params.put("password", password);
         params.put("utype", "0");
         params.put("gcm_token", token);
-//        Log.e("TOKEN",token);
+//        //log.e("TOKEN",token);
         Server.post("user/loginByMobile/format/json", params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
@@ -787,15 +793,17 @@ public class RegisterActivity extends ActivityManagePermission implements Google
 
                         Gson gson = new Gson();
                         User user = gson.fromJson(response.getJSONObject("data").toString(), User.class);
-                        Log.i("ibrahim", "response.getJSONObject(\"data\").toString()");
-                        Log.i("ibrahim", response.getJSONObject("data").toString());
+                        //log.i("ibrahim", "response.getJSONObject(\"data\").toString()");
+                        //log.i("ibrahim", response.getJSONObject("data").toString());
                         SessionManager.setUser(gson.toJson(user));
                         SessionManager.setIsLogin();
                         upload_pic(format);
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     } else {
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    System.err.println("Null pointer exception");
+                }catch (JSONException e) {
 
                 }
             }
@@ -1019,9 +1027,9 @@ public class RegisterActivity extends ActivityManagePermission implements Google
                 format = getMimeType(RegisterActivity.this, mImageUri);
                 imageProfile.setImageBitmap(bitmap);
                 //ibrahim
-                Log.i("Message", "ibrahim----------------------------------------------------");
-                Log.i("mImageUri", mImageUri.toString());
-                Log.i("format", format);
+                //log.i("Message", "ibrahim----------------------------------------------------");
+                //log.i("mImageUri", mImageUri.toString());
+                //log.i("format", format);
 
                 //
             } catch (IOException e) {
