@@ -138,11 +138,6 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                                         // profile_pic.setImageURI(uri);
                                         String format = getMimeType(getActivity(), uri);
                                         upload_pic(format);
-                                       /* if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("png") || format.equalsIgnoreCase("gif") || format.equalsIgnoreCase("jpeg")) {
-
-                                        } else {
-                                            Toast.makeText(getActivity(), "jpg,png or gif is only accepted", Toast.LENGTH_LONG).show();
-                                        }*/
                                     }
                                 }).setOnErrorListener(new TedBottomPicker.OnErrorListener() {
                                     @Override
@@ -719,11 +714,12 @@ public class ProfileFragment extends FragmentManagePermission implements GoogleA
                             Map<String, Object> userObject = new HashMap<>();
                             userObject.put("photoURL", rurl);
                             databaseRef.updateChildren(userObject);
+                        } catch (NullPointerException e) {
+                            System.err.println("Null pointer exception");
                         } catch (Exception e) {
 //                            e.printStackTrace();
                         }
                         //
-
                         Toast.makeText(getActivity(), getString(R.string.profile_uploaded), Toast.LENGTH_LONG).show();
 
                     } else {

@@ -382,7 +382,7 @@ public class HomeActivity extends ActivityManagePermission implements Navigation
             String uid = user.getUid();
             DatabaseReference databaseRefID = FirebaseDatabase.getInstance().getReference("users/profile").child(uid.toString());
 
-            databaseRefID.addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseRefID.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String UserName = dataSnapshot.child("username").getValue(String.class);
